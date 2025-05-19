@@ -1,0 +1,240 @@
+{
+  "common": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "blog": "Blog",
+    "language": "Language",
+    "languageName": "English",
+    "switchLanguage": "Passer en français",
+    "contactUs": "Contact us",
+    "requestQuote": "Request a quote",
+    "readMore": "Read more",
+    "allRightsReserved": "All rights reserved",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "discover": "Discover"
+  },
+  "home": {
+    "hero": {
+      "title": "YOUR GROWTH IS OUR PRIORITY",
+      "subtitle": "Experts in Digital Solutions, Logistics & Construction",
+      "cta": "Discover our services"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Solutions tailored to your needs",
+      "sectionTitle": "OUR EXPERTISE",
+      "webDev": {
+        "title": "Web & Mobile Development",
+        "description": "SaaS applications, showcase websites and custom solutions for your business."
+      },
+      "transport": {
+        "title": "Transport & Logistics",
+        "description": "Transport services, medical logistics and express delivery."
+      },
+      "construction": {
+        "title": "Construction & Civil Engineering",
+        "description": "Construction, renovation and civil engineering projects."
+      }
+    },
+    "about": {
+      "title": "About NEOBIZE",
+      "subtitle": "Your trusted partner",
+      "sectionTitle": "ABOUT US",
+      "description": "NEOBIZE is a versatile company offering services in three key areas: web and mobile development, transport and logistics, as well as construction and civil engineering. Our mission is to provide innovative and quality solutions to meet the diverse needs of our clients."
+    },
+    "projects": {
+      "title": "Our Projects",
+      "subtitle": "Discover our recent projects",
+      "sectionTitle": "OUR PROJECTS",
+      "viewAll": "View all our projects"
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "subtitle": "What our clients say about us",
+      "sectionTitle": "TESTIMONIALS"
+    },
+    "cta": {
+      "title": "Ready to start your project?",
+      "description": "Contact us today to discuss your needs.",
+      "button": "Contact us"
+    },
+    "partners": {
+      "title": "They trust us"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Solutions tailored to your needs",
+    "sectionTitle": "OUR SERVICES",
+    "webDev": {
+      "title": "Web & Mobile Development",
+      "description": "We design and develop custom web and mobile applications to meet the specific needs of your business.",
+      "services": [
+        "SaaS Applications",
+        "Professional Showcase Websites",
+        "iOS and Android Mobile Apps",
+        "E-commerce and Payment Solutions",
+        "Maintenance and Technical Support"
+      ]
+    },
+    "transport": {
+      "title": "Transport & Logistics",
+      "description": "Our transport and logistics services are designed to ensure the fast and secure delivery of your goods.",
+      "services": [
+        "Freight Transport",
+        "Medical Logistics",
+        "Express Delivery",
+        "Fleet Management",
+        "Custom Logistics Solutions"
+      ]
+    },
+    "construction": {
+      "title": "Construction & Civil Engineering",
+      "description": "Our team of construction experts carries out your construction and renovation projects with precision and quality.",
+      "services": [
+        "Building Construction",
+        "Interior and Exterior Renovation",
+        "Civil Engineering",
+        "Construction Project Management",
+        "Architecture and Design Consulting"
+      ]
+    }
+  },
+  "about": {
+    "title": "About NEOBIZE",
+    "subtitle": "Your trusted partner",
+    "sectionTitle": "ABOUT US",
+    "history": {
+      "title": "Our History",
+      "description": "Founded in 2012, NEOBIZE was born from the vision of creating a versatile company capable of offering quality services in multiple fields. Since our inception, we have experienced steady growth and developed solid expertise in web and mobile  development, transport and construction."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "Our mission is to provide innovative and quality solutions to meet the diverse needs of our clients, combining technical expertise, exceptional customer service and commitment to excellence."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "We aspire to become a recognized leader in our fields of activity, constantly pushing the boundaries of innovation and creating value for our clients, our employees and society."
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "Our team consists of passionate and experienced professionals dedicated to the success of your project."
+    },
+    "values": {
+      "title": "Our Values",
+      "subtitle": "The fundamental principles that guide each of our actions and decisions on a daily basis",
+      "excellence": {
+        "title": "Excellence",
+        "description": "We strive for excellence in all our projects and services, exceeding our clients' expectations."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We embrace innovation and constantly seek new ways to improve our services and solutions."
+      },
+      "integrity": {
+        "title": "Integrity",
+        "description": "We act with honesty, transparency and ethics in all our professional interactions."
+      }
+    },
+    "join": {
+      "title": "Join the NEOBIZE adventure",
+      "description": "Would you like to collaborate with us or learn more about our services? Don't hesitate to contact us today. We would be delighted to discuss with you"
+    }
+  },
+  "projects": {
+    "title": "Our Projects",
+    "subtitle": "Discover our recent projects",
+    "sectionTitle": "OUR PROJECTS",
+    "categories": {
+      "all": "All",
+      "webDev": "Web Development",
+      "transport": "Transport",
+      "construction": "Construction"
+    },
+    "viewProject": "View project"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help",
+    "sectionTitle": "CONTACT US",
+    "form": {
+      "title": "Send us a message",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send",
+      "success": "Your message has been sent successfully. We will contact you soon.",
+      "error": "An error occurred. Please try again."
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Opening Hours",
+      "workingHours": "Monday - Friday: 9:00 AM - 6:00 PM\nSaturday - Sunday: Closed",
+      "locations": {
+        "benin": {
+          "title": "Benin: DJOSSOU Pahou Building",
+          "address": "Cotonou, Benin",
+          "contact": "Contact: +229 0196765151",
+          "whatsapp": "WhatsApp: +229 6196765151"
+        },
+        "usa": {
+          "title": "USA: +1 309 7161835",
+          "whatsapp": "WhatsApp: +1 312 401 6907"
+        },
+        "email": "contact@neobize.com"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Have questions? Check our FAQ below.",
+      "questions": [
+        {
+          "question": "How do I request a quote?",
+          "answer": "You can request a quote by filling out our contact form or calling us directly. We will respond within 24 business hours."
+        },
+        {
+          "question": "What are your delivery timeframes?",
+          "answer": "Our timeframes vary depending on the complexity of the project. We establish a precise schedule during the planning phase and we commit to respecting it."
+        },
+        {
+          "question": "Do you work internationally?",
+          "answer": "Yes, we work with clients from all over the world. Our team is able to communicate in several languages and we adapt our services to local specificities."
+        },
+        {
+          "question": "Do you offer maintenance services?",
+          "answer": "Yes, we offer maintenance and support services for all our projects. We offer different packages adapted to your needs and budget."
+        }
+      ]
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Latest news and articles",
+    "sectionTitle": "BLOG",
+    "readMore": "Read more",
+    "categories": "Categories",
+    "recentPosts": "Recent Posts",
+    "tags": "Tags"
+  },
+  "footer": {
+    "company": "Company",
+    "services": "Services",
+    "contact": "Contact",
+    "followUs": "Follow Us",
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Subscribe to receive our latest news",
+      "placeholder": "Your email",
+      "subscribe": "Subscribe"
+    }
+  }
+}
