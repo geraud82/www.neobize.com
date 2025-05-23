@@ -64,7 +64,7 @@ const TypeWriter = ({ text, className }) => {
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [typingSpeed] = useState(150);
+  const [typingSpeed] = useState(30);
   
   useEffect(() => {
     if (isComplete) return;

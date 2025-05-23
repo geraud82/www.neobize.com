@@ -24,6 +24,13 @@ module.exports = {
         'primary': '#E50914',
         'secondary': '#475569',
       },
+      backgroundSize: {
+        'size-200': '200% 200%',
+      },
+      backgroundPosition: {
+        'pos-0': '0% 0%',
+        'pos-100': '100% 100%',
+      },
     },
   },
   plugins: [],

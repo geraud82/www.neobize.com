@@ -99,9 +99,10 @@ const Header = () => {
             {/* CTA Button */}
             <Link
               to="/contact"
-              className="btn btn-primary ml-4 shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 font-heading font-semibold tracking-wide"
+              className="btn btn-primary ml-4 shadow-lg shadow-primary/20 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group"
             >
-              {t('common.contactUs')}
+              <span className="relative z-10">{t('common.contactUs')}</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
             </Link>
           </nav>
 
@@ -227,10 +228,11 @@ const Header = () => {
               >
                 <Link
                   to="/contact"
-                  className="btn btn-primary w-full text-center mt-2 shadow-lg shadow-primary/20 font-heading font-semibold tracking-wide"
+                  className="btn btn-primary w-full text-center mt-2 shadow-lg shadow-primary/20 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {t('common.contactUs')}
+                  <span className="relative z-10">{t('common.contactUs')}</span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
                 </Link>
               </motion.div>
             </div>

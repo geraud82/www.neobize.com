@@ -151,15 +151,10 @@ const Home = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <Link 
             to="/services" 
-            className="btn btn-primary text-lg px-8 py-3"
+            className="btn btn-primary text-lg px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group"
           >
-            {t('home.hero.cta')}
-          </Link>
-          <Link 
-            to="/contact" 
-            className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-3 transition-all"
-          >
-            {t('common.contactUs')}
+            <span className="relative z-10">{t('home.hero.cta')}</span>
+            <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
           </Link>
         </div>
       </HeroSection>
