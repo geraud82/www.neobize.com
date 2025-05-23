@@ -93,12 +93,14 @@ const TypeWriter = ({ text, className }) => {
 
   return (
     <div className={className}>
-      <span>{displayText}</span>
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity }}
-        className="inline-block w-1 h-8 bg-primary"
-      />
+      <div className="relative inline-block">
+        <span>{displayText}</span>
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.5, repeat: Infinity }}
+          className="absolute -right-2 top-0 inline-block w-1 h-8 bg-primary"
+        />
+      </div>
     </div>
   );
 };
@@ -209,13 +211,13 @@ const HeroSection = ({
             <motion.div variants={fadeIn}>
               <TypeWriter 
                 text={title}
-                className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+                className="text-4xl md:text-6xl font-bold mb-3 leading-tight"
               />
             </motion.div>
             
             <motion.p 
               variants={fadeIn}
-              className="text-xl md:text-2xl mb-8 text-gray-300"
+              className="text-xl md:text-2xl mb-6 text-gray-300"
             >
               {subtitle}
             </motion.p>
