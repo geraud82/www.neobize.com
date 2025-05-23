@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Menu, X, Globe, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { LanguageContext } from '../App'
 
 const Header = () => {
   const { t, i18n } = useTranslation()
+  const { currentLanguage, changeLanguage } = useContext(LanguageContext)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
 
   // Change language handler
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng)
+  const handleLanguageChange = (lng) => {
+    changeLanguage(lng)
     setIsLangMenuOpen(false)
   }
 
@@ -113,7 +115,7 @@ const Header = () => {
               onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
             >
               <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs overflow-hidden border-2 border-white/20 shadow-lg`}>
-                {i18n.language === 'fr' ? 
+                {currentLanguage === 'fr' ? 
                   <span className="bg-blue-600 text-white w-full h-full flex items-center justify-center font-bold">FR</span> : 
                   <span className="bg-red-600 text-white w-full h-full flex items-center justify-center font-bold">EN</span>
                 }
@@ -132,14 +134,14 @@ const Header = () => {
                 >
                   <button
                     className="w-full text-left px-4 py-3 text-sm text-white hover:bg-primary/20 transition-colors flex items-center"
-                    onClick={() => changeLanguage('fr')}
+                    onClick={() => handleLanguageChange('fr')}
                   >
                     <span className="w-5 h-5 rounded-full bg-blue-600 mr-2 flex items-center justify-center text-xs">FR</span>
                     Français
                   </button>
                   <button
                     className="w-full text-left px-4 py-3 text-sm text-white hover:bg-primary/20 transition-colors flex items-center"
-                    onClick={() => changeLanguage('en')}
+                    onClick={() => handleLanguageChange('en')}
                   >
                     <span className="w-5 h-5 rounded-full bg-red-600 mr-2 flex items-center justify-center text-xs">EN</span>
                     English
@@ -205,14 +207,14 @@ const Header = () => {
                 <div className="flex space-x-2 px-3">
                   <button
                     className="flex-1 py-2 px-3 rounded-md bg-white/5 text-base font-heading font-semibold tracking-wide text-gray-300 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center"
-                    onClick={() => changeLanguage('fr')}
+                    onClick={() => handleLanguageChange('fr')}
                   >
                     <span className="w-5 h-5 rounded-full bg-blue-600 mr-2 flex items-center justify-center text-xs">FR</span>
                     Français
                   </button>
                   <button
                     className="flex-1 py-2 px-3 rounded-md bg-white/5 text-base font-heading font-semibold tracking-wide text-gray-300 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center"
-                    onClick={() => changeLanguage('en')}
+                    onClick={() => handleLanguageChange('en')}
                   >
                     <span className="w-5 h-5 rounded-full bg-red-600 mr-2 flex items-center justify-center text-xs">EN</span>
                     English

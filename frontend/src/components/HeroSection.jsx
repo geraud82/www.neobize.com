@@ -66,6 +66,13 @@ const TypeWriter = ({ text, className }) => {
   const [isComplete, setIsComplete] = useState(false);
   const [typingSpeed] = useState(30);
   
+  // Reset state when text changes (e.g., language change)
+  useEffect(() => {
+    setDisplayText('');
+    setCurrentIndex(0);
+    setIsComplete(false);
+  }, [text]);
+  
   useEffect(() => {
     if (isComplete) return;
     
@@ -90,7 +97,7 @@ const TypeWriter = ({ text, className }) => {
       <motion.span
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.5, repeat: Infinity }}
-        className="ml-1 inline-block w-1 h-8 bg-primary"
+        className="inline-block w-1 h-8 bg-primary"
       />
     </div>
   );

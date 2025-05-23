@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AnimatePresence } from 'framer-motion'
+
+// Create a context for language change
+export const LanguageContext = createContext()
 
 // Layouts
 import Layout from './layouts/Layout'
@@ -21,6 +24,18 @@ import NotFound from './pages/NotFound'
 function App() {
   const { i18n } = useTranslation()
   const [loading, setLoading] = useState(true)
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'fr')
+  
+  // Function to change language
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng)
+    setCurrentLanguage(lng)
+  }
+
+  // Effect to update i18n language when currentLanguage changes
+  useEffect(() => {
+    i18n.changeLanguage(currentLanguage)
+  }, [currentLanguage, i18n])
 
   useEffect(() => {
     // Simuler un temps de chargement pour l'animation initiale
@@ -39,9 +54,10 @@ function App() {
   }
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes>
-        <Route path="/" element={<Layout />}>
+    <LanguageContext.Provider value={{ currentLanguage, changeLanguage }}>
+      <AnimatePresence mode="wait">
+        <Routes>
+          <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="services" element={<Services />} />
           <Route path="about" element={<About />} />
@@ -54,8 +70,9 @@ function App() {
         {/* Admin routes outside of the main layout */}
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/settings" element={<Settings />} />
-      </Routes>
-    </AnimatePresence>
+        </Routes>
+      </AnimatePresence>
+    </LanguageContext.Provider>
   )
 }
 
