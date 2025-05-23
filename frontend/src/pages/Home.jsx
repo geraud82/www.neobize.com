@@ -30,19 +30,19 @@ const Home = () => {
   // Services data
   const services = [
     {
-      icon: <Code size={40} className="text-primary" />,
+      icon: <Code size={40} />,
       title: t('home.services.webDev.title'),
       description: t('home.services.webDev.description'),
       link: '/services#web-dev'
     },
     {
-      icon: <Truck size={40} className="text-primary" />,
+      icon: <Truck size={40} />,
       title: t('home.services.transport.title'),
       description: t('home.services.transport.description'),
       link: '/services#transport'
     },
     {
-      icon: <Building size={40} className="text-primary" />,
+      icon: <Building size={40} />,
       title: t('home.services.construction.title'),
       description: t('home.services.construction.description'),
       link: '/services#construction'
@@ -148,15 +148,23 @@ const Home = () => {
         backgroundImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069"
         fullHeight={true}
       >
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link 
-            to="/services" 
-            className="btn btn-primary text-lg px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group"
-          >
-            <span className="relative z-10">{t('home.hero.cta')}</span>
-            <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
-          </Link>
-        </div>
+        {/* Premier bouton - Découvrir nos services */}
+        <Link 
+          to="/services" 
+          className="inline-block mb-4 sm:mb-0 sm:mr-4 btn btn-primary text-lg px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group"
+        >
+          <span className="relative z-10">{t('home.hero.cta')}</span>
+          <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
+        </Link>
+        
+        {/* Deuxième bouton - Contactez-nous */}
+        <Link 
+          to="/contact" 
+          className="inline-block btn bg-transparent border-2 border-white text-white hover:text-white hover:border-red-600 text-lg px-8 py-3 transition-all duration-300 relative overflow-hidden group"
+        >
+          <span className="relative z-10">{t('common.contactUs')}</span>
+          <span className="absolute inset-0 bg-transparent group-hover:bg-red-600 transition-all duration-300"></span>
+        </Link>
       </HeroSection>
       
       {/* Stats Section */}
@@ -170,7 +178,7 @@ const Home = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             <motion.div variants={fadeIn} className="p-4">
-              <h3 className="text-4xl font-bold mb-2">150+</h3>
+              <h3 className="text-4xl font-bold mb-2">59</h3>
               <p className="text-gray-200">Projets réalisés</p>
             </motion.div>
             
@@ -242,9 +250,11 @@ const Home = () => {
                 whileHover={{ y: -10 }}
                 className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all border border-gray-100 group"
               >
-                <div className="mb-6 bg-blue-50 w-16 h-16 rounded-lg flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
-                  <div className="text-primary group-hover:text-white transition-colors duration-300">
-                    {service.icon}
+                <div className="mb-6">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center bg-blue-50 group-hover:bg-red-600 transition-all duration-300">
+                    <div className="text-red-600 group-hover:text-white transition-all duration-300 transform">
+                      {service.icon}
+                    </div>
                   </div>
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-midnight">{service.title}</h3>
@@ -356,7 +366,7 @@ const Home = () => {
                 <div className="absolute -top-5 -left-5 w-full h-full bg-primary rounded-lg transform rotate-3"></div>
                 <div className="relative z-10 bg-white p-3 rounded-lg shadow-xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070" 
+                    src="/images/team.jpeg" 
                     alt="NEOBIZE Team" 
                     className="w-full h-auto rounded-lg"
                   />
