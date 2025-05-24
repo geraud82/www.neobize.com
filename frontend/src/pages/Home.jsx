@@ -98,45 +98,42 @@ const Home = () => {
 
   // Partners data
   const partners = [
-    {
-      id: 1,
-      name: 'TechInnovate',
-      logo: 'https://placehold.co/200x80/0078D7/FFFFFF?text=TechInnovate',
-      industry: 'Technology',
-      website: 'https://example.com/techinnovate',
-      bgColor: 'bg-blue-600'
-    },
+  
     {
       id: 2,
       name: 'LogiTrans',
-      logo: 'https://placehold.co/200x80/FF6B00/FFFFFF?text=LogiTrans',
+      logo: '/images/LogiTrans.jpeg',
       industry: 'Logistics',
       website: 'https://example.com/logitrans',
-      bgColor: 'bg-orange-600'
+      bgColor: 'from-orange-500 to-orange-600',
+      shadowColor: 'shadow-orange-500/25'
     },
     {
       id: 3,
       name: 'UrbanDesign',
-      logo: 'https://placehold.co/200x80/7030A0/FFFFFF?text=UrbanDesign',
+      logo: '/images/UrbanDesign.jpeg',
       industry: 'Architecture',
       website: 'https://example.com/urbandesign',
-      bgColor: 'bg-purple-700'
+      bgColor: 'from-purple-500 to-purple-600',
+      shadowColor: 'shadow-purple-500/25'
     },
     {
       id: 4,
       name: 'MediCare',
-      logo: 'https://placehold.co/200x80/00B050/FFFFFF?text=MediCare',
+      logo: '/images/MediCare.jpeg',
       industry: 'Healthcare',
       website: 'https://example.com/medicare',
-      bgColor: 'bg-green-600'
+      bgColor: 'from-emerald-500 to-emerald-600',
+      shadowColor: 'shadow-emerald-500/25'
     },
     {
       id: 5,
-      name: 'EcoSolutions',
-      logo: 'https://placehold.co/200x80/C00000/FFFFFF?text=EcoSolutions',
-      industry: 'Environment',
-      website: 'https://example.com/ecosolutions',
-      bgColor: 'bg-red-600'
+      name: 'EduTech',
+      logo: '/images/EduTech.jpeg',
+      industry: 'Education',
+      website: 'https://example.com/edutech',
+      bgColor: 'from-teal-500 to-teal-600',
+      shadowColor: 'shadow-teal-500/25'
     }
   ]
 
@@ -554,29 +551,46 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      {/* Partners Section - Modernized */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-200/30 to-transparent rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-indigo-200/30 to-transparent rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-purple-200/20 to-pink-200/20 rounded-full blur-2xl"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
             <motion.div 
               variants={fadeIn}
-              className="inline-block bg-blue-100 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4"
+              className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-full text-sm font-semibold mb-6 shadow-lg"
             >
-              {t('home.partners.title').toUpperCase()}
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              ILS NOUS FONT CONFIANCE
             </motion.div>
             
             <motion.h2 
               variants={fadeIn}
-              className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
+              className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-800 bg-clip-text text-transparent"
             >
-              {t('home.partners.title')}
+              Ils nous font confiance
             </motion.h2>
+            
+            <motion.p 
+              variants={fadeIn}
+              className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
+            >
+              Des entreprises leaders qui nous font confiance pour leurs projets les plus ambitieux
+            </motion.p>
           </motion.div>
           
           <motion.div
@@ -584,38 +598,59 @@ const Home = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="flex justify-center items-center space-x-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
           >
-            {partners.map((partner) => (
+            {partners.map((partner, index) => (
               <motion.div
                 key={partner.id}
                 variants={fadeIn}
                 whileHover={{ 
-                  y: -10,
+                  y: -12,
                   scale: 1.05,
-                  filter: "grayscale(0)"
+                  rotateY: 5
                 }}
-                className={`p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 grayscale hover:grayscale-0 w-[180px] h-[90px] flex items-center justify-center ${partner.bgColor} bg-opacity-10 border border-gray-200`}
+                className="group relative"
               >
-                <img 
-                  src={partner.logo} 
-                  alt={partner.name} 
-                  className="max-w-full max-h-full object-contain"
-                />
+                <div className={`relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 backdrop-blur-sm hover:${partner.shadowColor} overflow-hidden`}>
+                  {/* Gradient overlay on hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${partner.bgColor} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl`}></div>
+                  
+                  {/* Shine effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                  
+                  <div className="relative z-10 flex flex-col items-center justify-center h-20">
+                    <img 
+                      src={partner.logo} 
+                      alt={partner.name} 
+                      className="w-full h-16 object-cover transition-all duration-500"
+                    />
+                  </div>
+                  
+                  {/* Industry badge */}
+                  <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className={`bg-gradient-to-r ${partner.bgColor} text-white text-xs px-2 py-1 rounded-full shadow-lg`}>
+                      {partner.industry}
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </motion.div>
           
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ delay: 0.4 }}
-            className="text-center mt-12"
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="text-center mt-16"
           >
-            <p className="text-gray-600 italic">
-              {t('common.discover')} {t('common.services').toLowerCase()} {t('common.readMore').toLowerCase()}
-            </p>
+            <div className="inline-flex items-center bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/20">
+              <svg className="w-5 h-5 mr-2 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+              </svg>
+              <span className="text-slate-600 font-medium">Découvrir nos services</span>
+              <ArrowRight className="w-4 h-4 ml-2 text-slate-600" />
+            </div>
           </motion.div>
         </div>
       </section>

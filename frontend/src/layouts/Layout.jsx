@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
@@ -8,14 +7,15 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ScrollToTop from '../components/ScrollToTop'
 
+// Hooks
+import useScrollToAnchor from '../hooks/useScrollToAnchor'
+
 const Layout = () => {
   const location = useLocation()
   const { t } = useTranslation()
   
-  // Scroll to top on route change
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+  // Utiliser le hook pour gérer le défilement vers les ancres
+  useScrollToAnchor()
 
   return (
     <div className="flex flex-col min-h-screen">

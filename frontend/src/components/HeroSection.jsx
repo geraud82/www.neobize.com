@@ -64,7 +64,7 @@ const TypeWriter = ({ text, className }) => {
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [typingSpeed] = useState(30);
+  const [typingSpeed] = useState(60);
   
   // Reset state when text changes (e.g., language change)
   useEffect(() => {
@@ -217,7 +217,7 @@ const HeroSection = ({
             
             <motion.p 
               variants={fadeIn}
-              className="text-xl md:text-2xl mb-6 text-gray-300"
+              className="text-0.1xl md:text-0.1xl mb-6 text-gray-300"
             >
               {subtitle}
             </motion.p>
