@@ -16,6 +16,7 @@ const Header = () => {
   const handleLanguageChange = (lng) => {
     changeLanguage(lng)
     setIsLangMenuOpen(false)
+    setIsMenuOpen(false) // Ferme le menu hamburger sur mobile
   }
 
   // Handle scroll event to change header style
