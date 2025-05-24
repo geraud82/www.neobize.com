@@ -217,7 +217,7 @@ const HeroSection = ({
             
             <motion.p 
               variants={fadeIn}
-              className="text-0.1xl md:text-0.1xl mb-6 text-gray-300"
+              className="text-lg md:text-xl mb-6 text-gray-300"
             >
               {subtitle}
             </motion.p>

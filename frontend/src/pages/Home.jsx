@@ -145,23 +145,25 @@ const Home = () => {
         backgroundImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069"
         fullHeight={true}
       >
-        {/* Premier bouton - Découvrir nos services */}
-        <Link 
-          to="/services" 
-          className="inline-block mb-4 sm:mb-0 sm:mr-4 btn btn-primary text-lg px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group"
-        >
-          <span className="relative z-10">{t('home.hero.cta')}</span>
-          <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
-        </Link>
-        
-        {/* Deuxième bouton - Contactez-nous */}
-        <Link 
-          to="/contact" 
-          className="inline-block btn bg-transparent border-2 border-white text-white hover:text-white hover:border-red-600 text-lg px-8 py-3 transition-all duration-300 relative overflow-hidden group"
-        >
-          <span className="relative z-10">{t('common.contactUs')}</span>
-          <span className="absolute inset-0 bg-transparent group-hover:bg-red-600 transition-all duration-300"></span>
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+          {/* Premier bouton - Découvrir nos services */}
+          <Link 
+            to="/services" 
+            className="w-full sm:w-auto btn btn-primary text-lg px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group text-center"
+          >
+            <span className="relative z-10">{t('home.hero.cta')}</span>
+            <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
+          </Link>
+          
+          {/* Deuxième bouton - Contactez-nous */}
+          <Link 
+            to="/contact" 
+            className="w-full sm:w-auto btn bg-transparent border-2 border-white text-white hover:text-white hover:border-red-600 text-lg px-8 py-3 transition-all duration-300 relative overflow-hidden group text-center"
+          >
+            <span className="relative z-10">{t('common.contactUs')}</span>
+            <span className="absolute inset-0 bg-transparent group-hover:bg-red-600 transition-all duration-300"></span>
+          </Link>
+        </div>
       </HeroSection>
       
       {/* Stats Section */}
