@@ -362,11 +362,11 @@ const Home = () => {
               <div className="relative">
                 <div className="absolute -top-5 -left-5 w-full h-full bg-primary rounded-lg transform rotate-3"></div>
                 <div className="relative z-10 bg-white p-3 rounded-lg shadow-xl">
-                  <img 
-                    src="/images/team.jpeg" 
-                    alt="NEOBIZE Team" 
-                    className="w-full h-auto rounded-lg"
-                  />
+                    <img 
+                      src="/images/team.jpeg" 
+                      alt="Notre équipe" 
+                      className="w-full h-64 sm:h-80 object-cover rounded-lg transition-all duration-500"
+                    />
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-lg shadow-lg">
                   <Users size={32} className="mb-2" />
@@ -618,11 +618,11 @@ const Home = () => {
                   {/* Shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   
-                  <div className="relative z-10 flex flex-col items-center justify-center h-16 sm:h-20">
+                  <div className="relative z-10 flex flex-col items-center justify-center h-20 sm:h-28 px-4">
                     <img 
                       src={partner.logo} 
                       alt={partner.name} 
-                      className="w-full h-12 sm:h-16 object-contain transition-all duration-500"
+                      className="h-20 sm:h-24 w-auto max-w-full object-contain transition-all duration-500"
                     />
                   </div>
                   

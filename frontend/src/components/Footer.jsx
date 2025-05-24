@@ -52,7 +52,7 @@ const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-dark-gray p-2 rounded-full hover:bg-primary transition-colors"
+                  className="bg-dark-gray p-2 rounded-full hover:bg-white hover:text-midnight transition-colors"
                   aria-label={social.label}
                 >
                   {social.icon}

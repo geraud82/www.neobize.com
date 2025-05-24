@@ -20,6 +20,8 @@ import Blog from './pages/Blog'
 import Admin from './pages/Admin'
 import Settings from './pages/Settings'
 import NotFound from './pages/NotFound'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsOfService from './pages/TermsOfService'
 
 function App() {
   const { i18n } = useTranslation()
@@ -65,6 +67,8 @@ function App() {
           <Route path="projects/:id" element={<ProjectDetail />} />
           <Route path="contact" element={<Contact />} />
           <Route path="blog" element={<Blog />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="terms-of-service" element={<TermsOfService />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         {/* Admin routes outside of the main layout */}

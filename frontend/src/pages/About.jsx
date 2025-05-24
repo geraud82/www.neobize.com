@@ -104,9 +104,9 @@ const About = () => {
             >
               <div className="rounded-lg overflow-hidden shadow-xl">
                 <img 
-                  src="/images/web-histo.jpg" 
+                  src="/images/entrepro.jpeg" 
                   alt="NEOBIZE History" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-70 object-cover"
                 />
               </div>
             </motion.div>

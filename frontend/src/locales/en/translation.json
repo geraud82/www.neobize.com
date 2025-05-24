@@ -104,14 +104,17 @@
       ]
     }
   },
+  
   "about": {
-    "title": "About NEOBIZE",
-    "subtitle": "Your trusted partner",
-    "sectionTitle": "ABOUT US",
-    "history": {
-      "title": "Our History",
-      "description": "Founded in 2012, NEOBIZE was born from the vision of creating a versatile company capable of offering quality services in multiple fields. Since our inception, we have experienced steady growth and developed solid expertise in web and mobile  development, transport and construction."
-    },
+  "title": "About NEOBIZE",
+  "subtitle": "Your trusted partner",
+  "sectionTitle": "ABOUT US",
+  "history": {
+    "title": "Our History",
+    "description": "Founded in 2012, NEOBIZE was born from a bold vision: to build a dynamic and versatile company delivering high-quality services across multiple industries. What began as a small initiative driven by passion and innovation has since evolved into a trusted name with a strong presence in key sectors such as web and mobile development, transportation, and construction. Over the years, our team has grown with talented professionals who share our values of excellence, integrity, and adaptability. At NEOBIZE, we believe in the power of technology and strategic execution to transform businesses and communities. Whether we're developing tailored digital solutions, optimizing logistics for modern transport, or executing ambitious construction projects, we are driven by the same purpose: delivering value through quality, innovation, and reliability. Our cross-industry expertise allows us to provide integrated services that respond to the complex needs of our clients. We take pride in our ability to adapt to market evolutions and anticipate future demands, positioning NEOBIZE as a forward-thinking partner for businesses looking to grow and thrive in a digital and connected world. As we continue to expand, our mission remains unchanged: to empower clients by delivering cutting-edge solutions and impactful services that shape a better tomorrow."
+  },
+
+
     "mission": {
       "title": "Our Mission",
       "description": "Our mission is to provide innovative and quality solutions to meet the diverse needs of our clients, combining technical expertise, exceptional customer service and commitment to excellence."
