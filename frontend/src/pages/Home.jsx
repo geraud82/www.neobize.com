@@ -618,14 +618,15 @@ const Home = () => {
                   {/* Shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   
-                  <div className="relative z-10 flex flex-col items-center justify-center h-20 sm:h-28 px-4">
-                    <img 
-                      src={partner.logo} 
-                      alt={partner.name} 
-                      className="h-20 sm:h-24 w-auto max-w-full object-contain transition-all duration-500"
-                    />
-                  </div>
-                  
+                 <div className="relative z-10 flex flex-col items-center justify-center h-16 sm:h-20 px-2 group">
+  <img 
+    src={partner.logo} 
+    alt={partner.name} 
+   className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+  />
+</div>
+
+
                   {/* Industry badge */}
                   <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className={`bg-gradient-to-r ${partner.bgColor} text-white text-xs px-2 py-1 rounded-full shadow-lg`}>
