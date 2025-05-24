@@ -100,33 +100,37 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-4 text-gray-400">
               <li className="flex items-start">
-                <MapPin size={20} className="mr-2 text-primary flex-shrink-0 mt-1" />
+                <MapPin size={20} className="mr-2 text-gray-400 flex-shrink-0 mt-1" />
                 <span>
                   {t('contact.info.locations.benin.title')}<br />
                   {t('contact.info.locations.benin.address')}
                 </span>
               </li>
               <li className="flex items-start">
-                <Phone size={20} className="mr-2 text-primary flex-shrink-0 mt-1" />
+                <Phone size={20} className="mr-2 text-gray-400 flex-shrink-0 mt-1" />
                 <span>
-                  {t('contact.info.locations.benin.contact')}<br />
-                  {t('contact.info.locations.benin.whatsapp')}
+                  <a href="tel:+2290196765151" className="text-gray-400 hover:text-white transition-colors">
+                    {t('contact.info.locations.benin.contact')}
+                  </a><br />
+                  <a href="https://wa.me/2290196765151" className="text-gray-400 hover:text-white transition-colors">
+                    {t('contact.info.locations.benin.whatsapp')}
+                  </a>
                 </span>
               </li>
               <li className="flex items-start">
-                <Phone size={20} className="mr-2 text-primary flex-shrink-0 mt-1" />
+                <Phone size={20} className="mr-2 text-gray-400 flex-shrink-0 mt-1" />
                 <span>
-                  <a href="tel:+13097161835" className="hover:text-white transition-colors">
+                  <a href="tel:+13097161835" className="text-gray-400 hover:text-white transition-colors">
                     {t('contact.info.locations.usa.title')}
                   </a><br />
-                  <a href="https://wa.me/13124016907" className="hover:text-white transition-colors">
+                  <a href="https://wa.me/13124016907" className="text-gray-400 hover:text-white transition-colors">
                     {t('contact.info.locations.usa.whatsapp')}
                   </a>
                 </span>
               </li>
               <li className="flex items-start">
-                <Mail size={20} className="mr-2 text-primary flex-shrink-0 mt-1" />
-                <a href="mailto:contact@neobize.com" className="hover:text-white transition-colors">
+                <Mail size={20} className="mr-2 text-gray-400 flex-shrink-0 mt-1" />
+                <a href="mailto:contact@neobize.com" className="text-gray-400 hover:text-white transition-colors">
                   {t('contact.info.locations.email')}
                 </a>
               </li>
