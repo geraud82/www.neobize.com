@@ -581,261 +581,349 @@ const AdminDashboard = () => {
           {/* Article Editor */}
           {isEditing && (
             <div className="space-y-6">
-              <form onSubmit={savePost} className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Left Column - Form */}
-                  <div className="space-y-6">
-                    <div className="bg-white rounded-xl shadow-sm p-6">
-                      <h3 className="text-lg font-bold text-gray-800 mb-4">Informations de l'article</h3>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Titre *
-                          </label>
-                          <input
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Titre de l'article"
-                            required
-                          />
-                        </div>
+              {!showPreview ? (
+                <form onSubmit={savePost} className="space-y-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Left Column - Form */}
+                    <div className="space-y-6">
+                      <div className="bg-white rounded-xl shadow-sm p-6">
+                        <h3 className="text-lg font-bold text-gray-800 mb-4">Informations de l'article</h3>
                         
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Extrait *
-                          </label>
-                          <textarea
-                            name="excerpt"
-                            value={formData.excerpt}
-                            onChange={handleInputChange}
-                            rows={3}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Résumé de l'article"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Catégorie
+                              Titre *
                             </label>
-                            <select
-                              name="category"
-                              value={formData.category}
+                            <input
+                              type="text"
+                              name="title"
+                              value={formData.title}
                               onChange={handleInputChange}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            >
-                              {categories.map(cat => (
-                                <option key={cat.value} value={cat.value}>{cat.label}</option>
-                              ))}
-                            </select>
+                              placeholder="Titre de l'article"
+                              required
+                            />
                           </div>
                           
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Auteur *
+                              Extrait *
                             </label>
-                            <input
-                              type="text"
-                              name="author"
-                              value={formData.author}
+                            <textarea
+                              name="excerpt"
+                              value={formData.excerpt}
                               onChange={handleInputChange}
+                              rows={3}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                              placeholder="Nom de l'auteur"
+                              placeholder="Résumé de l'article"
                               required
                             />
                           </div>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Tags
-                          </label>
-                          <input
-                            type="text"
-                            name="tags"
-                            value={formData.tags}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Tag1, Tag2, Tag3"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">Séparez les tags par des virgules</p>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Image à la une
-                          </label>
-                          <div className="space-y-2">
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Catégorie
+                              </label>
+                              <select
+                                name="category"
+                                value={formData.category}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                              >
+                                {categories.map(cat => (
+                                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                                ))}
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Auteur *
+                              </label>
+                              <input
+                                type="text"
+                                name="author"
+                                value={formData.author}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="Nom de l'auteur"
+                                required
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Tags
+                            </label>
                             <input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleImageUpload}
+                              type="text"
+                              name="tags"
+                              value={formData.tags}
+                              onChange={handleInputChange}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                              disabled={isUploading}
+                              placeholder="Tag1, Tag2, Tag3"
                             />
-                            {isUploading && (
-                              <p className="text-sm text-blue-600">Téléchargement en cours...</p>
-                            )}
-                            {formData.featuredImage && (
-                              <div className="mt-2">
-                                <img
-                                  src={formData.featuredImage}
-                                  alt="Aperçu"
-                                  className="w-full h-32 object-cover rounded-lg"
-                                />
-                              </div>
-                            )}
+                            <p className="text-xs text-gray-500 mt-1">Séparez les tags par des virgules</p>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Image à la une
+                            </label>
+                            <div className="space-y-2">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                disabled={isUploading}
+                              />
+                              {isUploading && (
+                                <p className="text-sm text-blue-600">Téléchargement en cours...</p>
+                              )}
+                              {formData.featuredImage && (
+                                <div className="mt-2">
+                                  <img
+                                    src={formData.featuredImage}
+                                    alt="Aperçu"
+                                    className="w-full h-32 object-cover rounded-lg"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Statut
+                            </label>
+                            <select
+                              name="status"
+                              value={formData.status}
+                              onChange={handleInputChange}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            >
+                              <option value="draft">Brouillon</option>
+                              <option value="published">Publié</option>
+                            </select>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                    
+                    {/* Right Column - Content */}
+                    <div className="space-y-6">
+                      <div className="bg-white rounded-xl shadow-sm p-6">
+                        <h3 className="text-lg font-bold text-gray-800 mb-4">Contenu de l'article</h3>
                         
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Statut
+                            Contenu *
                           </label>
-                          <select
-                            name="status"
-                            value={formData.status}
+                          <textarea
+                            name="content"
+                            value={formData.content}
                             onChange={handleInputChange}
+                            rows={20}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          >
-                            <option value="draft">Brouillon</option>
-                            <option value="published">Publié</option>
-                          </select>
+                            placeholder="Contenu de l'article en Markdown"
+                            required
+                          />
+                          <p className="text-xs text-gray-500 mt-1">Vous pouvez utiliser Markdown pour formater le contenu</p>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  {/* Right Column - Content */}
-                  <div className="space-y-6">
-                    <div className="bg-white rounded-xl shadow-sm p-6">
-                      <h3 className="text-lg font-bold text-gray-800 mb-4">Contenu de l'article</h3>
+                </form>
+              ) : (
+                /* Preview Mode */
+                <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                  <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h3 className="font-medium text-gray-800">Prévisualisation</h3>
+                    <span className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${
+                      formData.status === 'published' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-amber-100 text-amber-800'
+                    }`}>
+                      {formData.status === 'published' ? 'Publié' : 'Brouillon'}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <div className="max-w-3xl mx-auto">
+                      {/* Featured Image */}
+                      {formData.featuredImage && (
+                        <div className="mb-6">
+                          <img
+                            src={formData.featuredImage}
+                            alt={formData.title}
+                            className="w-full h-64 object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
                       
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Contenu *
-                        </label>
-                        <textarea
-                          name="content"
-                          value={formData.content}
-                          onChange={handleInputChange}
-                          rows={20}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Contenu de l'article en Markdown"
-                          required
-                        />
-                        <p className="text-xs text-gray-500 mt-1">Vous pouvez utiliser Markdown pour formater le contenu</p>
+                      {/* Title */}
+                      <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                        {formData.title || 'Titre de l\'article'}
+                      </h1>
+                      
+                      {/* Meta information */}
+                      <div className="flex items-center text-sm text-gray-500 mb-6 flex-wrap gap-4">
+                        <span className="flex items-center">
+                          <User size={14} className="mr-1" />
+                          {formData.author || 'Auteur'}
+                        </span>
+                        <span className="flex items-center">
+                          <CalendarIcon size={14} className="mr-1" />
+                          {new Date().toLocaleDateString('fr-FR')}
+                        </span>
+                        <span className="flex items-center">
+                          <Tag size={14} className="mr-1" />
+                          {categories.find(cat => cat.value === formData.category)?.label || 'Catégorie'}
+                        </span>
+                      </div>
+                      
+                      {/* Excerpt */}
+                      <div className="text-lg text-gray-600 mb-6 italic">
+                        {formData.excerpt || 'Extrait de l\'article'}
+                      </div>
+                      
+                      {/* Tags */}
+                      {formData.tags && (
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {formData.tags.split(',').map((tag, index) => (
+                            <span
+                              key={index}
+                              className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                            >
+                              {tag.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {/* Content */}
+                      <div className="prose max-w-none">
+                        <div className="whitespace-pre-wrap">
+                          {formData.content || 'Contenu de l\'article'}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </form>
+              )}
             </div>
           )}
           
-          {/* Dashboard */}
-          {activeSection === 'dashboard' && !isEditing && (
-            <div className="space-y-4 lg:space-y-6">
+          {/* Dashboard View */}
+          {!isEditing && activeSection === 'dashboard' && (
+            <div className="space-y-6">
               {/* Stats Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stats.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-xl shadow-sm p-3 lg:p-6"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div className="min-w-0 flex-1">
-                        <p className="text-gray-500 text-xs lg:text-sm truncate">{stat.title}</p>
-                        <h3 className="text-lg lg:text-2xl font-bold mt-1">{stat.value}</h3>
-                        <div className={`flex items-center mt-1 lg:mt-2 text-xs lg:text-sm ${
-                          stat.trend === 'up' ? 'text-green-500' : 'text-red-500'
-                        }`}>
-                          {stat.trend === 'up' ? (
-                            <TrendingUp size={12} className="mr-1 lg:w-3.5 lg:h-3.5" />
-                          ) : (
-                            <ArrowDownRight size={12} className="mr-1 lg:w-3.5 lg:h-3.5" />
-                          )}
-                          <span className="truncate">{stat.change}</span>
-                        </div>
+                  <div key={index} className="bg-white rounded-xl shadow-sm p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                        <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
                       </div>
-                      <div className="p-2 lg:p-3 rounded-lg bg-gray-50 ml-2">
+                      <div className="p-3 bg-gray-50 rounded-lg">
                         {stat.icon}
                       </div>
+                    </div>
+                    <div className="mt-4 flex items-center">
+                      <span className={`text-sm font-medium ${
+                        stat.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                      }`}>
+                        {stat.change}
+                      </span>
+                      <span className="text-sm text-gray-500 ml-2">vs mois dernier</span>
                     </div>
                   </div>
                 ))}
               </div>
               
-              {/* Recent Posts */}
-              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                <div className="px-4 lg:px-6 py-3 lg:py-4 border-b border-gray-100 flex justify-between items-center">
-                  <h3 className="text-base lg:text-lg font-bold text-gray-800">Articles récents</h3>
-                  <button 
-                    onClick={() => setActiveSection('articles')}
-                    className="text-xs lg:text-sm text-primary font-medium hover:underline"
-                  >
-                    Voir tous
-                  </button>
+              {/* Recent Articles */}
+              <div className="bg-white rounded-xl shadow-sm">
+                <div className="px-6 py-4 border-b border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-800">Articles récents</h3>
                 </div>
-                
-                <div className="divide-y divide-gray-100">
-                  {posts.slice(0, 5).map(post => (
-                    <div
-                      key={post.id}
-                      className="p-3 lg:p-4 hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1 min-w-0 pr-2">
-                          <h4 className="text-sm lg:text-base font-medium text-gray-900 truncate">{post.title}</h4>
-                          <p className="text-xs lg:text-sm text-gray-500 mt-1 truncate">{post.excerpt}</p>
-                          <div className="flex items-center mt-2 space-x-2 lg:space-x-3 flex-wrap">
-                            <span className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${
-                              post.status === 'published'
-                                ? 'bg-green-100 text-green-800' 
-                                : 'bg-amber-100 text-amber-800'
-                            }`}>
-                              {post.status === 'published' ? 'Publié' : 'Brouillon'}
-                            </span>
-                            <span className="text-xs text-gray-500 flex items-center">
-                              <CalendarIcon size={10} className="mr-1" />
-                              {formatDate(post.createdAt)}
-                            </span>
-                            <span className="text-xs text-gray-500 flex items-center">
-                              <User size={10} className="mr-1" />
-                              {post.author}
-                            </span>
+                <div className="p-6">
+                  {isLoading ? (
+                    <div className="text-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                      <p className="text-gray-500 mt-2">Chargement...</p>
+                    </div>
+                  ) : posts.length === 0 ? (
+                    <div className="text-center py-8">
+                      <FileText size={48} className="mx-auto text-gray-400 mb-4" />
+                      <p className="text-gray-500">Aucun article trouvé</p>
+                      <button
+                        onClick={createNewPost}
+                        className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                      >
+                        Créer votre premier article
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {posts.slice(0, 5).map((post) => (
+                        <div key={post.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-900">{post.title}</h4>
+                            <p className="text-sm text-gray-500 mt-1">{post.excerpt}</p>
+                            <div className="flex items-center mt-2 text-xs text-gray-400">
+                              <span>{post.author}</span>
+                              <span className="mx-2">•</span>
+                              <span>{formatDate(post.createdAt)}</span>
+                              <span className="mx-2">•</span>
+                              <span className={`px-2 py-0.5 rounded-full ${
+                                post.status === 'published' 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-amber-100 text-amber-800'
+                              }`}>
+                                {post.status === 'published' ? 'Publié' : 'Brouillon'}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2 ml-4">
+                            <button
+                              onClick={() => editPost(post)}
+                              className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+                            >
+                              <Edit size={16} />
+                            </button>
+                            <button
+                              onClick={() => togglePublishStatus(post)}
+                              className="p-2 text-gray-400 hover:text-green-600 transition-colors"
+                            >
+                              {post.status === 'published' ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </button>
+                            <button
+                              onClick={() => handleDeletePost(post.id)}
+                              className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                            >
+                              <Trash2 size={16} />
+                            </button>
                           </div>
                         </div>
-                        <div className="flex items-center">
-                          <button 
-                            onClick={() => editPost(post)}
-                            className="p-1 text-gray-400 hover:text-primary transition-colors"
-                          >
-                            <Edit size={14} className="lg:w-4 lg:h-4" />
-                          </button>
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
           )}
           
-          {/* Articles Management - List View */}
-          {activeSection === 'articles' && !isEditing && (
-            <div className="space-y-4 lg:space-y-6">
-              {/* Filters */}
-              <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
-                <div className="flex flex-col lg:flex-row gap-4">
-                  <div className="flex-1">
-                    <div className="relative">
+          {/* Articles Management View */}
+          {!isEditing && activeSection === 'articles' && (
+            <div className="space-y-6">
+              {/* Filters and Search */}
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                    <div className="relative flex-1">
                       <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <input
                         type="text"
@@ -845,9 +933,7 @@ const AdminDashboard = () => {
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                       />
                     </div>
-                  </div>
-                  
-                  <div className="flex gap-2 lg:gap-4">
+                    
                     <select
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value)}
@@ -869,103 +955,150 @@ const AdminDashboard = () => {
                       ))}
                     </select>
                   </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    >
+                      <option value="createdAt">Date de création</option>
+                      <option value="title">Titre</option>
+                      <option value="author">Auteur</option>
+                    </select>
+                    
+                    <button
+                      onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      {sortOrder === 'asc' ? '↑' : '↓'}
+                    </button>
+                  </div>
                 </div>
               </div>
               
               {/* Articles List */}
-              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                <div className="px-4 lg:px-6 py-3 lg:py-4 border-b border-gray-100">
-                  <h3 className="text-base lg:text-lg font-bold text-gray-800">Articles ({sortedPosts.length})</h3>
+              <div className="bg-white rounded-xl shadow-sm">
+                <div className="px-6 py-4 border-b border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold text-gray-800">
+                      Articles ({sortedPosts.length})
+                    </h3>
+                  </div>
                 </div>
                 
-                {isLoading ? (
-                  <div className="text-center py-8 lg:py-12">
-                    <div className="animate-spin rounded-full h-8 lg:h-10 w-8 lg:w-10 border-b-2 border-primary mx-auto"></div>
-                    <p className="mt-4 text-gray-600 text-sm lg:text-base">Chargement des articles...</p>
-                  </div>
-                ) : (
-                  <div className="divide-y divide-gray-100">
-                    {sortedPosts.length === 0 ? (
-                      <div className="text-center py-8 lg:py-12">
-                        <FileText size={40} className="mx-auto text-gray-300 mb-4 lg:w-12 lg:h-12" />
-                        <p className="text-gray-600 text-sm lg:text-base">Aucun article trouvé</p>
+                <div className="p-6">
+                  {isLoading ? (
+                    <div className="text-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                      <p className="text-gray-500 mt-2">Chargement...</p>
+                    </div>
+                  ) : sortedPosts.length === 0 ? (
+                    <div className="text-center py-8">
+                      <FileText size={48} className="mx-auto text-gray-400 mb-4" />
+                      <p className="text-gray-500">
+                        {searchQuery || filterStatus !== 'all' || filterCategory !== 'all' 
+                          ? 'Aucun article ne correspond à vos critères de recherche'
+                          : 'Aucun article trouvé'
+                        }
+                      </p>
+                      {!searchQuery && filterStatus === 'all' && filterCategory === 'all' && (
                         <button
                           onClick={createNewPost}
-                          className="mt-4 flex items-center justify-center gap-2 bg-primary text-white px-3 lg:px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors mx-auto text-sm lg:text-base"
+                          className="mt-4 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                         >
-                          <Plus size={16} className="lg:w-5 lg:h-5" />
-                          Créer le premier article
+                          Créer votre premier article
                         </button>
-                      </div>
-                    ) : (
-                      sortedPosts.map(post => (
-                        <div
-                          key={post.id}
-                          className="p-3 lg:p-4 hover:bg-gray-50 transition-colors"
-                        >
-                          <div className="flex justify-between items-start">
-                            <div className="flex-1 min-w-0 pr-2">
-                              <h4 className="text-sm lg:text-base font-medium text-gray-900 truncate">{post.title}</h4>
-                              <p className="text-xs lg:text-sm text-gray-500 mt-1 truncate">{post.excerpt}</p>
-                              <div className="flex items-center mt-2 space-x-2 lg:space-x-3 flex-wrap">
+                      )}
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {sortedPosts.map((post) => (
+                        <div key={post.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <h4 className="font-medium text-gray-900">{post.title}</h4>
                                 <span className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${
-                                  post.status === 'published'
+                                  post.status === 'published' 
                                     ? 'bg-green-100 text-green-800' 
                                     : 'bg-amber-100 text-amber-800'
                                 }`}>
                                   {post.status === 'published' ? 'Publié' : 'Brouillon'}
                                 </span>
-                                <span className="text-xs text-gray-500 flex items-center">
-                                  <CalendarIcon size={10} className="mr-1" />
-                                  {formatDate(post.createdAt)}
-                                </span>
-                                <span className="text-xs text-gray-500 flex items-center">
-                                  <User size={10} className="mr-1" />
+                              </div>
+                              
+                              <p className="text-sm text-gray-600 mb-3 line-clamp-2">{post.excerpt}</p>
+                              
+                              <div className="flex items-center text-xs text-gray-500 gap-4">
+                                <span className="flex items-center">
+                                  <User size={12} className="mr-1" />
                                   {post.author}
                                 </span>
-                                <span className="text-xs text-gray-500 flex items-center">
-                                  <Eye size={10} className="mr-1" />
-                                  {post.views || 0} vues
+                                <span className="flex items-center">
+                                  <CalendarIcon size={12} className="mr-1" />
+                                  {formatDate(post.createdAt)}
                                 </span>
-                              </div>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                              <button 
-                                onClick={() => togglePublishStatus(post)}
-                                className={`p-1 transition-colors ${
-                                  post.status === 'published'
-                                    ? 'text-green-600 hover:text-green-800'
-                                    : 'text-gray-400 hover:text-green-600'
-                                }`}
-                                title={post.status === 'published' ? 'Dépublier' : 'Publier'}
-                              >
-                                {post.status === 'published' ? (
-                                  <Globe size={14} className="lg:w-4 lg:h-4" />
-                                ) : (
-                                  <EyeOff size={14} className="lg:w-4 lg:h-4" />
+                                <span className="flex items-center">
+                                  <Tag size={12} className="mr-1" />
+                                  {categories.find(cat => cat.value === post.category)?.label || post.category}
+                                </span>
+                                {post.views && (
+                                  <span className="flex items-center">
+                                    <Eye size={12} className="mr-1" />
+                                    {post.views} vues
+                                  </span>
                                 )}
-                              </button>
-                              <button 
+                              </div>
+                              
+                              {post.tags && post.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                  {post.tags.slice(0, 3).map((tag, index) => (
+                                    <span
+                                      key={index}
+                                      className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                  {post.tags.length > 3 && (
+                                    <span className="text-xs text-gray-500">
+                                      +{post.tags.length - 3} autres
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                            
+                            <div className="flex items-center space-x-2 ml-4">
+                              <button
                                 onClick={() => editPost(post)}
-                                className="p-1 text-gray-400 hover:text-primary transition-colors"
+                                className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
                                 title="Modifier"
                               >
-                                <Edit size={14} className="lg:w-4 lg:h-4" />
+                                <Edit size={16} />
                               </button>
-                              <button 
+                              <button
+                                onClick={() => togglePublishStatus(post)}
+                                className="p-2 text-gray-400 hover:text-green-600 transition-colors"
+                                title={post.status === 'published' ? 'Dépublier' : 'Publier'}
+                              >
+                                {post.status === 'published' ? <EyeOff size={16} /> : <Eye size={16} />}
+                              </button>
+                              <button
                                 onClick={() => handleDeletePost(post.id)}
-                                className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                                className="p-2 text-gray-400 hover:text-red-600 transition-colors"
                                 title="Supprimer"
                               >
-                                <Trash2 size={14} className="lg:w-4 lg:h-4" />
+                                <Trash2 size={16} />
                               </button>
                             </div>
                           </div>
                         </div>
-                      ))
-                    )}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
