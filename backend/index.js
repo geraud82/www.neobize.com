@@ -15,6 +15,8 @@ const { syncDatabase } = require('./models');
 // Importer les routes
 const contactRoutes = require('./routes/contactRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const articleRoutes = require('./routes/articleRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -27,7 +29,7 @@ const PORT = process.env.PORT || 5001;
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [process.env.FRONTEND_URL || 'https://neobize.vercel.app'] 
-    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173', 'http://localhost:4173', 'http://127.0.0.1:5173'],
+    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'http://localhost:5173', 'http://localhost:4173', 'http://127.0.0.1:5173'],
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -63,61 +65,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Stockage temporaire des catégories (à remplacer par une base de données en production)
-let categories = [
-  { id: 'web-dev', name: 'Développement Web' },
-  { id: 'transport', name: 'Transport & Logistique' },
-  { id: 'construction', name: 'Construction & BTP' }
-];
-
-// Stockage temporaire des articles (à remplacer par une base de données en production)
-let blogPosts = [
-  {
-    id: 1,
-    title: 'Les tendances du développement web en 2025',
-    excerpt: 'Découvrez les dernières tendances et technologies qui façonnent le développement web cette année.',
-    content: `
-      <h2>Les tendances du développement web en 2025</h2>
-      <p>Le monde du développement web évolue constamment, avec de nouvelles technologies et approches qui émergent chaque année. En 2025, plusieurs tendances majeures façonnent la façon dont les développeurs créent des sites web et des applications.</p>
-      <h3>1. L'essor des applications progressives (PWA)</h3>
-      <p>Les Progressive Web Apps continuent de gagner en popularité, offrant une expérience utilisateur similaire à celle des applications natives tout en fonctionnant dans un navigateur web.</p>
-      <h3>2. L'adoption généralisée de WebAssembly</h3>
-      <p>WebAssembly permet d'exécuter du code à des vitesses proches du natif dans le navigateur, ouvrant la porte à des applications web plus performantes et complexes.</p>
-      <h3>3. Le développement sans tête (Headless)</h3>
-      <p>Les CMS headless séparent le backend du frontend, offrant plus de flexibilité aux développeurs pour créer des expériences personnalisées.</p>
-    `,
-    category: 'web-dev',
-    author: 'Marie Laurent',
-    date: '15 avril 2025',
-    readTime: '5 min',
-    image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Web+Dev+Trends',
-    tags: ['Développement Web', 'Tendances', 'Technologies'],
-    published: true
-  },
-  {
-    id: 2,
-    title: 'Comment optimiser votre chaîne logistique',
-    excerpt: 'Apprenez les meilleures pratiques pour optimiser votre chaîne logistique et réduire les coûts de transport.',
-    content: `
-      <h2>Comment optimiser votre chaîne logistique</h2>
-      <p>Une chaîne logistique efficace est essentielle pour toute entreprise qui souhaite rester compétitive sur le marché actuel. Voici quelques stratégies pour optimiser vos opérations logistiques.</p>
-      <h3>1. Automatisation des processus</h3>
-      <p>L'automatisation des tâches répétitives peut considérablement améliorer l'efficacité et réduire les erreurs humaines dans votre chaîne logistique.</p>
-      <h3>2. Analyse des données en temps réel</h3>
-      <p>Utiliser des outils d'analyse de données pour surveiller les performances de votre chaîne logistique en temps réel vous permet de prendre des décisions éclairées rapidement.</p>
-      <h3>3. Collaboration avec les fournisseurs</h3>
-      <p>Une communication transparente et une collaboration étroite avec vos fournisseurs peuvent aider à réduire les délais et à améliorer la qualité des produits.</p>
-    `,
-    category: 'transport',
-    author: 'Pierre Martin',
-    date: '28 mars 2025',
-    readTime: '7 min',
-    image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Logistics',
-    tags: ['Logistique', 'Transport', 'Optimisation'],
-    published: true
-  }
-];
-
 // Initialiser la base de données
 const initializeDatabase = async () => {
   try {
@@ -152,6 +99,8 @@ app.get('/api/hello', (req, res) => {
 // Utiliser les routes
 app.use('/api/contacts', contactRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/articles', articleRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Route d'authentification
 app.post('/api/auth/login', (req, res) => {
@@ -175,13 +124,11 @@ app.post('/api/auth/login', (req, res) => {
   }
 });
 
-// Routes pour les articles de blog
+// Route de compatibilité pour l'ancien endpoint blog
 app.get('/api/blog/posts', async (req, res) => {
   try {
-    res.status(200).json({
-      success: true,
-      data: blogPosts.filter(post => post.published)
-    });
+    // Rediriger vers la nouvelle API des articles
+    res.redirect('/api/articles');
   } catch (error) {
     console.error('Erreur lors de la récupération des articles:', error);
     res.status(500).json({
@@ -191,7 +138,13 @@ app.get('/api/blog/posts', async (req, res) => {
   }
 });
 
-// Routes pour les catégories
+// Routes pour les catégories (utilisant des catégories statiques pour la compatibilité)
+const categories = [
+  { id: 'web-dev', name: 'Développement Web' },
+  { id: 'transport', name: 'Transport & Logistique' },
+  { id: 'construction', name: 'Construction & BTP' }
+];
+
 app.get('/api/categories', async (req, res) => {
   try {
     res.status(200).json({
@@ -219,75 +172,6 @@ app.get('/api/admin/categories', authenticateToken, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Une erreur est survenue lors de la récupération des catégories'
-    });
-  }
-});
-
-app.post('/api/admin/categories', authenticateToken, async (req, res) => {
-  try {
-    const { id, name } = req.body;
-    
-    if (!id || !name) {
-      return res.status(400).json({
-        success: false,
-        message: 'L\'identifiant et le nom sont requis'
-      });
-    }
-    
-    if (categories.some(cat => cat.id === id)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Une catégorie avec cet identifiant existe déjà'
-      });
-    }
-    
-    const newCategory = { id, name };
-    categories.push(newCategory);
-    
-    res.status(201).json({
-      success: true,
-      message: 'Catégorie créée avec succès',
-      data: newCategory
-    });
-  } catch (error) {
-    console.error('Erreur lors de la création de la catégorie:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Une erreur est survenue lors de la création de la catégorie'
-    });
-  }
-});
-
-app.delete('/api/admin/categories/:id', authenticateToken, async (req, res) => {
-  try {
-    const categoryId = req.params.id;
-    const initialLength = categories.length;
-    
-    if (categories.length <= 1) {
-      return res.status(400).json({
-        success: false,
-        message: 'Vous devez conserver au moins une catégorie'
-      });
-    }
-    
-    categories = categories.filter(cat => cat.id !== categoryId);
-    
-    if (categories.length === initialLength) {
-      return res.status(404).json({
-        success: false,
-        message: 'Catégorie non trouvée'
-      });
-    }
-    
-    res.status(200).json({
-      success: true,
-      message: 'Catégorie supprimée avec succès'
-    });
-  } catch (error) {
-    console.error('Erreur lors de la suppression de la catégorie:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Une erreur est survenue lors de la suppression de la catégorie'
     });
   }
 });
@@ -328,106 +212,6 @@ app.put('/api/admin/credentials', authenticateToken, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Une erreur est survenue lors de la mise à jour des informations d\'authentification'
-    });
-  }
-});
-
-// Routes protégées pour l'administration des articles
-app.get('/api/admin/posts', authenticateToken, async (req, res) => {
-  try {
-    res.status(200).json({
-      success: true,
-      data: blogPosts
-    });
-  } catch (error) {
-    console.error('Erreur lors de la récupération des articles:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Une erreur est survenue lors de la récupération des articles'
-    });
-  }
-});
-
-app.post('/api/admin/posts', authenticateToken, async (req, res) => {
-  try {
-    const newPost = {
-      id: Date.now(),
-      ...req.body,
-      date: new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })
-    };
-    
-    blogPosts.unshift(newPost);
-    
-    res.status(201).json({
-      success: true,
-      message: 'Article créé avec succès',
-      data: newPost
-    });
-  } catch (error) {
-    console.error('Erreur lors de la création de l\'article:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Une erreur est survenue lors de la création de l\'article'
-    });
-  }
-});
-
-app.put('/api/admin/posts/:id', authenticateToken, async (req, res) => {
-  try {
-    const postId = parseInt(req.params.id);
-    const postIndex = blogPosts.findIndex(post => post.id === postId);
-    
-    if (postIndex === -1) {
-      return res.status(404).json({
-        success: false,
-        message: 'Article non trouvé'
-      });
-    }
-    
-    const updatedPost = {
-      ...blogPosts[postIndex],
-      ...req.body
-    };
-    
-    blogPosts[postIndex] = updatedPost;
-    
-    res.status(200).json({
-      success: true,
-      message: 'Article mis à jour avec succès',
-      data: updatedPost
-    });
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour de l\'article:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Une erreur est survenue lors de la mise à jour de l\'article'
-    });
-  }
-});
-
-app.delete('/api/admin/posts/:id', authenticateToken, async (req, res) => {
-  try {
-    const postId = parseInt(req.params.id);
-    const initialLength = blogPosts.length;
-    
-    blogPosts = blogPosts.filter(post => post.id !== postId);
-    
-    if (blogPosts.length === initialLength) {
-      return res.status(404).json({
-        success: false,
-        message: 'Article non trouvé'
-      });
-    }
-    
-    res.status(200).json({
-      success: true,
-      message: 'Article supprimé avec succès'
-    });
-  } catch (error) {
-    console.error('Erreur lors de la suppression de l\'article:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Une erreur est survenue lors de la suppression de l\'article'
     });
   }
 });
@@ -528,5 +312,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-

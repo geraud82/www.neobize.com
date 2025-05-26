@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { Calendar, User, Tag, Clock, Search, ArrowRight } from 'lucide-react'
+import { Calendar, User, Tag, Clock, Search, ArrowRight, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import HeroSection from '../components/HeroSection'
+import { api } from '../services/api'
 
 // Animation variants
 const fadeIn = {
@@ -29,100 +30,129 @@ const Blog = () => {
   const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
-
-  // Blog posts data (sample)
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Les tendances du développement web en 2025',
-      excerpt: 'Découvrez les dernières tendances et technologies qui façonnent le développement web cette année.',
-      category: 'web-dev',
-      author: 'Marie Laurent',
-      date: '15 avril 2025',
-      readTime: '5 min',
-      image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Web+Dev+Trends',
-      tags: ['Développement Web', 'Tendances', 'Technologies']
-    },
-    {
-      id: 2,
-      title: 'Comment optimiser votre chaîne logistique',
-      excerpt: 'Apprenez les meilleures pratiques pour optimiser votre chaîne logistique et réduire les coûts de transport.',
-      category: 'transport',
-      author: 'Pierre Martin',
-      date: '28 mars 2025',
-      readTime: '7 min',
-      image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Logistics',
-      tags: ['Logistique', 'Transport', 'Optimisation']
-    },
-    {
-      id: 3,
-      title: 'L\'impact de l\'IA sur le secteur de la construction',
-      excerpt: 'Analyse de l\'impact de l\'intelligence artificielle sur les méthodes de construction et la gestion de projets.',
-      category: 'construction',
-      author: 'Sophie Dubois',
-      date: '10 mars 2025',
-      readTime: '6 min',
-      image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=AI+Construction',
-      tags: ['Construction', 'IA', 'Innovation']
-    },
-    {
-      id: 4,
-      title: 'Les avantages des applications SaaS pour les entreprises',
-      excerpt: 'Pourquoi les solutions SaaS sont devenues incontournables pour les entreprises de toutes tailles.',
-      category: 'web-dev',
-      author: 'Jean Dupont',
-      date: '22 février 2025',
-      readTime: '4 min',
-      image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=SaaS+Apps',
-      tags: ['SaaS', 'Entreprise', 'Cloud']
-    },
-    {
-      id: 5,
-      title: 'Transport écologique : les solutions d\'avenir',
-      excerpt: 'Exploration des solutions de transport écologiques qui réduisent l\'impact environnemental.',
-      category: 'transport',
-      author: 'Pierre Martin',
-      date: '15 février 2025',
-      readTime: '8 min',
-      image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Green+Transport',
-      tags: ['Transport', 'Écologie', 'Développement Durable']
-    },
-    {
-      id: 6,
-      title: 'Matériaux innovants pour la construction durable',
-      excerpt: 'Découvrez les nouveaux matériaux qui révolutionnent la construction écologique et durable.',
-      category: 'construction',
-      author: 'Sophie Dubois',
-      date: '5 février 2025',
-      readTime: '6 min',
-      image: 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Sustainable+Materials',
-      tags: ['Construction', 'Matériaux', 'Écologie']
-    }
-  ]
+  const [articles, setArticles] = useState([])
+  const [featuredArticles, setFeaturedArticles] = useState([])
+  const [recentArticles, setRecentArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [pagination, setPagination] = useState({})
+  const [currentPage, setCurrentPage] = useState(1)
 
   // Categories
   const categories = [
     { id: 'all', name: 'Tous les articles' },
     { id: 'web-dev', name: 'Développement Web' },
     { id: 'transport', name: 'Transport & Logistique' },
-    { id: 'construction', name: 'Construction & BTP' }
+    { id: 'construction', name: 'Construction & BTP' },
+    { id: 'general', name: 'Général' }
   ]
 
-  // Filter posts by category and search query
-  const filteredPosts = blogPosts
-    .filter(post => activeCategory === 'all' || post.category === activeCategory)
-    .filter(post => 
-      searchQuery === '' || 
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-    )
+  // Category colors
+  const categoryColors = {
+    'web-dev': 'bg-blue-100 text-blue-800',
+    'transport': 'bg-green-100 text-green-800',
+    'construction': 'bg-orange-100 text-orange-800',
+    'general': 'bg-gray-100 text-gray-800'
+  }
 
-  // Get all unique tags
-  const allTags = [...new Set(blogPosts.flatMap(post => post.tags))].sort()
+  // Fonction pour formater la date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
 
-  // Get recent posts (3 most recent)
-  const recentPosts = [...blogPosts].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3)
+  // Fonction pour récupérer les articles
+  const fetchArticles = async (page = 1, category = 'all', search = '') => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '6'
+      })
+
+      if (category !== 'all') {
+        params.append('category', category)
+      }
+
+      if (search.trim()) {
+        params.append('search', search.trim())
+      }
+
+      const response = await api.get(`/articles?${params}`, false) // false = pas d'authentification
+      
+      if (response.success) {
+        setArticles(response.data.articles || [])
+        setPagination(response.data.pagination || {})
+      } else {
+        setError('Erreur lors du chargement des articles')
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles:', error)
+      setError('Erreur lors du chargement des articles')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Fonction pour récupérer les articles en vedette
+  const fetchFeaturedArticles = async () => {
+    try {
+      const response = await api.get('/articles/featured?limit=3', false) // false = pas d'authentification
+      if (response.success) {
+        setFeaturedArticles(response.data || [])
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles en vedette:', error)
+    }
+  }
+
+  // Fonction pour récupérer les articles récents
+  const fetchRecentArticles = async () => {
+    try {
+      const response = await api.get('/articles/recent?limit=5', false) // false = pas d'authentification
+      if (response.success) {
+        setRecentArticles(response.data || [])
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles récents:', error)
+    }
+  }
+
+  // Effect pour charger les données initiales
+  useEffect(() => {
+    fetchArticles(1, activeCategory, searchQuery)
+    fetchFeaturedArticles()
+    fetchRecentArticles()
+  }, [])
+
+  // Effect pour recharger les articles quand les filtres changent
+  useEffect(() => {
+    setCurrentPage(1)
+    fetchArticles(1, activeCategory, searchQuery)
+  }, [activeCategory, searchQuery])
+
+  // Fonction pour changer de page
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    fetchArticles(page, activeCategory, searchQuery)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Fonction pour réinitialiser les filtres
+  const resetFilters = () => {
+    setSearchQuery('')
+    setActiveCategory('all')
+    setCurrentPage(1)
+  }
+
+  // Obtenir tous les tags uniques
+  const allTags = [...new Set(articles.flatMap(article => article.tags || []))].sort()
 
   return (
     <div>
@@ -132,6 +162,71 @@ const Blog = () => {
         backgroundImage="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070"
         badge={t('blog.sectionTitle')}
       />
+
+      {/* Featured Articles Section */}
+      {featuredArticles.length > 0 && (
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+            >
+              <motion.h2 
+                variants={fadeIn}
+                className="text-3xl font-bold text-midnight mb-12 text-center"
+              >
+                Articles en vedette
+              </motion.h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredArticles.map(article => (
+                  <motion.article
+                    key={article.id}
+                    variants={fadeIn}
+                    className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  >
+                    {article.featuredImage && (
+                      <img 
+                        src={article.featuredImage} 
+                        alt={article.title} 
+                        className="w-full h-48 object-cover"
+                      />
+                    )}
+                    <div className="p-6">
+                      <div className="flex items-center mb-3">
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${categoryColors[article.category] || categoryColors.general}`}>
+                          {t(`projects.categories.${article.category}`) || article.category}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold text-midnight mb-3">
+                        <Link to={`/blog/${article.slug}`} className="hover:text-primary transition-colors">
+                          {article.title}
+                        </Link>
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3">{article.excerpt}</p>
+                      <div className="flex items-center text-sm text-gray-500 mb-4">
+                        <User size={14} className="mr-1" />
+                        <span className="mr-4">{article.author}</span>
+                        <Clock size={14} className="mr-1" />
+                        <span>{article.readTime} min</span>
+                      </div>
+                      <Link 
+                        to={`/blog/${article.slug}`} 
+                        className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors"
+                      >
+                        Lire la suite
+                        <ArrowRight size={16} className="ml-2" />
+                      </Link>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Blog Content Section */}
       <section className="py-20 bg-white">
@@ -166,115 +261,160 @@ const Blog = () => {
                 </div>
               </div>
 
-              {/* Blog Posts */}
-              {filteredPosts.length > 0 ? (
-                <div className="space-y-12">
-                  {filteredPosts.map(post => (
-                    <motion.article
-                      key={post.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5 }}
-                      className="bg-white rounded-lg shadow-lg overflow-hidden"
-                    >
-                      <div className="md:flex">
-                        <div className="md:w-1/3">
-                          <img 
-                            src={post.image} 
-                            alt={post.title} 
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                        <div className="p-6 md:w-2/3">
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            {post.tags.map((tag, index) => (
-                              <span 
-                                key={index}
-                                className="inline-flex items-center text-xs font-medium bg-primary/10 text-primary px-2.5 py-0.5 rounded-full"
-                              >
-                                <Tag size={12} className="mr-1" />
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                          <h2 className="text-2xl font-bold text-midnight mb-3">
-                            <Link to={`/blog/${post.id}`} className="hover:text-primary transition-colors">
-                              {post.title}
-                            </Link>
-                          </h2>
-                          <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                          <div className="flex flex-wrap items-center text-sm text-gray-500 gap-4 mb-4">
-                            <div className="flex items-center">
-                              <User size={16} className="mr-1" />
-                              {post.author}
-                            </div>
-                            <div className="flex items-center">
-                              <Calendar size={16} className="mr-1" />
-                              {post.date}
-                            </div>
-                            <div className="flex items-center">
-                              <Clock size={16} className="mr-1" />
-                              {post.readTime} de lecture
-                            </div>
-                          </div>
-                          <Link 
-                            to={`/blog/${post.id}`} 
-                            className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors"
-                          >
-                            {t('blog.readMore')}
-                            <ArrowRight size={16} className="ml-2" />
-                          </Link>
-                        </div>
-                      </div>
-                    </motion.article>
-                  ))}
+              {/* Loading State */}
+              {loading && (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+                  <p className="text-gray-600">Chargement des articles...</p>
                 </div>
-              ) : (
-                <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-                  <p className="text-gray-600 mb-4">Aucun article ne correspond à votre recherche.</p>
+              )}
+
+              {/* Error State */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                  <p className="text-red-600 mb-4">{error}</p>
                   <button
-                    onClick={() => {
-                      setSearchQuery('')
-                      setActiveCategory('all')
-                    }}
-                    className="text-primary font-medium hover:text-primary/80 transition-colors"
+                    onClick={() => fetchArticles(currentPage, activeCategory, searchQuery)}
+                    className="btn btn-primary"
                   >
-                    Réinitialiser les filtres
+                    Réessayer
                   </button>
                 </div>
               )}
 
-              {/* Pagination (simplified) */}
-              {filteredPosts.length > 0 && (
-                <div className="mt-12 flex justify-center">
-                  <nav className="inline-flex rounded-md shadow">
-                    <a
-                      href="#"
-                      className="px-4 py-2 bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-l-md"
-                    >
-                      Précédent
-                    </a>
-                    <a
-                      href="#"
-                      className="px-4 py-2 bg-primary border border-primary text-sm font-medium text-white hover:bg-primary/90"
-                    >
-                      1
-                    </a>
-                    <a
-                      href="#"
-                      className="px-4 py-2 bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                    >
-                      2
-                    </a>
-                    <a
-                      href="#"
-                      className="px-4 py-2 bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-r-md"
-                    >
-                      Suivant
-                    </a>
-                  </nav>
-                </div>
+              {/* Blog Posts */}
+              {!loading && !error && (
+                <>
+                  {articles.length > 0 ? (
+                    <div className="space-y-12">
+                      {articles.map(article => (
+                        <motion.article
+                          key={article.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-100px" }}
+                          transition={{ duration: 0.5 }}
+                          className="bg-white rounded-lg shadow-lg overflow-hidden"
+                        >
+                          <div className="md:flex">
+                            <div className="md:w-1/3">
+                              {article.featuredImage ? (
+                                <img 
+                                  src={article.featuredImage} 
+                                  alt={article.title} 
+                                  className="h-full w-full object-cover"
+                                />
+                              ) : (
+                                <div className="h-full w-full bg-gray-200 flex items-center justify-center">
+                                  <span className="text-gray-400">Pas d'image</span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="p-6 md:w-2/3">
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {article.tags && article.tags.map((tag, index) => (
+                                  <span 
+                                    key={index}
+                                    className="inline-flex items-center text-xs font-medium bg-primary/10 text-primary px-2.5 py-0.5 rounded-full"
+                                  >
+                                    <Tag size={12} className="mr-1" />
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                              <h2 className="text-2xl font-bold text-midnight mb-3">
+                                <Link to={`/blog/${article.slug}`} className="hover:text-primary transition-colors">
+                                  {article.title}
+                                </Link>
+                              </h2>
+                              <p className="text-gray-600 mb-4">{article.excerpt}</p>
+                              <div className="flex flex-wrap items-center text-sm text-gray-500 gap-4 mb-4">
+                                <div className="flex items-center">
+                                  <User size={16} className="mr-1" />
+                                  {article.author}
+                                </div>
+                                <div className="flex items-center">
+                                  <Calendar size={16} className="mr-1" />
+                                  {formatDate(article.publishedAt)}
+                                </div>
+                                <div className="flex items-center">
+                                  <Clock size={16} className="mr-1" />
+                                  {article.readTime} min de lecture
+                                </div>
+                                <div className="flex items-center">
+                                  <Eye size={16} className="mr-1" />
+                                  {article.views} vues
+                                </div>
+                              </div>
+                              <Link 
+                                to={`/blog/${article.slug}`} 
+                                className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors"
+                              >
+                                {t('blog.readMore')}
+                                <ArrowRight size={16} className="ml-2" />
+                              </Link>
+                            </div>
+                          </div>
+                        </motion.article>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+                      <p className="text-gray-600 mb-4">Aucun article ne correspond à votre recherche.</p>
+                      <button
+                        onClick={resetFilters}
+                        className="text-primary font-medium hover:text-primary/80 transition-colors"
+                      >
+                        Réinitialiser les filtres
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Pagination */}
+                  {pagination.totalPages > 1 && (
+                    <div className="mt-12 flex justify-center">
+                      <nav className="inline-flex rounded-md shadow">
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={!pagination.hasPrevPage}
+                          className={`px-4 py-2 text-sm font-medium rounded-l-md border ${
+                            pagination.hasPrevPage
+                              ? 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                              : 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
+                          }`}
+                        >
+                          Précédent
+                        </button>
+                        
+                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(page => (
+                          <button
+                            key={page}
+                            onClick={() => handlePageChange(page)}
+                            className={`px-4 py-2 text-sm font-medium border-t border-b ${
+                              page === currentPage
+                                ? 'bg-primary border-primary text-white'
+                                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                            }`}
+                          >
+                            {page}
+                          </button>
+                        ))}
+                        
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={!pagination.hasNextPage}
+                          className={`px-4 py-2 text-sm font-medium rounded-r-md border ${
+                            pagination.hasNextPage
+                              ? 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                              : 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
+                          }`}
+                        >
+                          Suivant
+                        </button>
+                      </nav>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
@@ -302,45 +442,51 @@ const Blog = () => {
               </div>
 
               {/* Recent Posts */}
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h3 className="text-xl font-bold text-midnight mb-4">{t('blog.recentPosts')}</h3>
-                <div className="space-y-4">
-                  {recentPosts.map(post => (
-                    <div key={post.id} className="flex gap-3">
-                      <img 
-                        src={post.image} 
-                        alt={post.title} 
-                        className="w-20 h-20 object-cover rounded-md flex-shrink-0"
-                      />
-                      <div>
-                        <h4 className="font-medium text-midnight hover:text-primary transition-colors">
-                          <Link to={`/blog/${post.id}`}>
-                            {post.title}
-                          </Link>
-                        </h4>
-                        <p className="text-sm text-gray-500">{post.date}</p>
+              {recentArticles.length > 0 && (
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                  <h3 className="text-xl font-bold text-midnight mb-4">{t('blog.recentPosts')}</h3>
+                  <div className="space-y-4">
+                    {recentArticles.map(article => (
+                      <div key={article.id} className="flex gap-3">
+                        {article.featuredImage && (
+                          <img 
+                            src={article.featuredImage} 
+                            alt={article.title} 
+                            className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                          />
+                        )}
+                        <div>
+                          <h4 className="font-medium text-midnight hover:text-primary transition-colors">
+                            <Link to={`/blog/${article.slug}`}>
+                              {article.title}
+                            </Link>
+                          </h4>
+                          <p className="text-sm text-gray-500">{formatDate(article.publishedAt)}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Tags */}
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-xl font-bold text-midnight mb-4">{t('blog.tags')}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {allTags.map((tag, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSearchQuery(tag)}
-                      className="inline-flex items-center text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
-                    >
-                      <Tag size={14} className="mr-1" />
-                      {tag}
-                    </button>
-                  ))}
+              {allTags.length > 0 && (
+                <div className="bg-white rounded-lg shadow-lg p-6">
+                  <h3 className="text-xl font-bold text-midnight mb-4">{t('blog.tags')}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {allTags.map((tag, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSearchQuery(tag)}
+                        className="inline-flex items-center text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
+                      >
+                        <Tag size={14} className="mr-1" />
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -377,7 +523,7 @@ const Blog = () => {
                 <input
                   type="email"
                   placeholder={t('footer.newsletter.placeholder')}
-                  className="flex-grow px-4 py-3 rounded-md focus:outline-none"
+                  className="flex-grow px-4 py-3 rounded-md focus:outline-none text-gray-900"
                   required
                 />
                 <button

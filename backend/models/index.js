@@ -1,6 +1,7 @@
 const { sequelize } = require('../config/database');
 const Contact = require('./Contact');
 const Project = require('./Project');
+const Article = require('./Article');
 
 // Définir les associations entre les modèles si nécessaire
 // Exemple : Project.belongsTo(User, { foreignKey: 'userId' });
@@ -19,5 +20,6 @@ module.exports = {
   sequelize,
   Contact,
   Project,
+  Article,
   syncDatabase
 };

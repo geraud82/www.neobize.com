@@ -3,7 +3,7 @@
  */
 
 // URL de base de l'API (utilise les variables d'environnement)
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 /**
  * Récupère le token d'authentification stocké
@@ -73,9 +73,41 @@ export const logout = () => {
 
 /**
  * Vérifie si l'utilisateur est authentifié
- * @returns {boolean} - True si l'utilisateur est authentifié, false sinon
+ * @returns {Promise<boolean>} - True si l'utilisateur est authentifié, false sinon
  */
-export const isAuthenticated = () => {
+export const isAuthenticated = async () => {
+  const token = getAuthToken();
+  
+  if (!token) {
+    return false;
+  }
+  
+  try {
+    // Vérifier la validité du token en faisant un appel à une route protégée
+    const response = await fetch(`${API_BASE_URL}/admin/articles/stats`, {
+      headers: addAuthHeader()
+    });
+    
+    if (response.status === 401 || response.status === 403) {
+      // Token invalide ou expiré, le supprimer
+      logout();
+      return false;
+    }
+    
+    return response.ok;
+  } catch (error) {
+    console.error('Erreur lors de la vérification de l\'authentification:', error);
+    // En cas d'erreur réseau, on considère que l'utilisateur n'est pas authentifié
+    logout();
+    return false;
+  }
+};
+
+/**
+ * Vérifie si l'utilisateur a un token (vérification locale uniquement)
+ * @returns {boolean} - True si un token existe, false sinon
+ */
+export const hasToken = () => {
   return !!getAuthToken();
 };
 
@@ -85,16 +117,37 @@ export const isAuthenticated = () => {
  */
 export const getPublishedPosts = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/blog/posts`);
+    const response = await fetch(`${API_BASE_URL}/articles`);
     const data = await response.json();
     
     if (!response.ok) {
       throw new Error(data.message || 'Erreur lors de la récupération des articles');
     }
     
-    return data.data;
+    return data.data.articles;
   } catch (error) {
     console.error('Erreur lors de la récupération des articles:', error);
+    throw error;
+  }
+};
+
+/**
+ * Récupère un article par son slug
+ * @param {string} slug - Slug de l'article
+ * @returns {Promise} - Promesse contenant la réponse de l'API
+ */
+export const getArticleBySlug = async (slug) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/articles/${slug}`);
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Article non trouvé');
+    }
+    
+    return data.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'article:', error);
     throw error;
   }
 };
@@ -105,7 +158,7 @@ export const getPublishedPosts = async () => {
  */
 export const getAllPosts = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/admin/posts`, {
+    const response = await fetch(`${API_BASE_URL}/admin/articles`, {
       headers: addAuthHeader()
     });
     
@@ -115,7 +168,7 @@ export const getAllPosts = async () => {
       throw new Error(data.message || 'Erreur lors de la récupération des articles');
     }
     
-    return data.data;
+    return data.data.articles;
   } catch (error) {
     console.error('Erreur lors de la récupération des articles:', error);
     throw error;
@@ -129,7 +182,7 @@ export const getAllPosts = async () => {
  */
 export const createPost = async (postData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/admin/posts`, {
+    const response = await fetch(`${API_BASE_URL}/admin/articles`, {
       method: 'POST',
       headers: addAuthHeader({
         'Content-Type': 'application/json',
@@ -158,7 +211,7 @@ export const createPost = async (postData) => {
  */
 export const updatePost = async (postId, postData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/admin/posts/${postId}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/articles/${postId}`, {
       method: 'PUT',
       headers: addAuthHeader({
         'Content-Type': 'application/json',
@@ -186,7 +239,7 @@ export const updatePost = async (postId, postData) => {
  */
 export const deletePost = async (postId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/admin/posts/${postId}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/articles/${postId}`, {
       method: 'DELETE',
       headers: addAuthHeader()
     });
@@ -200,6 +253,56 @@ export const deletePost = async (postId) => {
     return data;
   } catch (error) {
     console.error('Erreur lors de la suppression de l\'article:', error);
+    throw error;
+  }
+};
+
+/**
+ * Publie un article
+ * @param {number} postId - ID de l'article à publier
+ * @returns {Promise} - Promesse contenant la réponse de l'API
+ */
+export const publishPost = async (postId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/admin/articles/${postId}/publish`, {
+      method: 'PATCH',
+      headers: addAuthHeader()
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Erreur lors de la publication de l\'article');
+    }
+    
+    return data.data;
+  } catch (error) {
+    console.error('Erreur lors de la publication de l\'article:', error);
+    throw error;
+  }
+};
+
+/**
+ * Dépublie un article
+ * @param {number} postId - ID de l'article à dépublier
+ * @returns {Promise} - Promesse contenant la réponse de l'API
+ */
+export const unpublishPost = async (postId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/admin/articles/${postId}/unpublish`, {
+      method: 'PATCH',
+      headers: addAuthHeader()
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Erreur lors de la dépublication de l\'article');
+    }
+    
+    return data.data;
+  } catch (error) {
+    console.error('Erreur lors de la dépublication de l\'article:', error);
     throw error;
   }
 };
@@ -410,5 +513,106 @@ export const subscribeToNewsletter = async (email) => {
   } catch (error) {
     console.error('Erreur lors de l\'abonnement à la newsletter:', error);
     throw error;
+  }
+};
+
+/**
+ * Objet API avec toutes les méthodes HTTP de base
+ * Les routes publiques n'utilisent pas d'authentification
+ */
+export const api = {
+  get: async (endpoint, requireAuth = false) => {
+    try {
+      const headers = requireAuth ? addAuthHeader() : {};
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        headers
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur lors de la requête GET');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Erreur lors de la requête GET:', error);
+      throw error;
+    }
+  },
+
+  post: async (endpoint, body, requireAuth = true) => {
+    try {
+      const headers = requireAuth ? addAuthHeader({
+        'Content-Type': 'application/json',
+      }) : {
+        'Content-Type': 'application/json',
+      };
+      
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur lors de la requête POST');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Erreur lors de la requête POST:', error);
+      throw error;
+    }
+  },
+
+  put: async (endpoint, body, requireAuth = true) => {
+    try {
+      const headers = requireAuth ? addAuthHeader({
+        'Content-Type': 'application/json',
+      }) : {
+        'Content-Type': 'application/json',
+      };
+      
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(body),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur lors de la requête PUT');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Erreur lors de la requête PUT:', error);
+      throw error;
+    }
+  },
+
+  delete: async (endpoint, requireAuth = true) => {
+    try {
+      const headers = requireAuth ? addAuthHeader() : {};
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Erreur lors de la requête DELETE');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Erreur lors de la requête DELETE:', error);
+      throw error;
+    }
   }
 };

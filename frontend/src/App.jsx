@@ -9,6 +9,9 @@ export const LanguageContext = createContext()
 // Layouts
 import Layout from './layouts/Layout'
 
+// Components
+import ProtectedRoute from './components/ProtectedRoute'
+
 // Pages
 import Home from './pages/Home'
 import Services from './pages/Services'
@@ -17,7 +20,9 @@ import Projects from './pages/Projects'
 import ProjectDetail from './pages/ProjectDetail'
 import Contact from './pages/Contact'
 import Blog from './pages/Blog'
-import Admin from './pages/Admin'
+import BlogDetail from './pages/BlogDetail'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminLogin from './pages/AdminLogin'
 import Settings from './pages/Settings'
 import NotFound from './pages/NotFound'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -67,13 +72,23 @@ function App() {
           <Route path="projects/:id" element={<ProjectDetail />} />
           <Route path="contact" element={<Contact />} />
           <Route path="blog" element={<Blog />} />
+          <Route path="blog/:slug" element={<BlogDetail />} />
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-service" element={<TermsOfService />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         {/* Admin routes outside of the main layout */}
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/settings" element={<Settings />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/settings" element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        } />
         </Routes>
       </AnimatePresence>
     </LanguageContext.Provider>
