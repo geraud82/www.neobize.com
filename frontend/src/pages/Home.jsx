@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -26,6 +27,25 @@ const staggerContainer = {
 
 const Home = () => {
   const { t } = useTranslation()
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    if (apiUrl) {
+      fetch(`${apiUrl}/api/hello`)
+        .then(res => {
+          if (res.ok && res.headers.get('content-type')?.includes('application/json')) {
+            return res.json();
+          } else {
+            throw new Error('API response is not JSON');
+          }
+        })
+        .then(data => console.log('Réponse API:', data))
+        .catch(err => console.error('Erreur API:', err));
+    } else {
+      console.log('VITE_API_URL not defined');
+    }
+  }, []);
 
   // Services data
   const services = [
@@ -98,7 +118,6 @@ const Home = () => {
 
   // Partners data
   const partners = [
-  
     {
       id: 2,
       name: 'LogiTrans',

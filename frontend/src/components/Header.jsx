@@ -80,7 +80,7 @@ const Header = () => {
           <span className="tracking-wider">EOBIZE</span>
         </Link>
 
-        <div className="hidden md:flex items-center">
+        <div className="hidden lg:flex items-center">
           {/* Desktop Navigation */}
           <nav className="flex items-center space-x-1">
             {navLinks.map((link) => (
@@ -155,7 +155,7 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="menu-button md:hidden text-white p-2 rounded-md hover:bg-white/10 transition-colors"
+          className="menu-button lg:hidden text-white p-2 rounded-md hover:bg-white/10 transition-colors"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -171,7 +171,7 @@ const Header = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="mobile-menu md:hidden bg-midnight/95 backdrop-blur-lg border-t border-white/10"
+            className="mobile-menu lg:hidden bg-midnight/95 backdrop-blur-lg border-t border-white/10"
           >
             <div className="container mx-auto px-4 py-6 flex flex-col space-y-5">
               {navLinks.map((link, index) => (

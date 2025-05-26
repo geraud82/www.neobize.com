@@ -8,6 +8,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+// Importer la configuration de la base de données et les modèles
+const { testConnection } = require('./config/database');
+const { syncDatabase } = require('./models');
+
+// Importer les routes
+const contactRoutes = require('./routes/contactRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+
 // Charger les variables d'environnement
 dotenv.config();
 
@@ -110,10 +118,40 @@ let blogPosts = [
   }
 ];
 
-// Routes
+// Initialiser la base de données
+const initializeDatabase = async () => {
+  try {
+    await testConnection();
+    await syncDatabase();
+    console.log('🚀 Base de données PostgreSQL initialisée avec succès');
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'initialisation de la base de données:', error);
+    process.exit(1);
+  }
+};
+
+// Routes principales
 app.get('/', (req, res) => {
-  res.send('API NEOBIZE est en ligne !');
+  res.json({
+    message: 'API NEOBIZE est en ligne !',
+    version: '2.0.0',
+    database: 'PostgreSQL',
+    timestamp: new Date().toISOString()
+  });
 });
+
+// Route de test simple
+app.get('/api/hello', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Hello from NEOBIZE API!',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Utiliser les routes
+app.use('/api/contacts', contactRoutes);
+app.use('/api/projects', projectRoutes);
 
 // Route d'authentification
 app.post('/api/auth/login', (req, res) => {
@@ -394,53 +432,6 @@ app.delete('/api/admin/posts/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Route pour le formulaire de contact
-app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, subject, message } = req.body;
-
-  if (!name || !email || !subject || !message) {
-    return res.status(400).json({ success: false, message: 'Tous les champs obligatoires doivent être remplis.' });
-  }
-
-  try {
-    // Configuration de Nodemailer (en production, utilisez des variables d'environnement)
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER || 'votre-email@gmail.com',
-        pass: process.env.EMAIL_PASS || 'votre-mot-de-passe'
-      }
-    });
-
-    // Options de l'email
-    const mailOptions = {
-      from: `"Site NEOBIZE" <${process.env.EMAIL_USER || 'votre-email@gmail.com'}>`,
-      to: process.env.EMAIL_RECIPIENT || 'contact@neobize.com',
-      subject: `Nouveau message de contact: ${subject}`,
-      html: `
-        <h2>Nouveau message de contact</h2>
-        <p><strong>Nom:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Téléphone:</strong> ${phone || 'Non renseigné'}</p>
-        <p><strong>Sujet:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `
-    };
-
-    // Envoyer l'email (commenté pour éviter l'envoi réel pendant le développement)
-    // await transporter.sendMail(mailOptions);
-
-    // Simuler un délai pour le développement
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    res.status(200).json({ success: true, message: 'Votre message a été envoyé avec succès. Nous vous contacterons bientôt.' });
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'email:', error);
-    res.status(500).json({ success: false, message: 'Une erreur s\'est produite lors de l\'envoi de votre message. Veuillez réessayer.' });
-  }
-});
-
 // Configuration de multer pour le téléchargement d'images
 const uploadDir = path.join(__dirname, 'uploads');
 
@@ -511,7 +502,29 @@ app.post('/api/admin/upload', authenticateToken, upload.single('image'), (req, r
   }
 });
 
-// Démarrer le serveur
-app.listen(PORT, () => {
-  console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
+// Gestionnaire d'erreurs global
+app.use((error, req, res, next) => {
+  console.error('Erreur non gérée:', error);
+  res.status(500).json({
+    success: false,
+    message: 'Erreur interne du serveur'
+  });
 });
+
+// Démarrer le serveur
+const startServer = async () => {
+  try {
+    await initializeDatabase();
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 Serveur NEOBIZE en cours d'exécution sur le port ${PORT}`);
+      console.log(`📊 Base de données: PostgreSQL`);
+      console.log(`🌐 API disponible sur: http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('❌ Erreur lors du démarrage du serveur:', error);
+    process.exit(1);
+  }
+};
+
+startServer();

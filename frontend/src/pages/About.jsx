@@ -68,46 +68,95 @@ const About = () => {
       />
 
       {/* History Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={staggerContainer}
+              className="space-y-8"
             >
-              <motion.div variants={fadeIn} className="mb-6">
-                <History size={48} className="text-primary" />
+              <motion.div variants={fadeIn} className="flex items-center space-x-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                  <History size={32} className="text-white" />
+                </div>
+                <div className="h-px bg-gradient-to-r from-primary to-transparent flex-1"></div>
               </motion.div>
               
               <motion.h2 
                 variants={fadeIn}
-                className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-midnight via-gray-800 to-primary bg-clip-text text-transparent leading-tight"
               >
                 {t('about.history.title')}
               </motion.h2>
               
-              <motion.p 
+              <motion.div 
                 variants={fadeIn}
-                className="text-gray-600"
+                className="space-y-6"
               >
-                {t('about.history.description')}
-              </motion.p>
+                <div className="w-20 h-1 bg-gradient-to-r from-primary to-blue-600 rounded-full"></div>
+                <p className="text-lg text-gray-700 leading-relaxed font-light">
+                  {t('about.history.description')}
+                </p>
+              </motion.div>
+
+              <motion.div 
+                variants={fadeIn}
+                className="flex items-center space-x-8 pt-6"
+              >
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-primary">2012</div>
+                  <div className="text-sm text-gray-600 font-medium">Fondée</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-primary">10+</div>
+                  <div className="text-sm text-gray-600 font-medium">Années</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-primary">59+</div>
+                  <div className="text-sm text-gray-600 font-medium">Projets</div>
+                </div>
+              </motion.div>
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.9, rotateY: 15 }}
+              whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative"
             >
-              <div className="rounded-lg overflow-hidden shadow-xl">
-                <img 
-                  src="/images/entrepro.jpeg" 
-                  alt="NEOBIZE History" 
-                  className="w-full h-70 object-cover"
-                />
+              <div className="relative group">
+                {/* Decorative background */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-blue-600/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500"></div>
+                
+                {/* Main image container */}
+                <div className="relative bg-white p-3 rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500">
+                  <div className="rounded-2xl overflow-hidden">
+                    <img 
+                      src="/images/team.jpeg" 
+                      alt="NEOBIZE History" 
+                      className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  
+                  {/* Floating badge */}
+                  <div className="absolute -top-4 -right-4 bg-gradient-to-r from-primary to-blue-600 text-white px-6 py-3 rounded-2xl shadow-lg">
+                    <div className="text-sm font-semibold">Excellence</div>
+                    <div className="text-xs opacity-90">Depuis 2012</div>
+                  </div>
+                </div>
+
+                {/* Additional decorative elements */}
+                <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full opacity-20 blur-xl"></div>
+                <div className="absolute -top-8 -left-8 w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-full opacity-30 blur-lg"></div>
               </div>
             </motion.div>
           </div>
