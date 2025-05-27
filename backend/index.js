@@ -22,25 +22,32 @@ const adminRoutes = require('./routes/adminRoutes');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5003;
 
 // Middleware
-app.use(cors({
-  origin: [
-    'https://www.neobize.com', 
-    'https://neobize.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:3002',
-    'http://localhost:3003',
-    'http://localhost:3004',
-    'http://localhost:5173',
-    'http://localhost:4173',
-    'http://127.0.0.1:5173'
-  ],
+const whitelist = [
+  'http://localhost:3000',
+  'https://www.neobize.com',
+  'https://neobize.com',
+  'https://neobize.vercel.app'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // si tu utilises des cookies / headers auth
-}));
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
+// Middleware pour parser le corps des requêtes
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
