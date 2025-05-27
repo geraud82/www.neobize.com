@@ -50,7 +50,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'neobize-secret-key';
 // Informations d'authentification (à remplacer par une base de données en production)
 let authCredentials = {
   username: 'admin',
-  password: 'password'
+  password: 'admin123'
 };
 
 // Middleware d'authentification
@@ -307,11 +307,24 @@ const startServer = async () => {
   try {
     await initializeDatabase();
     
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`🚀 Serveur NEOBIZE en cours d'exécution sur le port ${PORT}`);
       console.log(`📊 Base de données: PostgreSQL`);
       console.log(`🌐 API disponible sur: http://localhost:${PORT}`);
     });
+
+    // Gérer les erreurs du serveur (port déjà utilisé, etc.)
+    server.on('error', (error) => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`❌ Erreur: Le port ${PORT} est déjà utilisé`);
+        console.log(`💡 Suggestion: Essayez un autre port ou arrêtez le processus utilisant le port ${PORT}`);
+        console.log(`💡 Pour trouver le processus: netstat -ano | findstr :${PORT}`);
+      } else {
+        console.error('❌ Erreur du serveur:', error);
+      }
+      process.exit(1);
+    });
+    
   } catch (error) {
     console.error('❌ Erreur lors du démarrage du serveur:', error);
     process.exit(1);
