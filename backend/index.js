@@ -26,7 +26,6 @@ const PORT = process.env.PORT || 5003;
 
 // Middleware
 const whitelist = [
-  'http://localhost:3000',
   'https://www.neobize.com',
   'https://neobize.com',
   'https://neobize.vercel.app'
