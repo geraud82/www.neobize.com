@@ -3,7 +3,7 @@
  */
 
 // URL de base de l'API (utilise les variables d'environnement)
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5003/api';
 
 /**
  * Récupère le token d'authentification stocké
