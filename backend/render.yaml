@@ -2,20 +2,23 @@ services:
   - type: web
     name: neobize-backend
     env: node
-    buildCommand: npm install
-    startCommand: npm start
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "npm install"
+    startCommand: "npm run start"
     envVars:
-      - key: PORT
-        value: 10000
       - key: NODE_ENV
         value: production
+      - key: DB_HOST
+        value: your-db-host.render.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        value: your-db-name
+      - key: DB_USER
+        value: your-db-user
+      - key: DB_PASSWORD
+        value: your-db-password
       - key: JWT_SECRET
-        sync: false
-      - key: EMAIL_USER
-        sync: false
-      - key: EMAIL_PASS
-        sync: false
-      - key: EMAIL_RECIPIENT
-        sync: false
-    healthCheckPath: /
-    autoDeploy: true
+        value: your-secret-jwt-key
