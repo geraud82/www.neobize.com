@@ -467,7 +467,7 @@ export const updateCredentials = async (credentials) => {
  */
 export const sendContactForm = async (formData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/contact`, {
+    const response = await fetch(`${API_BASE_URL}/contacts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
