@@ -8,7 +8,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Importation de la base de données et des routes
 const { testConnection } = require('./config/database');
 const { syncDatabase } = require('./models');
 
@@ -17,7 +16,6 @@ const projectRoutes = require('./routes/projectRoutes');
 const articleRoutes = require('./routes/articleRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
-// Configuration environnement
 dotenv.config();
 
 const app = express();
@@ -47,8 +45,9 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Authentification
+// JWT Auth
 const JWT_SECRET = process.env.JWT_SECRET || 'neobize-secret-key';
+
 let authCredentials = {
   username: 'admin',
   password: 'admin123'
@@ -57,9 +56,8 @@ let authCredentials = {
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Accès non autorisé' });
-  }
+  if (!token) return res.status(401).json({ success: false, message: 'Accès non autorisé' });
+
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ success: false, message: 'Token invalide ou expiré' });
     req.user = user;
@@ -67,7 +65,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Initialisation DB
+// DB
 const initializeDatabase = async () => {
   try {
     await testConnection();
@@ -79,22 +77,23 @@ const initializeDatabase = async () => {
   }
 };
 
-// Routes API de base
+// Accueil
 app.get('/', (req, res) => {
   res.json({ message: 'API NEOBIZE en ligne', version: '2.0.0', database: 'PostgreSQL', timestamp: new Date().toISOString() });
 });
 
+// Test API
 app.get('/api/hello', (req, res) => {
   res.json({ success: true, message: 'Hello from NEOBIZE API!', timestamp: new Date().toISOString() });
 });
 
-// Routes principales
+// Routes
 app.use('/api/contacts', contactRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Authentification login
+// Authentification
 app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
   if (username === authCredentials.username && password === authCredentials.password) {
@@ -104,7 +103,7 @@ app.post('/api/auth/login', (req, res) => {
   res.status(401).json({ success: false, message: 'Nom d\'utilisateur ou mot de passe incorrect' });
 });
 
-// Blog vers articles
+// Articles via blog
 app.get('/api/blog/posts', (req, res) => res.redirect('/api/articles'));
 
 // Catégories statiques
@@ -119,7 +118,7 @@ app.get('/api/categories', (req, res) => {
   res.status(200).json({ success: true, data: categories });
 });
 
-// Routes protégées admin
+// Routes admin - catégories
 app.get('/api/admin/categories', authenticateToken, (req, res) => {
   res.status(200).json({ success: true, data: categories });
 });
@@ -142,6 +141,16 @@ app.post('/api/admin/categories', authenticateToken, (req, res) => {
   }
 });
 
+app.delete('/api/admin/categories/:id', authenticateToken, (req, res) => {
+  const { id } = req.params;
+  const index = categories.findIndex(cat => cat.id === id);
+  if (index === -1) {
+    return res.status(404).json({ success: false, message: 'Catégorie non trouvée' });
+  }
+  const removed = categories.splice(index, 1)[0];
+  res.status(200).json({ success: true, message: 'Catégorie supprimée avec succès', data: removed });
+});
+
 // Modifier identifiants admin
 app.put('/api/admin/credentials', authenticateToken, (req, res) => {
   const { username, currentPassword, newPassword } = req.body;
@@ -154,7 +163,7 @@ app.put('/api/admin/credentials', authenticateToken, (req, res) => {
   res.status(200).json({ success: true, message: 'Identifiants mis à jour avec succès' });
 });
 
-// Upload image avec multer
+// Upload images
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
@@ -178,13 +187,13 @@ app.post('/api/admin/upload', authenticateToken, upload.single('image'), (req, r
   }
 });
 
-// Gestion erreurs globales
+// Erreurs globales
 app.use((error, req, res, next) => {
   console.error('Erreur non gérée:', error);
   res.status(500).json({ success: false, message: 'Erreur interne du serveur' });
 });
 
-// Lancer serveur
+// Lancer le serveur
 const startServer = async () => {
   try {
     await initializeDatabase();
