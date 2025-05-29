@@ -125,70 +125,56 @@ const Article = sequelize.define('Article', {
   tableName: 'articles',
   timestamps: true,
   indexes: [
-    {
-      fields: ['slug']
-    },
-    {
-      fields: ['status']
-    },
-    {
-      fields: ['category']
-    },
-    {
-      fields: ['publishedAt']
-    },
-    {
-      fields: ['featured']
-    }
+    { fields: ['slug'] },
+    { fields: ['status'] },
+    { fields: ['category'] },
+    { fields: ['publishedAt'] },
+    { fields: ['featured'] }
   ],
   hooks: {
     beforeCreate: (article) => {
-      // Auto-generate slug if not provided
+      // ✅ Corrigé : génération du slug
       if (!article.slug && article.title) {
         article.slug = article.title
           .toLowerCase()
           .replace(/[^a-z0-9\s-]/g, '')
           .replace(/\s+/g, '-')
           .replace(/-+/g, '-')
-          .trim('-');
+          .replace(/^-+|-+$/g, ''); // ✅ correction ici
       }
-      
-      // Auto-calculate read time based on content length
+
+      // Temps de lecture
       if (article.content && !article.readTime) {
         const wordsPerMinute = 200;
         const wordCount = article.content.split(/\s+/).length;
         article.readTime = Math.ceil(wordCount / wordsPerMinute);
       }
-      
-      // Set publishedAt if status is published and publishedAt is not set
+
+      // Date de publication
       if (article.status === 'published' && !article.publishedAt) {
         article.publishedAt = new Date();
       }
     },
     beforeUpdate: (article) => {
-      // Update slug if title changed
       if (article.changed('title') && article.title) {
         article.slug = article.title
           .toLowerCase()
           .replace(/[^a-z0-9\s-]/g, '')
           .replace(/\s+/g, '-')
           .replace(/-+/g, '-')
-          .trim('-');
+          .replace(/^-+|-+$/g, '');
       }
-      
-      // Recalculate read time if content changed
+
       if (article.changed('content') && article.content) {
         const wordsPerMinute = 200;
         const wordCount = article.content.split(/\s+/).length;
         article.readTime = Math.ceil(wordCount / wordsPerMinute);
       }
-      
-      // Set publishedAt when status changes to published
+
       if (article.changed('status') && article.status === 'published' && !article.publishedAt) {
         article.publishedAt = new Date();
       }
-      
-      // Clear publishedAt when status changes from published
+
       if (article.changed('status') && article.status !== 'published') {
         article.publishedAt = null;
       }
@@ -196,17 +182,16 @@ const Article = sequelize.define('Article', {
   }
 });
 
-// Instance methods
-Article.prototype.incrementViews = function() {
+// Méthodes personnalisées
+Article.prototype.incrementViews = function () {
   return this.increment('views');
 };
 
-Article.prototype.isPublished = function() {
+Article.prototype.isPublished = function () {
   return this.status === 'published' && this.publishedAt && this.publishedAt <= new Date();
 };
 
-// Class methods
-Article.getPublished = function(options = {}) {
+Article.getPublished = function (options = {}) {
   return this.findAll({
     where: {
       status: 'published',
@@ -219,7 +204,7 @@ Article.getPublished = function(options = {}) {
   });
 };
 
-Article.getFeatured = function(limit = 3) {
+Article.getFeatured = function (limit = 3) {
   return this.findAll({
     where: {
       status: 'published',
@@ -233,7 +218,7 @@ Article.getFeatured = function(limit = 3) {
   });
 };
 
-Article.getByCategory = function(category, options = {}) {
+Article.getByCategory = function (category, options = {}) {
   return this.findAll({
     where: {
       status: 'published',
@@ -247,7 +232,7 @@ Article.getByCategory = function(category, options = {}) {
   });
 };
 
-Article.search = function(query, options = {}) {
+Article.search = function (query, options = {}) {
   const { Op } = require('sequelize');
   return this.findAll({
     where: {
