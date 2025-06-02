@@ -30,7 +30,7 @@ const whitelist = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || whitelist.includes(origin)) {
+    if (!origin || whitelist.includes(origin) || (origin && origin.startsWith('http://localhost'))) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

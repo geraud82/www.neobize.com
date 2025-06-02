@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Calendar, User, Tag, Clock, Eye, Share2, Facebook, Twitter, Linkedin, Copy, CheckCircle } from 'lucide-react'
+import { marked } from 'marked'
 import { getArticleBySlug, getPublishedPosts } from '../services/api'
 
 // Animation variants
@@ -279,7 +280,7 @@ const BlogDetail = () => {
               >
                 <motion.div 
                   variants={fadeIn}
-                  dangerouslySetInnerHTML={{ __html: article.content }}
+                  dangerouslySetInnerHTML={{ __html: marked(article.content) }}
                 />
               </motion.div>
 
