@@ -19,7 +19,8 @@ const adminRoutes = require('./routes/adminRoutes');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5003;
+const PORT = process.env.PORT || 5001
+;
 
 // CORS
 const whitelist = [

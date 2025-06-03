@@ -1,50 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-  Save, 
-  Trash2, 
-  Edit, 
-  Plus, 
-  LogOut, 
-  Eye, 
-  Calendar, 
-  Clock, 
-  Tag, 
-  User,
-  Check,
-  X,
-  Settings as SettingsIcon,
-  LayoutDashboard,
-  FileText,
-  Menu,
-  ChevronDown,
-  Search,
-  Filter,
-  Bell,
-  BarChart2,
-  TrendingUp,
-  MessageSquare,
-  Calendar as CalendarIcon,
-  ArrowDownRight,
-  Users,
-  ArrowLeft,
-  Upload,
-  Globe,
-  EyeOff,
-  Type,
-  Image,
-  Palette
+import {
+  Save, Trash2, Edit, Plus, LogOut, Eye, Calendar, Clock, Tag, User,
+  Check, X, Settings as SettingsIcon, LayoutDashboard, FileText, Menu,
+  ChevronDown, Search, Filter, Bell, BarChart2, TrendingUp, MessageSquare,
+  Calendar as CalendarIcon, ArrowDownRight, Users, ArrowLeft, Upload, Globe,
+  EyeOff, Type, Image, Palette, RefreshCw, Download, Share2, BookOpen,
+  Activity, Zap, Star, Heart, ChevronRight, MoreVertical, Copy, ExternalLink
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { 
-  logout, 
-  getAllPosts, 
-  createPost, 
-  updatePost, 
-  deletePost,
-  publishPost,
-  unpublishPost,
-  uploadImage
+import {
+  logout, getAllPosts, createPost, updatePost, deletePost,
+  publishPost, unpublishPost, uploadImage
 } from '../services/api'
 import RichTextEditor from '../components/RichTextEditor'
 import ArticlePreview from '../components/ArticlePreview'
@@ -52,8 +19,7 @@ import ArticlePreview from '../components/ArticlePreview'
 const AdminDashboard = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  
-  // UI state
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('dashboard')
   const [searchQuery, setSearchQuery] = useState('')
@@ -61,8 +27,7 @@ const AdminDashboard = () => {
   const [filterCategory, setFilterCategory] = useState('all')
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortOrder, setSortOrder] = useState('desc')
-  
-  // Blog posts state
+  const [viewMode, setViewMode] = useState('grid')
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [currentPost, setCurrentPost] = useState(null)
@@ -71,714 +36,145 @@ const AdminDashboard = () => {
   const [saveSuccess, setSaveSuccess] = useState(false)
   const [saveError, setSaveError] = useState('')
   const [isUploading, setIsUploading] = useState(false)
-  
-  // Form state for new/edit post
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
   const [formData, setFormData] = useState({
-    title: '',
-    excerpt: '',
-    content: '',
-    category: 'web-dev',
-    author: '',
-    featuredImage: '',
-    tags: '',
-    status: 'draft'
+    title: '', excerpt: '', content: '', category: 'web-dev',
+    author: '', featuredImage: '', tags: '', status: 'draft'
   })
-  
-  // Categories options
+
   const categories = [
-    { value: 'web-dev', label: 'Développement Web' },
-    { value: 'transport', label: 'Transport' },
-    { value: 'construction', label: 'Construction' },
-    { value: 'general', label: 'Général' }
+    { value: 'web-dev', label: 'Développement Web', color: 'bg-blue-100 text-blue-800', icon: '💻' },
+    { value: 'transport', label: 'Transport', color: 'bg-green-100 text-green-800', icon: '🚛' },
+    { value: 'construction', label: 'Construction', color: 'bg-orange-100 text-orange-800', icon: '🏗️' },
+    { value: 'general', label: 'Général', color: 'bg-gray-100 text-gray-800', icon: '📝' }
   ]
-  
-  // Dashboard stats
+
   const stats = [
-    { 
-      title: 'Articles publiés', 
-      value: posts.filter(post => post.status === 'published').length,
-      icon: <FileText className="text-blue-500" />,
-      change: '+12%',
-      trend: 'up'
-    },
-    { 
-      title: 'Brouillons', 
-      value: posts.filter(post => post.status === 'draft').length,
-      icon: <Edit className="text-amber-500" />,
-      change: '+5%',
-      trend: 'up'
-    },
-    { 
-      title: 'Vues totales', 
-      value: posts.reduce((total, post) => total + (post.views || 0), 0),
-      icon: <Eye className="text-green-500" />,
-      change: '+18%',
-      trend: 'up'
-    },
-    { 
-      title: 'Total articles', 
-      value: posts.length,
-      icon: <MessageSquare className="text-purple-500" />,
-      change: '+3%',
-      trend: 'up'
-    }
+    { title: 'Articles publiés', value: posts.filter(p => p.status === 'published').length,
+      icon: <Globe className="text-emerald-500" />, change: '+12%', trend: 'up',
+      color: 'bg-emerald-50 border-emerald-200', description: 'Articles visibles publiquement' },
+    { title: 'Brouillons', value: posts.filter(p => p.status === 'draft').length,
+      icon: <Edit className="text-amber-500" />, change: '+5%', trend: 'up',
+      color: 'bg-amber-50 border-amber-200', description: 'Articles en cours de rédaction' },
+    { title: 'Vues totales', value: posts.reduce((total, p) => total + (p.views || 0), 0),
+      icon: <Eye className="text-blue-500" />, change: '+18%', trend: 'up',
+      color: 'bg-blue-50 border-blue-200', description: 'Nombre total de vues' },
+    { title: 'Total articles', value: posts.length,
+      icon: <BookOpen className="text-purple-500" />, change: '+3%', trend: 'up',
+      color: 'bg-purple-50 border-purple-200', description: 'Tous les articles créés' }
   ]
-  
-  // Logout function
+
+  const recentActivity = [
+    { type: 'create', title: 'Nouvel article créé', time: '2 min', icon: <Plus className="text-green-500" /> },
+    { type: 'edit', title: 'Article modifié', time: '15 min', icon: <Edit className="text-blue-500" /> },
+    { type: 'publish', title: 'Article publié', time: '1h', icon: <Globe className="text-emerald-500" /> },
+    { type: 'view', title: '50 nouvelles vues', time: '2h', icon: <Eye className="text-purple-500" /> }
+  ]
+
   const handleLogout = () => {
     logout()
     navigate('/admin/login')
   }
-  
-  // Fetch posts from API
-  const fetchPosts = async () => {
-    setIsLoading(true)
-    
+
+  const fetchPosts = async (showRefresh = false) => {
+    showRefresh ? setIsRefreshing(true) : setIsLoading(true)
     try {
-      const postsData = await getAllPosts()
-      setPosts(postsData || [])
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données:', error)
+      const data = await getAllPosts()
+      setPosts(data || [])
+    } catch (e) {
+      console.error('Erreur API:', e)
       setPosts([])
     } finally {
       setIsLoading(false)
+      setIsRefreshing(false)
     }
   }
-  
-  // Create new post form
-  const createNewPost = () => {
-    setCurrentPost(null)
-    setFormData({
-      title: '',
-      excerpt: '',
-      content: '',
-      category: 'web-dev',
-      author: '',
-      featuredImage: '',
-      tags: '',
-      status: 'draft'
-    })
-    setIsEditing(true)
-    setShowPreview(false)
-    setActiveSection('articles')
-    setSidebarOpen(false)
-  }
-  
-  // Edit post
+
   const editPost = (post) => {
     setCurrentPost(post)
     setFormData({
-      title: post.title || '',
-      excerpt: post.excerpt || '',
-      content: post.content || '',
-      category: post.category || 'web-dev',
-      author: post.author || '',
-      featuredImage: post.featuredImage || '',
-      tags: Array.isArray(post.tags) ? post.tags.join(', ') : '',
+      title: post.title || '', excerpt: post.excerpt || '', content: post.content || '',
+      category: post.category || 'web-dev', author: post.author || '',
+      featuredImage: post.featuredImage || '', tags: Array.isArray(post.tags) ? post.tags.join(', ') : '',
       status: post.status || 'draft'
     })
     setIsEditing(true)
     setShowPreview(false)
     setActiveSection('articles')
-    setSidebarOpen(false)
-  }
-  
-  // Delete post
-  const handleDeletePost = async (postId) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
-      try {
-        await deletePost(postId)
-        setPosts(posts.filter(post => post.id !== postId))
-        
-        if (currentPost && currentPost.id === postId) {
-          setCurrentPost(null)
-          setIsEditing(false)
-        }
-      } catch (error) {
-        console.error('Erreur lors de la suppression de l\'article:', error)
-        alert('Erreur lors de la suppression de l\'article: ' + error.message)
-      }
-    }
-  }
-  
-  // Toggle publish status
-  const togglePublishStatus = async (post) => {
-    try {
-      let updatedPost
-      if (post.status === 'published') {
-        updatedPost = await unpublishPost(post.id)
-      } else {
-        updatedPost = await publishPost(post.id)
-      }
-      
-      setPosts(posts.map(p => p.id === post.id ? updatedPost : p))
-      
-      if (currentPost && currentPost.id === post.id) {
-        setCurrentPost(updatedPost)
-        setFormData(prev => ({ ...prev, status: updatedPost.status }))
-      }
-    } catch (error) {
-      console.error('Erreur lors du changement de statut:', error)
-      alert('Erreur lors du changement de statut: ' + error.message)
-    }
-  }
-  
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
-    })
   }
 
-  // Handle content change from rich text editor
-  const handleContentChange = (content) => {
-    setFormData({ ...formData, content })
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
   }
-  
-  // Handle image upload
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    
-    setIsUploading(true)
-    try {
-      const imageUrl = await uploadImage(file)
-      setFormData({ ...formData, featuredImage: imageUrl })
-    } catch (error) {
-      console.error('Erreur lors du téléchargement de l\'image:', error)
-      alert('Erreur lors du téléchargement de l\'image: ' + error.message)
-    } finally {
-      setIsUploading(false)
-    }
-  }
-  
-  // Save post
+
+  const handleContentChange = (c) => setFormData(prev => ({ ...prev, content: c }))
+
   const savePost = async (e) => {
     e.preventDefault()
     setSaveSuccess(false)
     setSaveError('')
-    
-    // Validate form
     if (!formData.title || !formData.excerpt || !formData.content || !formData.author) {
       setSaveError('Veuillez remplir tous les champs obligatoires')
       return
     }
-    
-    // Process tags
-    const tagsArray = formData.tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag !== '')
-    
-    // Create post object
-    const postData = {
-      title: formData.title,
-      excerpt: formData.excerpt,
-      content: formData.content,
-      category: formData.category,
-      author: formData.author,
-      featuredImage: formData.featuredImage,
-      tags: tagsArray,
-      status: formData.status
-    }
-    
+    const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+    const data = { ...formData, tags: tagsArray }
     try {
       if (currentPost) {
-        // Update existing post
-        const updatedPost = await updatePost(currentPost.id, postData)
-        setPosts(posts.map(post => post.id === currentPost.id ? updatedPost : post))
-        setCurrentPost(updatedPost)
+        const updated = await updatePost(currentPost.id, data)
+        setPosts(posts.map(p => p.id === currentPost.id ? updated : p))
       } else {
-        // Create new post
-        const newPost = await createPost(postData)
-        setPosts([newPost, ...posts])
-        setCurrentPost(newPost)
+        const created = await createPost(data)
+        setPosts([created, ...posts])
       }
-      
       setSaveSuccess(true)
       setTimeout(() => setSaveSuccess(false), 3000)
-    } catch (error) {
-      console.error('Erreur lors de l\'enregistrement de l\'article:', error)
-      setSaveError(error.message || 'Erreur lors de l\'enregistrement de l\'article')
+    } catch (err) {
+      setSaveError(err.message || 'Erreur lors de l\'enregistrement')
     }
-  }
-  
-  // Cancel editing
-  const cancelEditing = () => {
-    setIsEditing(false)
-    setShowPreview(false)
-    setSaveError('')
-    setCurrentPost(null)
-  }
-  
-  // Toggle preview mode
-  const togglePreview = () => {
-    setShowPreview(!showPreview)
-  }
-  
-  // Filter and sort posts
-  const filteredPosts = posts.filter(post => {
-    const matchesSearch = post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.author?.toLowerCase().includes(searchQuery.toLowerCase())
-    
-    const matchesStatus = filterStatus === 'all' || post.status === filterStatus
-    const matchesCategory = filterCategory === 'all' || post.category === filterCategory
-    
-    return matchesSearch && matchesStatus && matchesCategory
-  })
-  
-  const sortedPosts = [...filteredPosts].sort((a, b) => {
-    let comparison = 0
-    
-    switch (sortBy) {
-      case 'title':
-        comparison = (a.title || '').localeCompare(b.title || '')
-        break
-      case 'author':
-        comparison = (a.author || '').localeCompare(b.author || '')
-        break
-      case 'createdAt':
-      default:
-        comparison = new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-        break
-    }
-    
-    return sortOrder === 'asc' ? comparison : -comparison
-  })
-  
-  // Format date
-  const formatDate = (dateString) => {
-    if (!dateString) return 'Date inconnue'
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
   }
 
-  // Prepare article data for preview
-  const getArticleForPreview = () => {
-    const tagsArray = formData.tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag !== '')
+  useEffect(() => { fetchPosts() }, [])
 
-    return {
-      ...formData,
-      tags: tagsArray,
-      publishedAt: new Date(),
-      readTime: Math.ceil((formData.content || '').split(/\s+/).length / 200)
-    }
-  }
-  
-  // Fetch data on component mount
-  useEffect(() => {
-    fetchPosts()
-  }, [])
-  
-  // Handle sidebar responsiveness
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setSidebarOpen(true)
-      } else {
-        setSidebarOpen(false)
-      }
-    }
-    
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-  
   return (
-    <div className="min-h-screen bg-gray-50 flex relative">
-      {/* Overlay pour mobile */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-      
-      {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-midnight text-white shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
-        <div className="flex items-center justify-between h-16 px-4 lg:px-6 border-b border-gray-800">
-          <h1 className="text-lg lg:text-xl font-bold">NEOBIZE Admin</h1>
-          <button 
-            onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-white p-1 rounded-md hover:bg-gray-800"
-          >
-            <X size={20} />
-          </button>
-        </div>
-        
-        <div className="p-4">
-          <div className="flex items-center space-x-3 mb-6 p-3 bg-gray-800 rounded-lg">
-            <div className="w-8 lg:w-10 h-8 lg:h-10 rounded-full bg-primary flex items-center justify-center">
-              <User size={16} className="lg:w-5 lg:h-5" />
+    <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">Dashboard</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, i) => (
+          <div key={i} className={`${stat.color} border rounded-2xl p-4`}>
+            <div className="flex justify-between items-center">
+              <div className="w-10 h-10 flex items-center justify-center bg-white rounded shadow">{stat.icon}</div>
+              <span className="text-sm font-medium text-green-600">{stat.change}</span>
             </div>
-            <div>
-              <p className="font-medium text-sm lg:text-base">Admin</p>
-              <p className="text-xs text-gray-400">Administrateur</p>
+            <div className="mt-3">
+              <p className="text-sm text-gray-600">{stat.title}</p>
+              <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+              <p className="text-xs text-gray-500 mt-1">{stat.description}</p>
             </div>
           </div>
-          
-          <nav className="space-y-1">
-            <button 
-              onClick={() => {
-                setActiveSection('dashboard')
-                setIsEditing(false)
-                setSidebarOpen(false)
-              }}
-              className={`flex items-center w-full px-3 py-2 rounded-lg transition-colors text-sm lg:text-base ${
-                activeSection === 'dashboard' && !isEditing
-                  ? 'bg-primary text-white' 
-                  : 'text-gray-300 hover:bg-gray-800'
-              }`}
-            >
-              <LayoutDashboard size={16} className="mr-3 lg:w-5 lg:h-5" />
-              Tableau de bord
-            </button>
-            
-            <button 
-              onClick={() => {
-                setActiveSection('articles')
-                setIsEditing(false)
-                setSidebarOpen(false)
-              }}
-              className={`flex items-center w-full px-3 py-2 rounded-lg transition-colors text-sm lg:text-base ${
-                activeSection === 'articles' && !isEditing
-                  ? 'bg-primary text-white' 
-                  : 'text-gray-300 hover:bg-gray-800'
-              }`}
-            >
-              <FileText size={16} className="mr-3 lg:w-5 lg:h-5" />
-              Articles
-            </button>
-            
-            <button 
-              onClick={() => {
-                navigate('/admin/settings')
-                setSidebarOpen(false)
-              }}
-              className="flex items-center w-full px-3 py-2 rounded-lg transition-colors text-gray-300 hover:bg-gray-800 text-sm lg:text-base"
-            >
-              <SettingsIcon size={16} className="mr-3 lg:w-5 lg:h-5" />
-              Paramètres
-            </button>
-          </nav>
-        </div>
-        
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="border-t border-gray-800 pt-4 flex flex-col space-y-2">
-            <button
-              onClick={() => {
-                navigate('/')
-                setSidebarOpen(false)
-              }}
-              className="flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors text-sm lg:text-base"
-            >
-              <Eye size={16} className="mr-3 lg:w-5 lg:h-5" />
-              Voir le site
-            </button>
-            
-            <button
-              onClick={handleLogout}
-              className="flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors text-sm lg:text-base"
-            >
-              <LogOut size={16} className="mr-3 lg:w-5 lg:h-5" />
-              Déconnexion
-            </button>
-          </div>
+        ))}
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-lg font-semibold mb-4">Activités récentes</h2>
+        <div className="space-y-4">
+          {recentActivity.map((activity, index) => (
+            <div key={index} className="flex items-center space-x-4">
+              <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
+                {activity.icon}
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-800">{activity.title}</p>
+                <p className="text-xs text-gray-500">{activity.time} • Aujourd'hui</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-      
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-h-screen w-full lg:w-auto">
-        {/* Header */}
-        <header className="bg-white shadow-sm z-10">
-          <div className="flex items-center justify-between h-16 px-4 lg:px-6">
-            <div className="flex items-center">
-              <button 
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="lg:hidden text-gray-500 p-1 rounded-md hover:bg-gray-100 mr-3"
-              >
-                <Menu size={24} />
-              </button>
-              
-              {isEditing && (
-                <button
-                  onClick={cancelEditing}
-                  className="mr-3 p-1 text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  <ArrowLeft size={20} />
-                </button>
-              )}
-              
-              <h2 className="text-lg lg:text-xl font-bold text-gray-800 truncate">
-                {isEditing && (currentPost ? 'Modifier l\'article' : 'Nouvel article')}
-                {!isEditing && activeSection === 'dashboard' && 'Tableau de bord'}
-                {!isEditing && activeSection === 'articles' && 'Gestion des articles'}
-              </h2>
-            </div>
-            
-            <div className="flex items-center space-x-2 lg:space-x-4">
-              {isEditing && (
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={togglePreview}
-                    className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors text-sm ${
-                      showPreview 
-                        ? 'bg-primary text-white' 
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    <Eye size={16} />
-                    <span className="hidden sm:inline">
-                      {showPreview ? 'Édition' : 'Aperçu'}
-                    </span>
-                  </button>
-                  
-                  <button
-                    onClick={savePost}
-                    className="flex items-center gap-1 bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
-                  >
-                    <Save size={16} />
-                    <span className="hidden sm:inline">Enregistrer</span>
-                  </button>
-                </div>
-              )}
-              
-              {!isEditing && activeSection === 'articles' && (
-                <button
-                  onClick={createNewPost}
-                  className="flex items-center justify-center gap-1 lg:gap-2 bg-primary text-white px-2 lg:px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm lg:text-base"
-                >
-                  <Plus size={16} className="lg:w-5 lg:h-5" />
-                  <span className="hidden sm:inline">Nouvel article</span>
-                  <span className="sm:hidden">Nouveau</span>
-                </button>
-              )}
-              
-              <div className="relative">
-                <button className="text-gray-500 p-1 rounded-md hover:bg-gray-100 relative">
-                  <Bell size={18} className="lg:w-5 lg:h-5" />
-                  <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
-              </div>
-              
-              <div className="h-6 lg:h-8 w-px bg-gray-200"></div>
-              
-              <div className="flex items-center">
-                <div className="w-6 lg:w-8 h-6 lg:h-8 rounded-full bg-primary flex items-center justify-center text-white">
-                  <User size={12} className="lg:w-4 lg:h-4" />
-                </div>
-                <div className="ml-2 hidden md:block">
-                  <p className="text-xs lg:text-sm font-medium">Admin</p>
-                </div>
-                <ChevronDown size={14} className="ml-1 text-gray-500 lg:w-4 lg:h-4" />
-              </div>
-            </div>
-          </div>
-        </header>
-        
-        {/* Main content area */}
-        <main className="flex-1 overflow-auto p-4 lg:p-6">
-          {/* Success/Error Messages */}
-          {saveSuccess && (
-            <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg flex items-center">
-              <Check size={20} className="mr-2" />
-              Article enregistré avec succès !
-            </div>
-          )}
-          
-          {saveError && (
-            <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center">
-              <X size={20} className="mr-2" />
-              {saveError}
-            </div>
-          )}
-          
-          {/* Article Editor */}
-          {isEditing && (
-            <div className="space-y-6">
-              {!showPreview ? (
-                <form onSubmit={savePost} className="space-y-6">
-                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    {/* Left Column - Form */}
-                    <div className="xl:col-span-1 space-y-6">
-                      <div className="bg-white rounded-xl shadow-sm p-6">
-                        <div className="flex items-center gap-2 mb-4">
-                          <SettingsIcon size={20} className="text-gray-600" />
-                          <h3 className="text-lg font-bold text-gray-800">Informations de l'article</h3>
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Titre *
-                            </label>
-                            <input
-                              type="text"
-                              name="title"
-                              value={formData.title}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                              placeholder="Titre de l'article"
-                              required
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Extrait *
-                            </label>
-                            <textarea
-                              name="excerpt"
-                              value={formData.excerpt}
-                              onChange={handleInputChange}
-                              rows={3}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                              placeholder="Résumé de l'article"
-                              required
-                            />
-                          </div>
-                          
-                          <div className="grid grid-cols-1 gap-4">
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Catégorie
-                              </label>
-                              <select
-                                name="category"
-                                value={formData.category}
-                                onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                              >
-                                {categories.map(cat => (
-                                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                                ))}
-                              </select>
-                            </div>
-                            
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Auteur *
-                              </label>
-                              <input
-                                type="text"
-                                name="author"
-                                value={formData.author}
-                                onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                placeholder="Nom de l'auteur"
-                                required
-                              />
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Tags
-                            </label>
-                            <input
-                              type="text"
-                              name="tags"
-                              value={formData.tags}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                              placeholder="Tag1, Tag2, Tag3"
-                            />
-                            <p className="text-xs text-gray-500 mt-1">Séparez les tags par des virgules</p>
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Image à la une
-                            </label>
-                            <div className="space-y-2">
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                disabled={isUploading}
-                              />
-                              {isUploading && (
-                                <p className="text-sm text-blue-600">Téléchargement en cours...</p>
-                              )}
-                              {formData.featuredImage && (
-                                <div className="mt-2">
-                                  <img
-                                    src={formData.featuredImage}
-                                    alt="Aperçu"
-                                    className="w-full h-32 object-cover rounded-lg"
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Statut
-                            </label>
-                            <select
-                              name="status"
-                              value={formData.status}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            >
-                              <option value="draft">Brouillon</option>
-                              <option value="published">Publié</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Right Column - Content Editor */}
-                    <div className="xl:col-span-2 space-y-6">
-                      <div className="bg-white rounded-xl shadow-sm p-6">
-                        <div className="flex items-center gap-2 mb-4">
-                          <Type size={20} className="text-gray-600" />
-                          <h3 className="text-lg font-bold text-gray-800">Éditeur de contenu</h3>
-                          <div className="ml-auto flex items-center gap-2 text-xs text-gray-500">
-                            <Palette size={14} />
-                            <span>Éditeur riche avec mise en forme</span>
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-3">
-                            Contenu de l'article *
-                          </label>
-                          <RichTextEditor
-                            value={formData.content}
-                            onChange={handleContentChange}
-                            placeholder="Rédigez votre article ici... Utilisez la barre d'outils pour formater le texte, insérer des images, des liens et bien plus encore."
-                            height="600px"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              ) : (
-                /* Preview Mode */
-                <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                  <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <Eye size={20} className="text-gray-600" />
-                      <h3 className="font-medium text-gray-800">Prévisualisation de l'article</h3>
-                    </div>
-                    <span className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${
-                      formData.status === 'published' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-amber-100 text
+    </div>
+  )
+}
+
+export default AdminDashboard
