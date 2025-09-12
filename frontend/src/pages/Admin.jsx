@@ -1160,7 +1160,7 @@ const Admin = () => {
                         <span className="mx-2">•</span>
                         <span className="flex items-center">
                           <CalendarIcon size={14} className="mr-1" />
-                          {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </span>
                         <span className="mx-2">•</span>
                         <span className="flex items-center">

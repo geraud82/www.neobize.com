@@ -8,7 +8,6 @@
     "blog": "Blog",
     "language": "Language",
     "languageName": "English",
-    "switchLanguage": "Passer en français",
     "contactUs": "Contact us",
     "requestQuote": "Request a quote",
     "readMore": "Read more",
@@ -21,7 +20,7 @@
     "hero": {
       "title": "YOUR UNIQUE DIGITAL PARTNER FOR YOUR GROWTH",
       "subtitle": "NEOBIZE creates tailor-made web solutions, develops high-performance SaaS tools, and assists you in the construction and transport industries.",
-      "cta": "Discover our services"
+      "cta": "Our services"
     },
     "services": {
       "title": "Our Services",
@@ -122,7 +121,29 @@
     },
     "team": {
       "title": "Our Team",
-      "description": "Our team consists of passionate and experienced professionals dedicated to the success of your project."
+      "description": "Our team consists of passionate and experienced professionals dedicated to the success of your project.",
+      "members": {
+        "mawule": {
+          "name": "Mawule Djossou",
+          "role": "CEO & Founder",
+          "bio": "Passionate entrepreneur with over 20 years of experience in web and mobile application development and business management."
+        },
+        "ursula": {
+          "name": "Ursula verchere",
+          "role": "Operations and IT Director",
+          "bio": "Expert in web and mobile development with solid experience in creating innovative applications."
+        },
+        "jeosbe": {
+          "name": "Jeosbe Avadra",
+          "role": "Administrative and Logistics Director",
+          "bio": "Expert in business management and logistics with over 10 years of experience in fleet management and route optimization."
+        },
+        "martiviok": {
+          "name": "Martiviok Leroy",
+          "role": "Architect",
+          "bio": "Civil engineer with expertise in construction and renovation project management."
+        }
+      }
     },
     "values": {
       "title": "Our Values",
@@ -183,8 +204,8 @@
         "benin": {
           "title": "Benin: DJOSSOU Pahou Building",
           "address": "Cotonou, Benin",
-          "contact": "Contact: +229 0101765151",
-          "whatsapp": "WhatsApp: +229 0101765151"
+          "contact": "Contact: +229 0196765151",
+          "whatsapp": "WhatsApp: +229 0196765151"
         },
         "usa": {
           "title": "USA: +1 309 7161835",
@@ -235,6 +256,115 @@
       "description": "Subscribe to receive our latest news",
       "placeholder": "Your email",
       "subscribe": "Subscribe"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Overview of your blog",
+      "publishedArticles": "Published Articles",
+      "drafts": "Drafts",
+      "totalViews": "Total Views",
+      "totalArticles": "Total Articles",
+      "engagement": "Engagement",
+      "comments": "Comments",
+      "articlesVisiblePublicly": "Articles visible publicly",
+      "articlesInProgress": "Articles in progress",
+      "totalViewsNumber": "Total number of views",
+      "allCreatedArticles": "All created articles",
+      "averageEngagementRate": "Average engagement rate",
+      "commentsReceived": "Comments received",
+      "progression": "Progress",
+      "recentActivity": "Recent Activity",
+      "viewAll": "View all",
+      "newArticle": "New Article",
+      "createNewBlogArticle": "Create a new blog article",
+      "viewSite": "View Site",
+      "openPublicSite": "Open public site",
+      "analytics": "Analytics",
+      "viewDetailedStatistics": "View detailed statistics",
+      "settings": "Settings",
+      "configureDashboard": "Configure dashboard",
+      "detailedStatisticsSoon": "Detailed statistics will be available soon.",
+      "configurationSettingsSoon": "Configuration settings will be available soon."
+    },
+    "articles": {
+      "title": "Article Management",
+      "subtitle": "Create and manage your articles",
+      "newArticle": "New article",
+      "searchArticles": "Search articles...",
+      "allStatuses": "All statuses",
+      "published": "Published",
+      "draft": "Draft",
+      "allCategories": "All categories",
+      "sortBy": "Sort by",
+      "creationDate": "Creation date",
+      "title": "Title",
+      "author": "Author",
+      "order": "Order",
+      "noArticlesFound": "No articles found",
+      "noArticlesMatch": "No articles match your search criteria.",
+      "startByCreating": "Start by creating your first article.",
+      "createArticle": "Create article",
+      "selected": "selected",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete",
+      "webDevelopment": "Web Development",
+      "transport": "Transport",
+      "construction": "Construction",
+      "general": "General",
+      "technology": "Technology",
+      "design": "Design"
+    },
+    "editor": {
+      "back": "Back",
+      "editArticle": "Edit article",
+      "newArticle": "New article",
+      "editExistingArticle": "Edit your existing article",
+      "createNewArticle": "Create a new article for your blog",
+      "preview": "Preview",
+      "edit": "Edit",
+      "save": "Save",
+      "articleSavedSuccessfully": "Article saved successfully!",
+      "articleTitle": "Article title",
+      "enterArticleTitle": "Enter your article title...",
+      "summary": "Summary",
+      "writeBriefSummary": "Write a brief summary of your article...",
+      "articleContent": "Article content",
+      "writeArticleContent": "Write the content of your article...",
+      "publication": "Publication",
+      "status": "Status",
+      "category": "Category",
+      "authorName": "Author name",
+      "featuredImage": "Featured image",
+      "clickToUploadImage": "Click to upload an image",
+      "uploading": "Uploading...",
+      "removeImage": "Remove image",
+      "tags": "Tags",
+      "separateTagsWithCommas": "Separate tags with commas",
+      "example": "Example: react, javascript, web development",
+      "articlePreview": "Article preview",
+      "fillAllRequiredFields": "Please fill in all required fields"
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "articles": "Articles",
+      "analytics": "Analytics",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "login": {
+      "title": "NEOBIZE",
+      "subtitle": "Connect to your administration space",
+      "username": "Username",
+      "password": "Password",
+      "login": "Login",
+      "backToSite": "← Back to site",
+      "allRightsReserved": "All rights reserved",
+      "verifyingAuthentication": "Verifying authentication...",
+      "failedToFetch": "Failed to fetch",
+      "incorrectCredentials": "Incorrect username or password"
     }
   }
 }

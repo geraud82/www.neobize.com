@@ -27,79 +27,79 @@ const TermsOfService = () => {
   const sections = [
     {
       icon: <FileText size={24} />,
-      title: "Acceptation des conditions",
+      title: "Acceptance of Terms",
       content: [
-        "En accédant et en utilisant les services de NEOBIZE, vous acceptez d'être lié par ces conditions d'utilisation.",
-        "Si vous n'acceptez pas ces conditions, vous ne devez pas utiliser nos services.",
-        "Nous nous réservons le droit de modifier ces conditions à tout moment. Les modifications prendront effet dès leur publication sur notre site web.",
-        "Il est de votre responsabilité de consulter régulièrement ces conditions pour prendre connaissance des éventuelles modifications."
+        "By accessing and using NEOBIZE services, you agree to be bound by these terms of use.",
+        "If you do not accept these terms, you must not use our services.",
+        "We reserve the right to modify these terms at any time. Changes will take effect upon publication on our website.",
+        "It is your responsibility to regularly review these terms to stay informed of any changes."
       ]
     },
     {
       icon: <Users size={24} />,
-      title: "Description des services",
+      title: "Service Description",
       content: [
-        "NEOBIZE fournit des services dans trois domaines principaux : développement web et mobile, transport et logistique, construction et génie civil.",
-        "Nos services de développement incluent la création d'applications web, mobiles et de solutions SaaS personnalisées.",
-        "Nos services de transport comprennent la logistique, la livraison et la gestion de flotte.",
-        "Nos services de construction incluent la planification, la conception et la réalisation de projets de construction.",
-        "Nous nous réservons le droit de modifier, suspendre ou interrompre tout ou partie de nos services à tout moment."
+        "NEOBIZE provides services in three main areas: web and mobile development, transport and logistics, construction and civil engineering.",
+        "Our development services include creating web applications, mobile apps, and custom SaaS solutions.",
+        "Our transport services include logistics, delivery, and fleet management.",
+        "Our construction services include planning, design, and execution of construction projects.",
+        "We reserve the right to modify, suspend, or discontinue all or part of our services at any time."
       ]
     },
     {
       icon: <Scale size={24} />,
-      title: "Obligations de l'utilisateur",
+      title: "User Obligations",
       content: [
-        "Vous vous engagez à utiliser nos services de manière légale et conforme à ces conditions d'utilisation.",
-        "Vous ne devez pas utiliser nos services pour des activités illégales, frauduleuses ou nuisibles.",
-        "Vous êtes responsable de maintenir la confidentialité de vos informations de compte et mots de passe.",
-        "Vous devez nous notifier immédiatement de toute utilisation non autorisée de votre compte.",
-        "Vous vous engagez à fournir des informations exactes et à jour lors de l'utilisation de nos services."
+        "You agree to use our services legally and in accordance with these terms of use.",
+        "You must not use our services for illegal, fraudulent, or harmful activities.",
+        "You are responsible for maintaining the confidentiality of your account information and passwords.",
+        "You must notify us immediately of any unauthorized use of your account.",
+        "You agree to provide accurate and up-to-date information when using our services."
       ]
     },
     {
       icon: <Gavel size={24} />,
-      title: "Propriété intellectuelle",
+      title: "Intellectual Property",
       content: [
-        "Tous les contenus, marques, logos et propriétés intellectuelles sur notre site web appartiennent à NEOBIZE ou à nos partenaires.",
-        "Vous ne pouvez pas reproduire, distribuer ou modifier notre contenu sans autorisation écrite préalable.",
-        "Les solutions que nous développons pour vous restent votre propriété, sauf accord contraire spécifié dans le contrat de service.",
-        "Nous respectons les droits de propriété intellectuelle des tiers et attendons la même chose de nos utilisateurs.",
-        "Si vous pensez que votre propriété intellectuelle a été violée, veuillez nous contacter immédiatement."
+        "All content, trademarks, logos, and intellectual property on our website belong to NEOBIZE or our partners.",
+        "You may not reproduce, distribute, or modify our content without prior written authorization.",
+        "Solutions we develop for you remain your property, unless otherwise specified in the service contract.",
+        "We respect third-party intellectual property rights and expect the same from our users.",
+        "If you believe your intellectual property has been violated, please contact us immediately."
       ]
     },
     {
       icon: <AlertTriangle size={24} />,
-      title: "Limitation de responsabilité",
+      title: "Limitation of Liability",
       content: [
-        "NEOBIZE fournit ses services 'en l'état' sans garantie expresse ou implicite.",
-        "Nous ne garantissons pas que nos services seront ininterrompus, sécurisés ou exempts d'erreurs.",
-        "Notre responsabilité est limitée au montant payé pour les services spécifiques qui ont causé le dommage.",
-        "Nous ne sommes pas responsables des dommages indirects, consécutifs ou punitifs.",
-        "Certaines juridictions ne permettent pas la limitation de responsabilité, donc ces limitations peuvent ne pas s'appliquer à vous."
+        "NEOBIZE provides its services 'as is' without express or implied warranty.",
+        "We do not guarantee that our services will be uninterrupted, secure, or error-free.",
+        "Our liability is limited to the amount paid for the specific services that caused the damage.",
+        "We are not responsible for indirect, consequential, or punitive damages.",
+        "Some jurisdictions do not allow limitation of liability, so these limitations may not apply to you."
       ]
     },
     {
       icon: <Shield size={24} />,
-      title: "Confidentialité et sécurité",
+      title: "Privacy and Security",
       content: [
-        "Nous nous engageons à protéger la confidentialité de vos informations conformément à notre politique de confidentialité.",
-        "Nous mettons en place des mesures de sécurité appropriées pour protéger vos données.",
-        "Vous êtes responsable de maintenir la sécurité de vos propres systèmes et données.",
-        "En cas de violation de sécurité, nous vous en informerons dans les meilleurs délais.",
-        "Nous nous conformons aux réglementations applicables en matière de protection des données."
+        "We are committed to protecting the confidentiality of your information in accordance with our privacy policy.",
+        "We implement appropriate security measures to protect your data.",
+        "You are responsible for maintaining the security of your own systems and data.",
+        "In case of a security breach, we will inform you as soon as possible.",
+        "We comply with applicable data protection regulations."
       ]
     }
   ]
 
   const prohibitedUses = [
-    "Violer les lois ou réglementations applicables",
-    "Porter atteinte aux droits d'autrui",
-    "Transmettre des virus ou codes malveillants",
-    "Tenter d'accéder de manière non autorisée à nos systèmes",
-    "Utiliser nos services pour du spam ou des communications non sollicitées",
-    "Copier ou reproduire notre contenu sans autorisation",
-    "Interférer avec le fonctionnement normal de nos services"
+    "Violate applicable laws or regulations",
+    "Infringe on the rights of others",
+    "Transmit viruses or malicious code",
+    "Attempt unauthorized access to our systems",
+    "Use our services for spam or unsolicited communications",
+    "Copy or reproduce our content without authorization",
+    "Interfere with the normal operation of our services"
   ]
 
   return (
@@ -118,28 +118,28 @@ const TermsOfService = () => {
               className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm font-medium mb-6"
             >
               <Scale className="w-4 h-4 mr-2" />
-              Conditions légales
+              Legal Terms
             </motion.div>
             
             <motion.h1 
               variants={fadeIn}
               className="text-4xl md:text-6xl font-bold mb-6"
             >
-              Conditions d'Utilisation
+              Terms of Service
             </motion.h1>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto"
             >
-              Ces conditions régissent l'utilisation de nos services et établissent les droits et obligations de chaque partie.
+              These terms govern the use of our services and establish the rights and obligations of each party.
             </motion.p>
             
             <motion.div 
               variants={fadeIn}
               className="mt-8 text-sm text-blue-200"
             >
-              Dernière mise à jour : {new Date().toLocaleDateString('fr-FR')}
+              Last updated: {new Date().toLocaleDateString('en-US')}
             </motion.div>
           </motion.div>
         </div>
@@ -158,8 +158,8 @@ const TermsOfService = () => {
             <motion.div variants={fadeIn} className="text-center mb-12">
               <h2 className="text-3xl font-bold text-midnight mb-6">Introduction</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Bienvenue chez NEOBIZE. Ces conditions d'utilisation ("Conditions") régissent votre utilisation 
-                de notre site web et de nos services. En utilisant nos services, vous acceptez d'être lié par ces Conditions.
+                Welcome to NEOBIZE. These terms of service ("Terms") govern your use 
+                of our website and services. By using our services, you agree to be bound by these Terms.
               </p>
             </motion.div>
 
@@ -169,8 +169,8 @@ const TermsOfService = () => {
                 <div>
                   <h3 className="text-xl font-bold text-amber-800 mb-4">Important</h3>
                   <p className="text-amber-700 leading-relaxed">
-                    Veuillez lire attentivement ces conditions avant d'utiliser nos services. 
-                    Si vous n'acceptez pas ces conditions, vous ne devez pas utiliser notre site web ou nos services.
+                    Please read these terms carefully before using our services. 
+                    If you do not accept these terms, you must not use our website or services.
                   </p>
                 </div>
               </div>
@@ -179,7 +179,7 @@ const TermsOfService = () => {
         </div>
       </section>
 
-      {/* Sections principales */}
+      {/* Main Sections */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
@@ -220,7 +220,7 @@ const TermsOfService = () => {
         </div>
       </section>
 
-      {/* Utilisations interdites */}
+      {/* Prohibited Uses */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
@@ -231,9 +231,9 @@ const TermsOfService = () => {
             className="max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-midnight mb-6">Utilisations Interdites</h2>
+              <h2 className="text-3xl font-bold text-midnight mb-6">Prohibited Uses</h2>
               <p className="text-lg text-gray-600">
-                Vous vous engagez à ne pas utiliser nos services pour les activités suivantes :
+                You agree not to use our services for the following activities:
               </p>
             </motion.div>
 
@@ -251,7 +251,7 @@ const TermsOfService = () => {
         </div>
       </section>
 
-      {/* Paiements et remboursements */}
+      {/* Payments and Refunds */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
@@ -262,41 +262,41 @@ const TermsOfService = () => {
             className="max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
-              <h2 className="text-3xl font-bold text-midnight mb-8">Paiements et Remboursements</h2>
+              <h2 className="text-3xl font-bold text-midnight mb-8">Payments and Refunds</h2>
               
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-bold text-midnight mb-4">Conditions de paiement</h3>
+                  <h3 className="text-xl font-bold text-midnight mb-4">Payment Terms</h3>
                   <ul className="space-y-3 text-gray-700">
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Les paiements sont dus selon les termes spécifiés dans votre contrat de service.</span>
+                      <span>Payments are due according to the terms specified in your service contract.</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Nous acceptons les virements bancaires, cartes de crédit et autres méthodes approuvées.</span>
+                      <span>We accept bank transfers, credit cards, and other approved payment methods.</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Les retards de paiement peuvent entraîner la suspension des services.</span>
+                      <span>Payment delays may result in service suspension.</span>
                     </li>
                   </ul>
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-bold text-midnight mb-4">Politique de remboursement</h3>
+                  <h3 className="text-xl font-bold text-midnight mb-4">Refund Policy</h3>
                   <ul className="space-y-3 text-gray-700">
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Les remboursements sont traités selon les termes de votre contrat spécifique.</span>
+                      <span>Refunds are processed according to the terms of your specific contract.</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Les demandes de remboursement doivent être soumises par écrit.</span>
+                      <span>Refund requests must be submitted in writing.</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Les remboursements sont traités dans un délai de 30 jours ouvrables.</span>
+                      <span>Refunds are processed within 30 business days.</span>
                     </li>
                   </ul>
                 </div>
@@ -306,7 +306,7 @@ const TermsOfService = () => {
         </div>
       </section>
 
-      {/* Résiliation */}
+      {/* Termination */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
@@ -317,34 +317,34 @@ const TermsOfService = () => {
             className="max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
-              <h2 className="text-3xl font-bold text-midnight mb-8">Résiliation</h2>
+              <h2 className="text-3xl font-bold text-midnight mb-8">Termination</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-bold text-midnight mb-4">Résiliation par l'utilisateur</h3>
+                  <h3 className="text-xl font-bold text-midnight mb-4">Termination by User</h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    Vous pouvez résilier votre utilisation de nos services à tout moment en nous notifiant par écrit. 
-                    La résiliation prendra effet selon les termes de votre contrat de service.
+                    You may terminate your use of our services at any time by notifying us in writing. 
+                    Termination will take effect according to the terms of your service contract.
                   </p>
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-bold text-midnight mb-4">Résiliation par NEOBIZE</h3>
+                  <h3 className="text-xl font-bold text-midnight mb-4">Termination by NEOBIZE</h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    Nous nous réservons le droit de suspendre ou de résilier votre accès à nos services en cas de :
+                    We reserve the right to suspend or terminate your access to our services in case of:
                   </p>
                   <ul className="space-y-2 text-gray-700">
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Violation de ces conditions d'utilisation</span>
+                      <span>Violation of these terms of service</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Non-paiement des services</span>
+                      <span>Non-payment for services</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span>Utilisation frauduleuse ou illégale de nos services</span>
+                      <span>Fraudulent or illegal use of our services</span>
                     </li>
                   </ul>
                 </div>
@@ -354,7 +354,7 @@ const TermsOfService = () => {
         </div>
       </section>
 
-      {/* Droit applicable */}
+      {/* Governing Law */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
@@ -365,21 +365,21 @@ const TermsOfService = () => {
             className="max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
-              <h2 className="text-3xl font-bold text-midnight mb-8">Droit Applicable et Juridiction</h2>
+              <h2 className="text-3xl font-bold text-midnight mb-8">Governing Law and Jurisdiction</h2>
               
               <div className="space-y-6 text-gray-700">
                 <p className="leading-relaxed">
-                  Ces conditions d'utilisation sont régies par le droit français. Tout litige découlant de ou en relation 
-                  avec ces conditions sera soumis à la juridiction exclusive des tribunaux français.
+                  These terms of service are governed by French law. Any dispute arising from or in relation 
+                  to these terms will be subject to the exclusive jurisdiction of French courts.
                 </p>
                 
                 <p className="leading-relaxed">
-                  En cas de litige, nous encourageons la résolution amiable par la médiation avant tout recours judiciaire.
+                  In case of dispute, we encourage amicable resolution through mediation before any legal action.
                 </p>
                 
                 <p className="leading-relaxed">
-                  Si une disposition de ces conditions est jugée invalide ou inapplicable, les autres dispositions 
-                  resteront en vigueur.
+                  If any provision of these terms is deemed invalid or unenforceable, the other provisions 
+                  will remain in effect.
                 </p>
               </div>
             </motion.div>
@@ -398,30 +398,30 @@ const TermsOfService = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <motion.h2 variants={fadeIn} className="text-3xl font-bold mb-6">
-              Questions sur ces conditions ?
+              Questions about these terms?
             </motion.h2>
             
             <motion.p variants={fadeIn} className="text-xl text-blue-100 mb-8">
-              Si vous avez des questions concernant ces conditions d'utilisation, 
-              n'hésitez pas à nous contacter.
+              If you have any questions regarding these terms of service, 
+              please don't hesitate to contact us.
             </motion.p>
             
             <motion.div variants={fadeIn} className="bg-white/10 backdrop-blur-sm rounded-xl p-8">
               <div className="grid md:grid-cols-2 gap-6 text-left">
                 <div>
-                  <h4 className="font-bold mb-2">Email juridique</h4>
+                  <h4 className="font-bold mb-2">Legal Email</h4>
                   <p className="text-blue-100">legal@neobize.com</p>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Téléphone</h4>
+                  <h4 className="font-bold mb-2">Phone</h4>
                   <p className="text-blue-100">+33 1 23 45 67 89</p>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Adresse</h4>
-                  <p className="text-blue-100">123 Rue de la Innovation<br />75001 Paris, France</p>
+                  <h4 className="font-bold mb-2">Address</h4>
+                  <p className="text-blue-100">123 Innovation Street<br />75001 Paris, France</p>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Service client</h4>
+                  <h4 className="font-bold mb-2">Customer Support</h4>
                   <p className="text-blue-100">support@neobize.com</p>
                 </div>
               </div>

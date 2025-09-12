@@ -27,63 +27,63 @@ const PrivacyPolicy = () => {
   const sections = [
     {
       icon: <Database size={24} />,
-      title: "Collecte des données",
+      title: "Data Collection",
       content: [
-        "Nous collectons les informations que vous nous fournissez directement, telles que votre nom, adresse e-mail, numéro de téléphone et autres informations de contact lorsque vous utilisez nos services.",
-        "Nous collectons automatiquement certaines informations lorsque vous visitez notre site web, notamment votre adresse IP, le type de navigateur, les pages visitées et la durée de votre visite.",
-        "Nous pouvons collecter des informations sur votre localisation générale basée sur votre adresse IP."
+        "We collect information you provide directly to us, such as your name, email address, phone number, and other contact information when you use our services.",
+        "We automatically collect certain information when you visit our website, including your IP address, browser type, pages visited, and duration of your visit.",
+        "We may collect information about your general location based on your IP address."
       ]
     },
     {
       icon: <Eye size={24} />,
-      title: "Utilisation des données",
+      title: "Data Usage",
       content: [
-        "Fournir, maintenir et améliorer nos services de développement web, transport et construction.",
-        "Communiquer avec vous concernant nos services, y compris les mises à jour et les notifications importantes.",
-        "Personnaliser votre expérience et améliorer notre site web.",
-        "Analyser l'utilisation de nos services pour optimiser les performances.",
-        "Respecter nos obligations légales et réglementaires."
+        "Provide, maintain, and improve our web development, transport, and construction services.",
+        "Communicate with you regarding our services, including updates and important notifications.",
+        "Personalize your experience and improve our website.",
+        "Analyze service usage to optimize performance.",
+        "Comply with our legal and regulatory obligations."
       ]
     },
     {
       icon: <Shield size={24} />,
-      title: "Protection des données",
+      title: "Data Protection",
       content: [
-        "Nous mettons en place des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données personnelles.",
-        "L'accès à vos données est limité aux employés qui en ont besoin pour accomplir leurs tâches.",
-        "Nous utilisons le chiffrement SSL pour protéger la transmission de vos données.",
-        "Nos serveurs sont sécurisés et régulièrement mis à jour avec les derniers correctifs de sécurité."
+        "We implement appropriate technical and organizational security measures to protect your personal data.",
+        "Access to your data is limited to employees who need it to perform their duties.",
+        "We use SSL encryption to protect data transmission.",
+        "Our servers are secured and regularly updated with the latest security patches."
       ]
     },
     {
       icon: <UserCheck size={24} />,
-      title: "Vos droits",
+      title: "Your Rights",
       content: [
-        "Droit d'accès : Vous pouvez demander une copie des données personnelles que nous détenons à votre sujet.",
-        "Droit de rectification : Vous pouvez demander la correction de données inexactes ou incomplètes.",
-        "Droit à l'effacement : Vous pouvez demander la suppression de vos données personnelles dans certaines circonstances.",
-        "Droit à la portabilité : Vous pouvez demander le transfert de vos données vers un autre service.",
-        "Droit d'opposition : Vous pouvez vous opposer au traitement de vos données dans certains cas."
+        "Right of access: You can request a copy of the personal data we hold about you.",
+        "Right of rectification: You can request correction of inaccurate or incomplete data.",
+        "Right to erasure: You can request deletion of your personal data in certain circumstances.",
+        "Right to portability: You can request transfer of your data to another service.",
+        "Right to object: You can object to the processing of your data in certain cases."
       ]
     },
     {
       icon: <Lock size={24} />,
-      title: "Partage des données",
+      title: "Data Sharing",
       content: [
-        "Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers.",
-        "Nous pouvons partager vos informations avec des prestataires de services tiers qui nous aident à fournir nos services.",
-        "Nous pouvons divulguer vos informations si la loi l'exige ou pour protéger nos droits légaux.",
-        "En cas de fusion ou d'acquisition, vos données peuvent être transférées au nouvel propriétaire."
+        "We do not sell, trade, or rent your personal information to third parties.",
+        "We may share your information with third-party service providers who help us provide our services.",
+        "We may disclose your information if required by law or to protect our legal rights.",
+        "In case of merger or acquisition, your data may be transferred to the new owner."
       ]
     },
     {
       icon: <FileText size={24} />,
-      title: "Conservation des données",
+      title: "Data Retention",
       content: [
-        "Nous conservons vos données personnelles aussi longtemps que nécessaire pour fournir nos services.",
-        "Les données de contact sont conservées pendant la durée de notre relation commerciale.",
-        "Les données de navigation sont généralement conservées pendant 2 ans maximum.",
-        "Certaines données peuvent être conservées plus longtemps pour respecter nos obligations légales."
+        "We retain your personal data as long as necessary to provide our services.",
+        "Contact data is retained for the duration of our business relationship.",
+        "Navigation data is generally retained for a maximum of 2 years.",
+        "Some data may be retained longer to comply with our legal obligations."
       ]
     }
   ]
@@ -104,28 +104,28 @@ const PrivacyPolicy = () => {
               className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm font-medium mb-6"
             >
               <Shield className="w-4 h-4 mr-2" />
-              Protection des données
+              Data Protection
             </motion.div>
             
             <motion.h1 
               variants={fadeIn}
               className="text-4xl md:text-6xl font-bold mb-6"
             >
-              Politique de Confidentialité
+              Privacy Policy
             </motion.h1>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto"
             >
-              Nous nous engageons à protéger votre vie privée et à traiter vos données personnelles de manière transparente et sécurisée.
+              We are committed to protecting your privacy and handling your personal data transparently and securely.
             </motion.p>
             
             <motion.div 
               variants={fadeIn}
               className="mt-8 text-sm text-blue-200"
             >
-              Dernière mise à jour : {new Date().toLocaleDateString('fr-FR')}
+              Last updated: {new Date().toLocaleDateString('en-US')}
             </motion.div>
           </motion.div>
         </div>
@@ -144,26 +144,26 @@ const PrivacyPolicy = () => {
             <motion.div variants={fadeIn} className="text-center mb-12">
               <h2 className="text-3xl font-bold text-midnight mb-6">Introduction</h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                NEOBIZE ("nous", "notre" ou "nos") s'engage à protéger et respecter votre vie privée. 
-                Cette politique de confidentialité explique comment nous collectons, utilisons, stockons et 
-                protégeons vos informations personnelles lorsque vous utilisez notre site web et nos services.
+                NEOBIZE ("we", "our" or "us") is committed to protecting and respecting your privacy. 
+                This privacy policy explains how we collect, use, store, and protect your personal information 
+                when you use our website and services.
               </p>
             </motion.div>
 
             <motion.div variants={fadeIn} className="bg-blue-50 rounded-xl p-8 mb-12">
-              <h3 className="text-xl font-bold text-midnight mb-4">Informations importantes</h3>
+              <h3 className="text-xl font-bold text-midnight mb-4">Important Information</h3>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
                   <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>Cette politique s'applique à tous nos services : développement web, transport et construction.</span>
+                  <span>This policy applies to all our services: web development, transport, and construction.</span>
                 </li>
                 <li className="flex items-start">
                   <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>En utilisant nos services, vous acceptez les pratiques décrites dans cette politique.</span>
+                  <span>By using our services, you accept the practices described in this policy.</span>
                 </li>
                 <li className="flex items-start">
                   <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span>Nous nous conformons au Règlement Général sur la Protection des Données (RGPD).</span>
+                  <span>We comply with the General Data Protection Regulation (GDPR).</span>
                 </li>
               </ul>
             </motion.div>
@@ -171,7 +171,7 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Sections détaillées */}
+      {/* Detailed Sections */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
@@ -223,38 +223,38 @@ const PrivacyPolicy = () => {
             className="max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-midnight mb-6">Cookies et Technologies Similaires</h2>
+              <h2 className="text-3xl font-bold text-midnight mb-6">Cookies and Similar Technologies</h2>
             </motion.div>
 
             <motion.div variants={fadeIn} className="bg-gray-50 rounded-xl p-8">
-              <h3 className="text-xl font-bold text-midnight mb-6">Types de cookies utilisés</h3>
+              <h3 className="text-xl font-bold text-midnight mb-6">Types of cookies used</h3>
               
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-lg p-6">
-                  <h4 className="font-bold text-midnight mb-3">Cookies essentiels</h4>
+                  <h4 className="font-bold text-midnight mb-3">Essential cookies</h4>
                   <p className="text-gray-600 text-sm">
-                    Nécessaires au fonctionnement du site web. Ils ne peuvent pas être désactivés.
+                    Necessary for the website to function. They cannot be disabled.
                   </p>
                 </div>
                 
                 <div className="bg-white rounded-lg p-6">
-                  <h4 className="font-bold text-midnight mb-3">Cookies analytiques</h4>
+                  <h4 className="font-bold text-midnight mb-3">Analytics cookies</h4>
                   <p className="text-gray-600 text-sm">
-                    Nous aident à comprendre comment vous utilisez notre site pour l'améliorer.
+                    Help us understand how you use our site to improve it.
                   </p>
                 </div>
                 
                 <div className="bg-white rounded-lg p-6">
-                  <h4 className="font-bold text-midnight mb-3">Cookies de performance</h4>
+                  <h4 className="font-bold text-midnight mb-3">Performance cookies</h4>
                   <p className="text-gray-600 text-sm">
-                    Collectent des informations sur les performances du site web.
+                    Collect information about website performance.
                   </p>
                 </div>
                 
                 <div className="bg-white rounded-lg p-6">
-                  <h4 className="font-bold text-midnight mb-3">Cookies de préférences</h4>
+                  <h4 className="font-bold text-midnight mb-3">Preference cookies</h4>
                   <p className="text-gray-600 text-sm">
-                    Mémorisent vos préférences comme la langue et la région.
+                    Remember your preferences like language and region.
                   </p>
                 </div>
               </div>
@@ -274,12 +274,12 @@ const PrivacyPolicy = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <motion.h2 variants={fadeIn} className="text-3xl font-bold mb-6">
-              Questions sur cette politique ?
+              Questions about this policy?
             </motion.h2>
             
             <motion.p variants={fadeIn} className="text-xl text-blue-100 mb-8">
-              Si vous avez des questions concernant cette politique de confidentialité ou souhaitez exercer vos droits, 
-              n'hésitez pas à nous contacter.
+              If you have any questions regarding this privacy policy or wish to exercise your rights, 
+              please don't hesitate to contact us.
             </motion.p>
             
             <motion.div variants={fadeIn} className="bg-white/10 backdrop-blur-sm rounded-xl p-8">
@@ -289,15 +289,15 @@ const PrivacyPolicy = () => {
                   <p className="text-blue-100">privacy@neobize.com</p>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Téléphone</h4>
+                  <h4 className="font-bold mb-2">Phone</h4>
                   <p className="text-blue-100">+33 1 23 45 67 89</p>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Adresse</h4>
-                  <p className="text-blue-100">123 Rue de la Innovation<br />75001 Paris, France</p>
+                  <h4 className="font-bold mb-2">Address</h4>
+                  <p className="text-blue-100">123 Innovation Street<br />75001 Paris, France</p>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Délégué à la protection des données</h4>
+                  <h4 className="font-bold mb-2">Data Protection Officer</h4>
                   <p className="text-blue-100">dpo@neobize.com</p>
                 </div>
               </div>

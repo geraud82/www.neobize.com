@@ -186,7 +186,7 @@ const Home = () => {
       </HeroSection>
       
       {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-r from-primary to-blue-800 text-white">
+      <section className="py-16 bg-white text-gray-800">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -196,23 +196,23 @@ const Home = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2">59</h3>
-              <p className="text-gray-200 text-sm md:text-base">Projets réalisés</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">59</h3>
+              <p className="text-gray-600 text-sm md:text-base">Projets réalisés</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2">98%</h3>
-              <p className="text-gray-200 text-sm md:text-base">Clients satisfaits</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">98%</h3>
+              <p className="text-gray-600 text-sm md:text-base">Clients satisfaits</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2">15+</h3>
-              <p className="text-gray-200 text-sm md:text-base">Experts</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">15+</h3>
+              <p className="text-gray-600 text-sm md:text-base">Experts</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2">3</h3>
-              <p className="text-gray-200 text-sm md:text-base">Domaines d'expertise</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">3</h3>
+              <p className="text-gray-600 text-sm md:text-base">Domaines d'expertise</p>
             </motion.div>
           </motion.div>
         </div>

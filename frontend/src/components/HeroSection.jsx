@@ -1,114 +1,6 @@
-import { motion, useAnimation, useScroll, useTransform } from 'framer-motion'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState, useRef } from 'react'
-
-// Animation variants
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6 }
-  }
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-}
-
-// Particule component
-const Particle = ({ className }) => {
-  const randomX = Math.random() * 100;
-  const randomY = Math.random() * 100;
-  const size = Math.random() * 10 + 5;
-  const duration = Math.random() * 20 + 10;
-  const delay = Math.random() * 5;
-
-  return (
-    <motion.div
-      className={`absolute rounded-full bg-white/10 backdrop-blur-md ${className}`}
-      style={{ 
-        left: `${randomX}%`, 
-        top: `${randomY}%`, 
-        width: size, 
-        height: size 
-      }}
-      animate={{
-        x: [0, Math.random() * 100 - 50],
-        y: [0, Math.random() * 100 - 50],
-        opacity: [0, 0.5, 0]
-      }}
-      transition={{
-        duration: duration,
-        repeat: Infinity,
-        delay: delay,
-        ease: "easeInOut"
-      }}
-    />
-  );
-};
-
-Particle.propTypes = {
-  className: PropTypes.string
-};
-
-// TypeWriter effect component
-const TypeWriter = ({ text, className }) => {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const [typingSpeed] = useState(60);
-  
-  // Reset state when text changes (e.g., language change)
-  useEffect(() => {
-    setDisplayText('');
-    setCurrentIndex(0);
-    setIsComplete(false);
-  }, [text]);
-  
-  useEffect(() => {
-    if (isComplete) return;
-    
-    const timer = setTimeout(() => {
-      if (currentIndex <= text.length) {
-        setDisplayText(text.substring(0, currentIndex));
-        setCurrentIndex(currentIndex + 1);
-        
-        // Check if typing is complete
-        if (currentIndex === text.length) {
-          setIsComplete(true);
-        }
-      }
-    }, typingSpeed);
-
-    return () => clearTimeout(timer);
-  }, [currentIndex, text, typingSpeed, isComplete]);
-
-  return (
-    <div className={className}>
-      <div className="relative inline-block">
-        <span>{displayText}</span>
-        <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity }}
-          className="absolute -right-2 top-0 inline-block w-1 h-8 bg-primary"
-        />
-      </div>
-    </div>
-  );
-};
-
-TypeWriter.propTypes = {
-  text: PropTypes.string.isRequired,
-  className: PropTypes.string
-};
+import { useState, useEffect } from 'react'
 
 const HeroSection = ({ 
   title, 
@@ -119,225 +11,131 @@ const HeroSection = ({
   fullHeight = false
 }) => {
   const { t } = useTranslation();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const sectionRef = useRef(null);
-  const controls = useAnimation();
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
-  
-  // Generate particles
-  const particles = Array.from({ length: 15 }).map((_, index) => (
-    <Particle key={index} className="z-10" />
-  ));
-  
-  // Handle mouse movement for interactive effect
-  const handleMouseMove = (e) => {
-    if (sectionRef.current) {
-      const { left, top, width, height } = sectionRef.current.getBoundingClientRect();
-      const x = (e.clientX - left) / width;
-      const y = (e.clientY - top) / height;
-      setMousePosition({ x, y });
-    }
-  };
-  
+
+  // Array of company activity images
+  const companyImages = [
+    { src: '/images/web-saas.jpg', alt: 'Web development and SaaS solutions' },
+    { src: '/images/web-mobileapp.jpg', alt: 'Mobile application development' },
+    { src: '/images/web-cons.jpg', alt: 'Web consulting services' },
+    { src: '/images/web-trans.jpg', alt: 'Digital transformation' },
+    { src: '/images/web-histo.jpg', alt: 'Technology history and innovation' },
+    { src: '/images/web-imag.jpg', alt: 'Digital imaging solutions' }
+  ];
+
+  // State for current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Auto-slide effect
   useEffect(() => {
-    controls.start({
-      x: mousePosition.x * 20 - 10,
-      y: mousePosition.y * 20 - 10,
-      transition: { type: "spring", damping: 50 }
-    });
-  }, [mousePosition, controls]);
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % companyImages.length
+      );
+    }, 4000); // Change image every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [companyImages.length]);
+
   return (
     <section 
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      className={`relative ${fullHeight ? 'h-screen' : 'pt-32 pb-20'} bg-midnight text-white overflow-hidden`}
+      className={`relative ${fullHeight ? 'min-h-[70vh] pt-32 pb-16' : 'pt-32 pb-16'} text-white overflow-hidden`}
+      style={{ backgroundColor: '#000000' }}
     >
       {/* Background elements */}
       <div className="absolute inset-0 z-0">
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-midnight/80 via-primary/30 to-midnight/80 z-10"></div>
-        
-        {/* Background image with parallax effect */}
-        <motion.div 
-          className="absolute inset-0 bg-cover bg-center opacity-35 z-0" 
+        {/* Background image with overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-40" 
           style={{ 
-            backgroundImage: `url('${backgroundImage}')`,
-            y
+            backgroundImage: `url('${backgroundImage}')`
           }}
-        ></motion.div>
+        ></div>
         
-        {/* Animated shapes */}
-        <motion.div 
-          animate={controls}
-          className="absolute top-20 right-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-pulse"
-        ></motion.div>
-        <motion.div 
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.7, 0.5]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute bottom-20 left-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-        ></motion.div>
-        
-        {/* Interactive particles */}
-        {particles}
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-20 h-full flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-          >
+      <div className="container relative z-20 h-full flex flex-col justify-center">
+        <div className={`grid grid-cols-1 ${fullHeight ? 'lg:grid-cols-2' : ''} gap-16 lg:gap-20 items-center ${!fullHeight ? 'justify-center text-center' : ''}`}>
+          <div className={`max-w-3xl ${!fullHeight ? 'mx-auto' : ''}`}>
             {badge && (
-              <motion.div 
-                variants={fadeIn}
-                whileHover={{ scale: 1.05 }}
-                className="inline-block bg-primary/10 text-white px-4 py-1 rounded-full text-sm font-medium mb-4 backdrop-blur-sm border border-white/10"
-              >
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-blue-500/20 text-white px-6 py-3 rounded-full text-sm font-semibold mb-8 backdrop-blur-sm border border-blue-400/30 shadow-lg">
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                 {badge}
-              </motion.div>
+              </div>
             )}
             
-            {/* Animated title with TypeWriter effect */}
-            <motion.div variants={fadeIn}>
-              <TypeWriter 
-                text={title}
-                className="text-4xl md:text-6xl font-bold mb-3 leading-tight"
-              />
-            </motion.div>
+            {/* Enhanced Title */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 leading-tight bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+              {title}
+            </h1>
             
-            <motion.p 
-              variants={fadeIn}
-              className="text-lg md:text-xl mb-6 text-gray-300"
-            >
+            {/* Enhanced Subtitle */}
+            <p className="text-lg md:text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed font-light tracking-wide">
               {subtitle}
-            </motion.p>
+            </p>
             
             {children && (
-              <motion.div 
-                variants={fadeIn}
-                className="flex flex-wrap gap-4"
-              >
+              <div className="flex flex-wrap gap-6">
                 {Array.isArray(children) 
                   ? children.map((child, index) => (
-                      <motion.div 
-                        key={index}
-                        whileHover={{ scale: 1.05, y: -5 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      >
+                      <div key={index} className="transform hover:scale-105 transition-transform duration-300">
                         {child}
-                      </motion.div>
+                      </div>
                     ))
-                  : <motion.div 
-                      whileHover={{ scale: 1.05, y: -5 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                    >
-                      {children}
-                    </motion.div>
+                  : <div className="transform hover:scale-105 transition-transform duration-300">{children}</div>
                 }
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
           
-          {/* Right side slot for optional content */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="hidden lg:block relative"
-          >
-            {/* Animated decorative elements */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div 
-                animate={{ 
-                  rotate: 360,
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                  rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
-                }}
-                className="w-80 h-80 border-2 border-primary/20 rounded-full"
-              />
-              <motion.div 
-                animate={{ 
-                  rotate: -360,
-                  scale: [1, 1.2, 1]
-                }}
-                transition={{ 
-                  rotate: { duration: 15, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 10, repeat: Infinity, ease: "easeInOut" }
-                }}
-                className="absolute w-60 h-60 border-2 border-white/10 rounded-full"
-              />
-              <motion.div 
-                animate={{ 
-                  rotate: 180,
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                  rotate: { duration: 25, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 12, repeat: Infinity, ease: "easeInOut" }
-                }}
-                className="absolute w-40 h-40 border-2 border-primary/30 rounded-full"
-              />
+          {/* Right side - Hero Image (only show on fullHeight/Home page) */}
+          {fullHeight && (
+            <div className="hidden lg:block relative">
+              <div className="relative">
+                {/* Enhanced decorative border frame */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/30 via-purple-600/30 to-blue-600/30 rounded-3xl blur-lg"></div>
+                <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/40 to-purple-500/40 rounded-3xl"></div>
+                
+                {/* Main image container with carousel */}
+                <div className="relative overflow-hidden rounded-3xl border-2 border-white/20 shadow-2xl h-[400px]">
+                  {companyImages.map((image, index) => (
+                    <img 
+                      key={index}
+                      src={image.src} 
+                      alt={image.alt} 
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out transform hover:scale-105 ${
+                        index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      style={{ transitionDuration: '1000ms' }}
+                    />
+                  ))}
+                  {/* Sophisticated overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-transparent to-black/60 z-10"></div>
+                  {/* Subtle pattern overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10"></div>
+                  
+                  {/* Image indicators */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+                    {companyImages.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentImageIndex 
+                            ? 'bg-white scale-125' 
+                            : 'bg-white/50 hover:bg-white/75'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+              </div>
             </div>
-          </motion.div>
+          )}
         </div>
         
-        {/* Scroll indicator (only for full height hero) */}
-        {fullHeight && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            whileHover={{ scale: 1.1 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer"
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-          >
-            <motion.span 
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="text-sm text-gray-300 mb-2"
-            >
-              {t('common.discover')}
-            </motion.span>
-            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1 relative overflow-hidden">
-              <motion.div 
-                animate={{ 
-                  y: [0, 12, 0],
-                }}
-                transition={{ 
-                  repeat: Infinity, 
-                  duration: 1.5,
-                }}
-                className="w-2 h-2 bg-white rounded-full"
-              />
-              <motion.div 
-                animate={{ 
-                  y: [-20, 20],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  repeat: Infinity, 
-                  duration: 1.5,
-                }}
-                className="absolute w-full h-full bg-gradient-to-b from-white/0 via-white/20 to-white/0"
-              />
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   )

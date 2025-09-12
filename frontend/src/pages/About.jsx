@@ -30,30 +30,30 @@ const About = () => {
   const teamMembers = [
     {
       id: 1,
-      name: 'Mawule Djossou',
-      role: 'CEO & Fondateur',
-      bio: 'Entrepreneur passionné avec plus de 20ans d\'expérience dans le développement d\'application web et mobile et la gestion d\'entreprise.',
+      name: t('about.team.members.mawule.name'),
+      role: t('about.team.members.mawule.role'),
+      bio: t('about.team.members.mawule.bio'),
       image: '/images/mawule.jpeg'
     },
     {
       id: 2,
-      name: 'Ursula verchere',
-      role: 'Directrice des Operations et IT',
-      bio: 'Expert en développement web et mobile avec une solide expérience dans la création d\'applications innovantes.',
+      name: t('about.team.members.ursula.name'),
+      role: t('about.team.members.ursula.role'),
+      bio: t('about.team.members.ursula.bio'),
       image: '/images/matin.jpeg'
     },
     {
       id: 3,
-      name: 'Jeosbe Avadra',
-      role: 'Directeur Administratif et Logistique',
-      bio: 'Expert En gestion d\'entreprise  et en logistique  avec plus de 10 ans d\'expérience dans la gestion de flottes et l\'optimisation des itinéraires.',
+      name: t('about.team.members.jeosbe.name'),
+      role: t('about.team.members.jeosbe.role'),
+      bio: t('about.team.members.jeosbe.bio'),
       image: '/images/avadra.jpeg'
     },
     {
       id: 4,
-      name: 'Martiviok Leroy',
-      role: 'Architecte',
-      bio: 'Ingénieure en génie civil avec une expertise dans la gestion de projets de construction et de rénovation.',
+      name: t('about.team.members.martiviok.name'),
+      role: t('about.team.members.martiviok.role'),
+      bio: t('about.team.members.martiviok.bio'),
       image: '/images/leroy.jpeg'
     }
   ]

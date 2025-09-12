@@ -8,8 +8,8 @@ const ArticlePreview = ({ article, categories = [] }) => {
 
   // Fonction pour formater la date
   const formatDate = (dateString) => {
-    if (!dateString) return new Date().toLocaleDateString('fr-FR')
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    if (!dateString) return new Date().toLocaleDateString('en-US')
+    return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'

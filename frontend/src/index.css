@@ -1,263 +1,613 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
     font-weight: 400;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 
   body {
-    background-color: #FFFFFF;
-    color: #0F172A;
+    @apply bg-white text-neutral-900 antialiased;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
+  /* Enhanced Typography */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    @apply font-heading font-bold tracking-tight;
+    text-wrap: balance;
   }
 
   h1 {
-    font-size: 2.25rem;
+    @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
   }
 
   h2 {
-    font-size: 1.875rem;
+    @apply text-3xl md:text-4xl lg:text-5xl leading-tight;
   }
 
   h3 {
-    font-size: 1.5rem;
+    @apply text-2xl md:text-3xl lg:text-4xl leading-snug;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl lg:text-3xl leading-snug;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl lg:text-2xl leading-normal;
+  }
+
+  h6 {
+    @apply text-base md:text-lg lg:text-xl leading-normal;
+  }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed text-neutral-700;
+    text-wrap: pretty;
   }
 
   a {
-    color: #1E40AF;
-    transition: color 0.3s;
+    @apply text-primary-600 transition-all duration-300 hover:text-primary-700;
   }
-  
-  a:hover {
-    color: rgba(30, 64, 175, 0.8);
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-primary-100 text-primary-900;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white;
   }
 }
 
 @layer components {
+  /* Container System */
   .container {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
+  .container-sm {
+    @apply max-w-3xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-xs {
+    @apply max-w-2xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Professional Button System */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.375rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition-property: color, background-color, border-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-base;
+  }
+
+  .btn-xl {
+    @apply px-10 py-5 text-lg;
+  }
+
+  /* Primary Button */
   .btn-primary {
-    background-color: #1E40AF;
-    color: white;
-  }
-  
-  .btn-primary:hover {
-    background-color: rgba(30, 64, 175, 0.9);
+    @apply bg-primary-600 text-white shadow-lg hover:bg-primary-700 hover:shadow-xl hover:-translate-y-0.5 focus:ring-primary-500 active:translate-y-0;
   }
 
+  .btn-primary-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:from-primary-700 hover:to-primary-800 hover:shadow-xl hover:-translate-y-0.5 focus:ring-primary-500;
+  }
+
+  /* Secondary Button */
   .btn-secondary {
-    background-color: #475569;
-    color: white;
-  }
-  
-  .btn-secondary:hover {
-    background-color: rgba(71, 85, 105, 0.9);
+    @apply bg-neutral-100 text-neutral-900 border border-neutral-200 shadow-sm hover:bg-neutral-50 hover:shadow-md hover:-translate-y-0.5 focus:ring-neutral-500;
   }
 
+  /* Outline Button */
   .btn-outline {
-    border: 1px solid #1E40AF;
-    color: #1E40AF;
-  }
-  
-  .btn-outline:hover {
-    background-color: #1E40AF;
-    color: white;
+    @apply bg-transparent text-primary-600 border-2 border-primary-600 hover:bg-primary-600 hover:text-white hover:shadow-lg hover:-translate-y-0.5 focus:ring-primary-500;
   }
 
-  /* Styles pour le contenu des articles */
+  /* Ghost Button */
+  .btn-ghost {
+    @apply bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 focus:ring-neutral-500;
+  }
+
+  /* Danger Button */
+  .btn-danger {
+    @apply bg-danger-600 text-white shadow-lg hover:bg-danger-700 hover:shadow-xl hover:-translate-y-0.5 focus:ring-danger-500;
+  }
+
+  /* Card System */
+  .card {
+    @apply bg-white rounded-2xl shadow-soft border border-neutral-100 overflow-hidden transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:shadow-medium hover:-translate-y-1;
+  }
+
+  .card-interactive {
+    @apply cursor-pointer hover:shadow-large hover:-translate-y-2 hover:border-primary-200;
+  }
+
+  .card-header {
+    @apply p-6 border-b border-neutral-100;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .card-footer {
+    @apply p-6 border-t border-neutral-100 bg-neutral-50;
+  }
+
+  /* Badge System */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-medium rounded-full;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-800;
+  }
+
+  .badge-secondary {
+    @apply bg-neutral-100 text-neutral-800;
+  }
+
+  .badge-success {
+    @apply bg-success-100 text-success-800;
+  }
+
+  .badge-warning {
+    @apply bg-warning-100 text-warning-800;
+  }
+
+  .badge-danger {
+    @apply bg-danger-100 text-danger-800;
+  }
+
+  /* Input System */
+  .input {
+    @apply w-full px-4 py-3 text-base border border-neutral-300 rounded-xl bg-white placeholder-neutral-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+  }
+
+  .input-error {
+    @apply border-danger-300 focus:ring-danger-500 focus:border-danger-500;
+  }
+
+  .textarea {
+    @apply input resize-none;
+  }
+
+  /* Section Spacing */
+  .section {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .section-sm {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .section-lg {
+    @apply py-20 md:py-24 lg:py-32;
+  }
+
+  /* Professional Gradients */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800;
+  }
+
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-neutral-600 via-neutral-700 to-neutral-800;
+  }
+
+  .gradient-hero {
+    @apply bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700;
+  }
+
+  .gradient-mesh {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  /* Text Gradients */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-secondary {
+    @apply bg-gradient-to-r from-neutral-600 to-neutral-800 bg-clip-text text-transparent;
+  }
+
+  /* Glass Effect */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-white/10;
+  }
+
+  /* Loading States */
+  .skeleton {
+    @apply bg-neutral-200 animate-pulse rounded;
+  }
+
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-neutral-200 border-t-primary-600;
+  }
+
+  /* Professional Prose Styling */
   .prose {
-    color: #374151;
-    line-height: 1.75;
-    max-width: none;
+    @apply text-neutral-700 leading-relaxed max-w-none;
   }
 
   .prose h1 {
-    font-size: 2.25rem;
-    font-weight: 800;
-    color: #111827;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    line-height: 1.2;
+    @apply text-3xl md:text-4xl font-bold text-neutral-900 mt-8 mb-4 leading-tight;
   }
 
   .prose h2 {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #111827;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    line-height: 1.3;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0.5rem;
+    @apply text-2xl md:text-3xl font-bold text-neutral-900 mt-8 mb-4 leading-tight border-b border-neutral-200 pb-2;
   }
 
   .prose h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #111827;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
+    @apply text-xl md:text-2xl font-semibold text-neutral-900 mt-6 mb-3 leading-snug;
   }
 
   .prose h4 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #111827;
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
+    @apply text-lg md:text-xl font-semibold text-neutral-900 mt-6 mb-3;
   }
 
   .prose p {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    text-align: justify;
+    @apply mb-4 text-base md:text-lg leading-relaxed;
   }
 
   .prose ul, .prose ol {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
+    @apply mb-4 pl-6 space-y-2;
   }
 
   .prose li {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    @apply text-base md:text-lg leading-relaxed;
   }
 
   .prose ul li {
-    list-style-type: disc;
+    @apply list-disc;
   }
 
   .prose ol li {
-    list-style-type: decimal;
+    @apply list-decimal;
   }
 
   .prose blockquote {
-    border-left: 4px solid #1E40AF;
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    background-color: #f8fafc;
-    padding: 1rem;
-    border-radius: 0.375rem;
+    @apply border-l-4 border-primary-500 pl-6 py-4 my-6 bg-primary-50 rounded-r-lg italic text-primary-900;
   }
 
   .prose code {
-    background-color: #f1f5f9;
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    font-family: 'Courier New', monospace;
+    @apply bg-neutral-100 text-neutral-800 px-2 py-1 rounded text-sm font-mono;
   }
 
   .prose pre {
-    background-color: #1e293b;
-    color: #e2e8f0;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    overflow-x: auto;
-    margin: 1.5rem 0;
+    @apply bg-neutral-900 text-neutral-100 p-6 rounded-xl overflow-x-auto my-6 text-sm;
   }
 
   .prose pre code {
-    background-color: transparent;
-    padding: 0;
-    color: inherit;
+    @apply bg-transparent text-inherit p-0;
   }
 
   .prose a {
-    color: #1E40AF;
-    text-decoration: underline;
-    font-weight: 500;
-  }
-
-  .prose a:hover {
-    color: #1d4ed8;
+    @apply text-primary-600 font-medium hover:text-primary-700 hover:underline;
   }
 
   .prose strong {
-    font-weight: 600;
-    color: #111827;
+    @apply font-semibold text-neutral-900;
   }
 
   .prose em {
-    font-style: italic;
+    @apply italic;
   }
 
   .prose img {
-    margin: 1.5rem 0;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    @apply my-8 rounded-xl shadow-medium;
   }
 
   .prose hr {
-    border: none;
-    border-top: 1px solid #e5e7eb;
-    margin: 2rem 0;
+    @apply border-0 border-t border-neutral-200 my-8;
   }
 
   .prose table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5rem 0;
+    @apply w-full border-collapse my-6 text-sm;
   }
 
   .prose th, .prose td {
-    border: 1px solid #e5e7eb;
-    padding: 0.75rem;
-    text-align: left;
+    @apply border border-neutral-200 px-4 py-3 text-left;
   }
 
   .prose th {
-    background-color: #f9fafb;
-    font-weight: 600;
+    @apply bg-neutral-50 font-semibold text-neutral-900;
   }
 
-  /* Styles spéciaux pour les listes imbriquées */
-  .prose ul ul, .prose ol ol, .prose ul ol, .prose ol ul {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+  .prose td {
+    @apply bg-white;
   }
 
-  /* Espacement pour les premiers et derniers éléments */
-  .prose > *:first-child {
-    margin-top: 0;
+  /* Animation Classes */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
   }
 
-  .prose > *:last-child {
-    margin-bottom: 0;
+  .animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in-left {
+    animation: fadeInLeft 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in-right {
+    animation: fadeInRight 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.6s ease-out forwards;
+  }
+
+  /* Utility Classes */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .aspect-portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  /* Professional spacing utilities */
+  .space-y-section > * + * {
+    @apply mt-16 md:mt-20 lg:mt-24;
+  }
+
+  .space-y-content > * + * {
+    @apply mt-6 md:mt-8;
+  }
+}
+
+@layer utilities {
+  /* Custom animations keyframes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl;
+  }
+
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl;
+  }
+
+  .text-responsive-3xl {
+    @apply text-3xl sm:text-4xl;
+  }
+
+  .text-responsive-4xl {
+    @apply text-4xl sm:text-5xl;
+  }
+
+  /* Professional hover effects */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+
+  .hover-lift-lg {
+    @apply transition-transform duration-300 hover:-translate-y-2;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-glow;
+  }
+
+  .hover-glow-lg {
+    @apply transition-shadow duration-300 hover:shadow-glow-lg;
+  }
+
+  /* Professional borders */
+  .border-gradient {
+    border-image: linear-gradient(135deg, #3b82f6, #06b6d4) 1;
+  }
+
+  /* Safe area utilities for mobile */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pl-safe {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .pr-safe {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    @apply text-black bg-white;
+  }
+  
+  .card {
+    @apply shadow-none border border-neutral-300;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .btn-primary {
+    @apply bg-black text-white border-2 border-black;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-black border-2 border-black;
+  }
+  
+  .card {
+    @apply border-2 border-black;
   }
 }

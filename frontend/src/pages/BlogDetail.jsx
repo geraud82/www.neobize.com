@@ -58,11 +58,11 @@ const BlogDetail = () => {
         setLoading(true)
         setError(null)
 
-        // Récupérer l'article par slug
+        // Get article by slug
         const articleData = await getArticleBySlug(slug)
         setArticle(articleData)
         
-        // Récupérer les articles liés de la même catégorie
+        // Get related articles from the same category
         const allArticles = await getPublishedPosts()
         const filtered = allArticles
           .filter(a => a.category === articleData.category && a.slug !== slug)
@@ -70,11 +70,11 @@ const BlogDetail = () => {
         setRelatedArticles(filtered)
         
       } catch (error) {
-        console.error('Erreur lors de la récupération de l\'article:', error)
-        if (error.message.includes('404') || error.message.includes('non trouvé')) {
-          setError('Article non trouvé')
+        console.error('Error fetching article:', error)
+        if (error.message.includes('404') || error.message.includes('not found')) {
+          setError('Article not found')
         } else {
-          setError('Erreur lors du chargement de l\'article')
+          setError('Error loading article')
         }
       } finally {
         setLoading(false)
@@ -86,7 +86,7 @@ const BlogDetail = () => {
     }
   }, [slug])
 
-  // Fonction pour partager l'article
+  // Function to share the article
   const shareArticle = (platform) => {
     const url = window.location.href
     const title = article?.title || ''
@@ -103,21 +103,21 @@ const BlogDetail = () => {
     }
   }
 
-  // Fonction pour copier le lien
+  // Function to copy the link
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (error) {
-      console.error('Erreur lors de la copie:', error)
+      console.error('Error copying link:', error)
     }
   }
 
-  // Fonction pour formater la date
+  // Function to format the date
   const formatDate = (dateString) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('fr-FR', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -129,7 +129,7 @@ const BlogDetail = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement de l'article...</p>
+          <p className="text-gray-600">Loading article...</p>
         </div>
       </div>
     )
@@ -139,21 +139,21 @@ const BlogDetail = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
         <div className="text-center max-w-md">
-          <h1 className="text-3xl font-bold text-midnight mb-4">Article non trouvé</h1>
-          <p className="text-gray-600 mb-8">{error || 'L\'article que vous recherchez n\'existe pas ou a été supprimé.'}</p>
+          <h1 className="text-3xl font-bold text-midnight mb-4">Article not found</h1>
+          <p className="text-gray-600 mb-8">{error || 'The article you are looking for does not exist or has been deleted.'}</p>
           <div className="space-y-4">
             <Link 
               to="/blog" 
               className="btn btn-primary flex items-center justify-center"
             >
               <ArrowLeft size={16} className="mr-2" />
-              Retour au blog
+              Back to blog
             </Link>
             <button
               onClick={() => navigate(-1)}
               className="btn btn-outline flex items-center justify-center w-full"
             >
-              Retour à la page précédente
+              Back to previous page
             </button>
           </div>
         </div>
