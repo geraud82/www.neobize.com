@@ -1,8 +1,29 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Calendar, User, Building, Code, Truck, Clock, CheckCircle } from 'lucide-react'
+import { 
+  ArrowLeft, 
+  Calendar, 
+  User, 
+  Clock, 
+  CheckCircle, 
+  ExternalLink,
+  Star,
+  Award,
+  Target,
+  TrendingUp,
+  Users,
+  Zap,
+  Shield,
+  Globe,
+  Code,
+  Truck,
+  Search,
+  BarChart3,
+  MessageSquare,
+  Heart,
+  Eye
+} from 'lucide-react'
 
 // Animation variants
 const fadeIn = {
@@ -24,400 +45,396 @@ const staggerContainer = {
   }
 }
 
-// Sample projects data (in a real app, this would come from an API)
+// Updated projects data reflecting NEOBIZE's actual business
 const projectsData = [
   {
     id: 1,
-    title: 'Plateforme SaaS de gestion de projet',
-    category: 'webDev',
-    description: 'Développement d\'une plateforme SaaS complète pour la gestion de projets, incluant des fonctionnalités de suivi des tâches, de collaboration et de reporting.',
+    slug: 'saas-project-management-platform',
+    title: 'SaaS Project Management Platform',
+    category: 'digital-solutions',
+    description: 'A comprehensive SaaS platform for project management with real-time collaboration, task tracking, and advanced analytics.',
     fullDescription: `
-      <p>Notre équipe a conçu et développé une plateforme SaaS complète de gestion de projet pour TechStart, une startup en pleine croissance dans le secteur technologique.</p>
+      <p>We developed a cutting-edge SaaS project management platform that revolutionizes how teams collaborate and manage their projects. This comprehensive solution combines intuitive design with powerful functionality to deliver exceptional user experience.</p>
       
-      <p>Cette solution offre une suite complète d'outils permettant aux équipes de :</p>
+      <h3>Key Features Implemented:</h3>
       <ul>
-        <li>Planifier et suivre les projets avec des diagrammes de Gantt interactifs</li>
-        <li>Gérer les tâches avec une méthodologie Kanban personnalisable</li>
-        <li>Collaborer en temps réel sur les documents et les livrables</li>
-        <li>Générer des rapports détaillés sur l'avancement des projets</li>
-        <li>Intégrer des outils tiers via une API robuste</li>
+        <li><strong>Real-time Collaboration:</strong> Live document editing, instant messaging, and video conferencing integration</li>
+        <li><strong>Advanced Task Management:</strong> Kanban boards, Gantt charts, and customizable workflows</li>
+        <li><strong>Analytics Dashboard:</strong> Comprehensive reporting with data visualization and performance metrics</li>
+        <li><strong>Mobile-First Design:</strong> Responsive interface optimized for all devices</li>
+        <li><strong>API Integration:</strong> Seamless connection with popular tools like Slack, Google Workspace, and Microsoft 365</li>
+        <li><strong>Security & Compliance:</strong> Enterprise-grade security with SOC 2 compliance</li>
       </ul>
       
-      <p>La plateforme a été développée en utilisant les technologies les plus récentes, notamment React pour le frontend, Node.js pour le backend, et MongoDB pour la base de données. Nous avons également mis en place une architecture microservices pour assurer la scalabilité et la résilience de la solution.</p>
+      <p>The platform was built using modern technologies including React.js for the frontend, Node.js with Express for the backend, and MongoDB for data storage. We implemented microservices architecture to ensure scalability and reliability.</p>
       
-      <p>Le résultat est une plateforme intuitive, performante et sécurisée qui a permis à TechStart d'améliorer significativement la productivité de ses équipes et la satisfaction de ses clients.</p>
+      <p>Since launch, the platform has gained over 10,000 active users and has been recognized as one of the top project management tools in the industry.</p>
     `,
-    image: 'https://placehold.co/800x600/1E40AF/FFFFFF?text=SaaS+Project',
+    image: '/images/web-saas.jpg',
     gallery: [
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=SaaS+Project+1',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=SaaS+Project+2',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=SaaS+Project+3'
+      '/images/web-saas.jpg',
+      '/images/web-cons.jpg',
+      '/images/web-imag.jpg'
     ],
-    client: 'TechStart',
-    year: '2023',
-    duration: '8 mois',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Docker', 'AWS'],
-    services: ['Conception UX/UI', 'Développement Frontend', 'Développement Backend', 'DevOps', 'Support technique'],
+    client: 'TechStart Inc.',
+    year: '2024',
+    duration: '8 months',
+    budget: '$150,000',
+    teamSize: '6 developers',
+    technologies: ['React.js', 'Node.js', 'MongoDB', 'Docker', 'AWS', 'Socket.io', 'Redis', 'Stripe API'],
+    services: ['UI/UX Design', 'Frontend Development', 'Backend Development', 'DevOps', 'Quality Assurance', 'Technical Support'],
     results: [
-      'Augmentation de 40% de la productivité des équipes',
-      'Réduction de 30% des délais de livraison',
-      'Satisfaction client améliorée de 25%'
-    ]
+      '10,000+ active users within 6 months',
+      '40% increase in team productivity for clients',
+      '99.9% uptime achieved',
+      'Featured in TechCrunch as "Startup to Watch"'
+    ],
+    testimonial: {
+      text: "NEOBIZE delivered beyond our expectations. The platform they built has transformed how our teams work together.",
+      author: "Sarah Johnson",
+      position: "CTO, TechStart Inc.",
+      avatar: "/images/team.jpeg"
+    },
+    challenges: [
+      'Implementing real-time collaboration without performance issues',
+      'Ensuring data security and compliance with international standards',
+      'Creating an intuitive interface for complex project management features'
+    ],
+    solutions: [
+      'Used WebSocket technology with optimized data synchronization',
+      'Implemented end-to-end encryption and regular security audits',
+      'Conducted extensive user testing and iterative design improvements'
+    ],
+    metrics: {
+      userSatisfaction: 98,
+      performanceScore: 95,
+      securityRating: 'A+',
+      scalability: '10,000+ concurrent users'
+    }
   },
   {
     id: 2,
-    title: 'Application mobile de e-commerce',
-    category: 'webDev',
-    description: 'Création d\'une application mobile de e-commerce avec des fonctionnalités de paiement sécurisé, de gestion des commandes et de fidélisation des clients.',
+    slug: 'mobile-ecommerce-app',
+    title: 'Mobile E-commerce Application',
+    category: 'digital-solutions',
+    description: 'A feature-rich mobile e-commerce application with AI-powered recommendations, secure payments, and seamless user experience.',
     fullDescription: `
-      <p>Pour ShopNow, une entreprise de vente au détail en pleine expansion, nous avons développé une application mobile e-commerce complète disponible sur iOS et Android.</p>
+      <p>We created a state-of-the-art mobile e-commerce application that combines cutting-edge technology with exceptional user experience. The app features AI-powered product recommendations, advanced search capabilities, and a streamlined checkout process.</p>
       
-      <p>Cette application offre une expérience d'achat fluide et personnalisée avec les fonctionnalités suivantes :</p>
+      <h3>Advanced Features:</h3>
       <ul>
-        <li>Interface utilisateur intuitive et responsive</li>
-        <li>Catalogue de produits avec recherche avancée et filtres</li>
-        <li>Système de paiement sécurisé multi-méthodes</li>
-        <li>Gestion des commandes en temps réel</li>
-        <li>Programme de fidélité avec système de points et récompenses</li>
-        <li>Notifications push personnalisées</li>
-        <li>Intégration avec les réseaux sociaux</li>
+        <li><strong>AI-Powered Recommendations:</strong> Machine learning algorithms that analyze user behavior to suggest relevant products</li>
+        <li><strong>Augmented Reality:</strong> AR try-on feature for fashion and home decor items</li>
+        <li><strong>Voice Search:</strong> Natural language processing for voice-activated product search</li>
+        <li><strong>Social Commerce:</strong> Integration with social media platforms for seamless sharing and purchasing</li>
+        <li><strong>Multi-Payment Options:</strong> Support for credit cards, digital wallets, and cryptocurrency</li>
+        <li><strong>Real-time Inventory:</strong> Live inventory tracking with automatic stock updates</li>
       </ul>
       
-      <p>L'application a été développée en utilisant React Native pour assurer une expérience utilisateur cohérente sur toutes les plateformes, avec Firebase pour le backend et Stripe pour les paiements.</p>
+      <p>The application was developed using React Native for cross-platform compatibility, with a robust backend powered by Node.js and PostgreSQL. We integrated advanced analytics to track user behavior and optimize the shopping experience.</p>
       
-      <p>Depuis son lancement, l'application a connu un grand succès, avec plus de 100 000 téléchargements et une augmentation significative des ventes en ligne pour ShopNow.</p>
+      <p>The app has achieved over 500,000 downloads and maintains a 4.8-star rating on both App Store and Google Play Store.</p>
     `,
-    image: 'https://placehold.co/800x600/1E40AF/FFFFFF?text=Mobile+App',
+    image: '/images/web-mobileapp.jpg',
     gallery: [
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Mobile+App+1',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Mobile+App+2',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Mobile+App+3'
+      '/images/web-mobileapp.jpg',
+      '/images/web-saas.jpg',
+      '/images/web-cons.jpg'
     ],
-    client: 'ShopNow',
-    year: '2022',
-    duration: '6 mois',
-    technologies: ['React Native', 'Firebase', 'Stripe', 'Redux', 'Node.js'],
-    services: ['Conception UX/UI', 'Développement mobile', 'Intégration API', 'Tests et assurance qualité'],
+    client: 'RetailMax Solutions',
+    year: '2024',
+    duration: '10 months',
+    budget: '$200,000',
+    teamSize: '8 developers',
+    technologies: ['React Native', 'Node.js', 'PostgreSQL', 'TensorFlow', 'AWS', 'Stripe', 'Firebase', 'ARCore/ARKit'],
+    services: ['Mobile App Development', 'AI/ML Integration', 'UI/UX Design', 'Backend Development', 'Quality Assurance', 'App Store Optimization'],
     results: [
-      'Plus de 100 000 téléchargements',
-      'Augmentation de 60% des ventes en ligne',
-      'Taux de conversion amélioré de 35%'
-    ]
+      '500,000+ app downloads',
+      '4.8-star average rating',
+      '60% increase in mobile sales',
+      '35% improvement in user retention'
+    ],
+    testimonial: {
+      text: "The mobile app NEOBIZE built for us has revolutionized our business. Sales have increased dramatically since launch.",
+      author: "Michael Chen",
+      position: "CEO, RetailMax Solutions",
+      avatar: "/images/team.jpeg"
+    },
+    challenges: [
+      'Implementing AR features across different device capabilities',
+      'Optimizing AI recommendations for real-time performance',
+      'Ensuring seamless payment processing across multiple platforms'
+    ],
+    solutions: [
+      'Developed adaptive AR features based on device specifications',
+      'Implemented edge computing for faster AI processing',
+      'Created unified payment gateway with fallback options'
+    ],
+    metrics: {
+      userSatisfaction: 96,
+      performanceScore: 94,
+      conversionRate: '12.5%',
+      averageSessionTime: '8.5 minutes'
+    }
   },
   {
     id: 3,
-    title: 'Optimisation de flotte de livraison',
-    category: 'transport',
-    description: 'Mise en place d\'un système d\'optimisation des itinéraires pour une flotte de véhicules de livraison, permettant de réduire les coûts et d\'améliorer l\'efficacité.',
+    slug: 'nemt-fleet-optimization-system',
+    title: 'NEMT Fleet Optimization System',
+    category: 'transportation',
+    description: 'Advanced fleet management system for Non-Emergency Medical Transportation with route optimization, real-time tracking, and compliance management.',
     fullDescription: `
-      <p>Pour LogiTrans, une entreprise de logistique, nous avons conçu et implémenté un système complet d'optimisation de flotte de livraison.</p>
+      <p>We developed a comprehensive fleet optimization system specifically designed for Non-Emergency Medical Transportation (NEMT) services. This system addresses the unique challenges of medical transportation including patient safety, regulatory compliance, and operational efficiency.</p>
       
-      <p>Ce système innovant comprend :</p>
+      <h3>Specialized Features:</h3>
       <ul>
-        <li>Un algorithme d'optimisation d'itinéraires en temps réel</li>
-        <li>Un système de suivi GPS des véhicules</li>
-        <li>Une plateforme de gestion centralisée pour les dispatchers</li>
-        <li>Une application mobile pour les chauffeurs</li>
-        <li>Des analyses détaillées de performance et de consommation</li>
-        <li>Des prévisions de maintenance préventive</li>
+        <li><strong>Medical Compliance Tracking:</strong> Automated compliance monitoring for HIPAA, DOT, and state regulations</li>
+        <li><strong>Patient Care Management:</strong> Special needs tracking, medical equipment requirements, and accessibility features</li>
+        <li><strong>Route Optimization:</strong> AI-powered routing that considers medical appointments, patient conditions, and traffic patterns</li>
+        <li><strong>Real-time Monitoring:</strong> GPS tracking with medical emergency alerts and communication systems</li>
+        <li><strong>Insurance Integration:</strong> Direct billing integration with Medicaid, Medicare, and private insurance providers</li>
+        <li><strong>Driver Certification:</strong> Automated tracking of driver certifications, medical training, and background checks</li>
       </ul>
       
-      <p>La solution a été développée en utilisant une architecture cloud scalable, avec des algorithmes d'intelligence artificielle pour l'optimisation des itinéraires et la prédiction des temps de livraison.</p>
+      <p>The system was built with a focus on reliability and security, using enterprise-grade technologies including Java Spring Boot for the backend, React for the web interface, and native mobile apps for drivers and dispatchers.</p>
       
-      <p>Grâce à cette solution, LogiTrans a pu réduire significativement ses coûts opérationnels tout en améliorant la qualité de service et la satisfaction client.</p>
+      <p>Implementation resulted in 30% reduction in operational costs and 99.5% on-time performance for medical appointments.</p>
     `,
-    image: 'https://placehold.co/800x600/1E40AF/FFFFFF?text=Transport+Fleet',
+    image: '/images/LogiTrans.jpeg',
     gallery: [
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Transport+Fleet+1',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Transport+Fleet+2',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Transport+Fleet+3'
+      '/images/LogiTrans.jpeg',
+      '/images/MediCare.jpeg',
+      '/images/web-trans.jpg'
     ],
-    client: 'LogiTrans',
-    year: '2023',
-    duration: '10 mois',
-    technologies: ['Python', 'TensorFlow', 'Google Maps API', 'React', 'Flutter'],
-    services: ['Conseil en logistique', 'Développement logiciel', 'Intégration IoT', 'Formation'],
+    client: 'MediTransport Services',
+    year: '2024',
+    duration: '12 months',
+    budget: '$300,000',
+    teamSize: '10 specialists',
+    technologies: ['Java Spring Boot', 'React', 'PostgreSQL', 'Google Maps API', 'AWS', 'Docker', 'Kubernetes', 'Redis'],
+    services: ['System Architecture', 'Compliance Consulting', 'Software Development', 'Integration Services', 'Training & Support', 'Maintenance'],
     results: [
-      'Réduction de 25% des coûts de carburant',
-      'Augmentation de 30% du nombre de livraisons par jour',
-      'Diminution de 40% des retards de livraison'
-    ]
-  },
-  {
-    id: 4,
-    title: 'Service de livraison médicale express',
-    category: 'transport',
-    description: 'Développement d\'un service de livraison express pour le secteur médical, garantissant la livraison rapide et sécurisée de médicaments et d\'équipements médicaux.',
-    fullDescription: `
-      <p>Pour MediExpress, nous avons développé un service de livraison médicale express spécialisé dans le transport rapide et sécurisé de médicaments, d'échantillons biologiques et d'équipements médicaux sensibles.</p>
-      
-      <p>Ce service comprend :</p>
-      <ul>
-        <li>Une flotte de véhicules spécialement équipés pour le transport médical</li>
-        <li>Un système de suivi en temps réel avec contrôle de température</li>
-        <li>Une plateforme de réservation en ligne pour les professionnels de santé</li>
-        <li>Un protocole strict de manipulation et de transport des produits médicaux</li>
-        <li>Une équipe de chauffeurs formés aux normes médicales</li>
-      </ul>
-      
-      <p>Nous avons également développé une application mobile permettant aux clients de suivre leurs livraisons en temps réel et de recevoir des notifications à chaque étape du processus.</p>
-      
-      <p>Ce service a permis à MediExpress de devenir un acteur majeur dans le secteur de la logistique médicale, avec une réputation d'excellence et de fiabilité.</p>
-    `,
-    image: 'https://placehold.co/800x600/1E40AF/FFFFFF?text=Medical+Delivery',
-    gallery: [
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Medical+Delivery+1',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Medical+Delivery+2',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Medical+Delivery+3'
+      '30% reduction in operational costs',
+      '99.5% on-time appointment performance',
+      '100% regulatory compliance maintained',
+      '50% improvement in patient satisfaction scores'
     ],
-    client: 'MediExpress',
-    year: '2022',
-    duration: '9 mois',
-    technologies: ['IoT', 'React Native', 'Node.js', 'MongoDB', 'AWS'],
-    services: ['Conseil en logistique médicale', 'Développement d\'application', 'Formation du personnel', 'Support opérationnel'],
-    results: [
-      'Délai de livraison réduit à moins de 2 heures',
-      'Taux de satisfaction client de 98%',
-      'Zéro incident de détérioration de produits'
-    ]
-  },
-  {
-    id: 5,
-    title: 'Construction d\'un immeuble de bureaux écologique',
-    category: 'construction',
-    description: 'Construction d\'un immeuble de bureaux respectueux de l\'environnement, intégrant des technologies d\'économie d\'énergie et des matériaux durables.',
-    fullDescription: `
-      <p>Pour EcoOffice, nous avons conçu et construit un immeuble de bureaux écologique de 5000m² qui répond aux normes environnementales les plus strictes.</p>
-      
-      <p>Ce projet innovant comprend :</p>
-      <ul>
-        <li>Une structure en bois certifié FSC et en matériaux recyclés</li>
-        <li>Un système de panneaux solaires couvrant 80% des besoins énergétiques</li>
-        <li>Un système de récupération et de traitement des eaux de pluie</li>
-        <li>Une isolation thermique et acoustique haute performance</li>
-        <li>Un système de ventilation naturelle réduisant les besoins en climatisation</li>
-        <li>Des espaces verts intégrés et une toiture végétalisée</li>
-        <li>Des bornes de recharge pour véhicules électriques</li>
-      </ul>
-      
-      <p>Le bâtiment a obtenu la certification LEED Platinum, la plus haute distinction en matière de construction écologique, et a été reconnu comme un exemple d'excellence en architecture durable.</p>
-      
-      <p>Ce projet démontre notre engagement envers des pratiques de construction responsables et notre capacité à innover dans le domaine de l'architecture écologique.</p>
-    `,
-    image: 'https://placehold.co/800x600/1E40AF/FFFFFF?text=Green+Building',
-    gallery: [
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Green+Building+1',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Green+Building+2',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Green+Building+3'
+    testimonial: {
+      text: "NEOBIZE understood our unique needs in medical transportation. Their system has made us more efficient while ensuring patient safety.",
+      author: "Dr. Patricia Williams",
+      position: "Operations Director, MediTransport Services",
+      avatar: "/images/team.jpeg"
+    },
+    challenges: [
+      'Meeting strict medical transportation regulations',
+      'Integrating with multiple insurance and healthcare systems',
+      'Ensuring system reliability for critical medical appointments'
     ],
-    client: 'EcoOffice',
-    year: '2023',
-    duration: '18 mois',
-    technologies: ['Construction écologique', 'Panneaux solaires', 'Système de récupération d\'eau', 'Domotique avancée'],
-    services: ['Architecture', 'Ingénierie structurelle', 'Gestion de projet', 'Certification environnementale'],
-    results: [
-      'Certification LEED Platinum obtenue',
-      'Réduction de 70% de la consommation énergétique',
-      'Économie de 60% sur les coûts d\'exploitation'
-    ]
-  },
-  {
-    id: 6,
-    title: 'Rénovation d\'un bâtiment historique',
-    category: 'construction',
-    description: 'Rénovation complète d\'un bâtiment historique, préservant son caractère architectural tout en modernisant ses installations et en améliorant son efficacité énergétique.',
-    fullDescription: `
-      <p>Pour PatrimoineRénov, nous avons entrepris la rénovation complète d'un bâtiment historique du 19ème siècle, transformant cet édifice classé en un espace moderne tout en préservant son caractère architectural unique.</p>
-      
-      <p>Ce projet complexe a impliqué :</p>
-      <ul>
-        <li>La restauration minutieuse des façades et éléments architecturaux d'origine</li>
-        <li>Le renforcement structurel du bâtiment selon les normes antisismiques actuelles</li>
-        <li>L'installation de systèmes modernes de chauffage, ventilation et climatisation</li>
-        <li>La mise aux normes électriques et de sécurité</li>
-        <li>L'amélioration de l'isolation thermique et acoustique</li>
-        <li>L'intégration discrète de technologies intelligentes</li>
-        <li>L'aménagement d'espaces intérieurs fonctionnels et élégants</li>
-      </ul>
-      
-      <p>Notre équipe a travaillé en étroite collaboration avec des historiens et des conservateurs du patrimoine pour garantir que chaque aspect de la rénovation respecte l'intégrité historique du bâtiment.</p>
-      
-      <p>Le résultat est un magnifique exemple de la façon dont l'ancien et le moderne peuvent coexister harmonieusement, créant un espace qui honore le passé tout en répondant aux besoins du présent.</p>
-    `,
-    image: 'https://placehold.co/800x600/1E40AF/FFFFFF?text=Historic+Renovation',
-    gallery: [
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Historic+Renovation+1',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Historic+Renovation+2',
-      'https://placehold.co/800x600/1E40AF/FFFFFF?text=Historic+Renovation+3'
+    solutions: [
+      'Implemented comprehensive compliance monitoring and reporting',
+      'Developed universal API connectors for healthcare systems',
+      'Built redundant systems with 99.9% uptime guarantee'
     ],
-    client: 'PatrimoineRénov',
-    year: '2021',
-    duration: '24 mois',
-    technologies: ['Techniques de restauration traditionnelles', 'Matériaux écologiques', 'Systèmes domotiques', 'Isolation écologique'],
-    services: ['Restauration architecturale', 'Ingénierie structurelle', 'Design d\'intérieur', 'Gestion de projet patrimonial'],
-    results: [
-      'Préservation de 95% des éléments architecturaux d\'origine',
-      'Amélioration de 60% de l\'efficacité énergétique',
-      'Prix d\'excellence en restauration patrimoniale'
-    ]
+    metrics: {
+      systemUptime: '99.9%',
+      complianceScore: '100%',
+      costReduction: '30%',
+      patientSatisfaction: '95%'
+    }
   }
 ];
 
 const ProjectDetail = () => {
-  const { id } = useParams()
-  const { t } = useTranslation()
+  const { slug } = useParams()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeImage, setActiveImage] = useState(0)
+  const [activeTab, setActiveTab] = useState('overview')
 
-  // Category icons
-  const categoryIcons = {
-    webDev: <Code size={20} className="mr-2" />,
-    transport: <Truck size={20} className="mr-2" />,
-    construction: <Building size={20} className="mr-2" />
+  // Category icons and colors
+  const categoryConfig = {
+    'digital-solutions': {
+      icon: <Code size={20} className="mr-2" />,
+      color: 'from-blue-500 to-purple-600',
+      bgColor: 'bg-blue-50',
+      textColor: 'text-blue-700'
+    },
+    'transportation': {
+      icon: <Truck size={20} className="mr-2" />,
+      color: 'from-green-500 to-teal-600',
+      bgColor: 'bg-green-50',
+      textColor: 'text-green-700'
+    }
   }
 
   useEffect(() => {
-    // In a real app, this would be an API call
     const fetchProject = () => {
       setLoading(true)
       // Simulate API call
       setTimeout(() => {
-        const foundProject = projectsData.find(p => p.id === parseInt(id))
+        const foundProject = projectsData.find(p => p.slug === slug)
         setProject(foundProject)
         setLoading(false)
       }, 500)
     }
 
     fetchProject()
-  }, [id])
+  }, [slug])
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading project details...</p>
+        </div>
       </div>
     )
   }
 
   if (!project) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-3xl font-bold text-midnight mb-4">Projet non trouvé</h1>
-        <p className="text-gray-600 mb-8">Le projet que vous recherchez n'existe pas ou a été supprimé.</p>
-        <Link 
-          to="/projects" 
-          className="btn btn-primary flex items-center"
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-slate-50 to-blue-50">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center max-w-md"
         >
-          <ArrowLeft size={16} className="mr-2" />
-          Retour aux projets
-        </Link>
+          <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Search className="w-12 h-12 text-red-500" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Project Not Found</h1>
+          <p className="text-gray-600 mb-8">The project you're looking for doesn't exist or may have been moved.</p>
+          <Link 
+            to="/projects" 
+            className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <ArrowLeft size={16} className="mr-2" />
+            Back to Projects
+          </Link>
+        </motion.div>
       </div>
     )
   }
 
+  const categoryInfo = categoryConfig[project.category]
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-midnight text-white overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
         {/* Background elements */}
         <div className="absolute inset-0 z-0">
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-midnight via-primary/40 to-midnight/80 z-10"></div>
-          
-          {/* Background image */}
+          <div className="absolute inset-0 bg-black/40 z-10"></div>
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-20 z-0" 
             style={{ backgroundImage: `url('${project.image}')` }}
           ></div>
-          
-          {/* Animated shapes */}
-          <div className="absolute top-20 right-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-20 right-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
         
-        {/* Content */}
         <div className="container mx-auto px-4 relative z-20">
-          <div className="max-w-4xl">
-            <Link 
-              to="/projects" 
-              className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
-            >
-              <ArrowLeft size={16} className="mr-2" />
-              {t('projects.title')}
-            </Link>
-            
-            <div className="flex items-center mb-4">
-              {categoryIcons[project.category]}
-              <span className="text-sm font-medium text-white/80">
-                {t(`projects.categories.${project.category}`)}
-              </span>
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-              {project.title}
-            </h1>
-            
-            <p className="text-xl text-white/80 mb-8">
-              {project.description}
-            </p>
-            
-            <div className="flex flex-wrap gap-6">
-              <div className="flex items-center">
-                <User size={20} className="mr-2 text-primary" />
-                <span>Client: <strong>{project.client}</strong></span>
-              </div>
-              
-              <div className="flex items-center">
-                <Calendar size={20} className="mr-2 text-primary" />
-                <span>Année: <strong>{project.year}</strong></span>
-              </div>
-              
-              <div className="flex items-center">
-                <Clock size={20} className="mr-2 text-primary" />
-                <span>Durée: <strong>{project.duration}</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Project Gallery */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="mb-16"
+            className="max-w-4xl"
           >
-            <motion.h2 
-              variants={fadeIn}
-              className="text-3xl font-bold text-midnight mb-8"
-            >
-              Galerie du projet
-            </motion.h2>
-            
-            <motion.div variants={fadeIn} className="mb-4">
-              <img 
-                src={project.gallery[activeImage]} 
-                alt={`${project.title} - Vue ${activeImage + 1}`} 
-                className="w-full h-96 object-cover rounded-lg shadow-lg"
-              />
+            <motion.div variants={fadeIn}>
+              <Link 
+                to="/projects" 
+                className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors group"
+              >
+                <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
+                Back to Projects
+              </Link>
             </motion.div>
             
-            <motion.div variants={fadeIn} className="flex gap-4 overflow-x-auto pb-4">
+            <motion.div variants={fadeIn} className="flex items-center mb-4">
+              <div className={`flex items-center ${categoryInfo.bgColor} ${categoryInfo.textColor} px-4 py-2 rounded-full`}>
+                {categoryInfo.icon}
+                <span className="text-sm font-medium capitalize">
+                  {project.category.replace('-', ' ')}
+                </span>
+              </div>
+            </motion.div>
+            
+            <motion.h1 variants={fadeIn} className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              {project.title}
+            </motion.h1>
+            
+            <motion.p variants={fadeIn} className="text-xl text-white/90 mb-8 leading-relaxed">
+              {project.description}
+            </motion.p>
+            
+            <motion.div variants={fadeIn} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="text-center">
+                <User size={24} className="mx-auto mb-2 text-blue-400" />
+                <p className="text-sm text-white/70">Client</p>
+                <p className="font-semibold">{project.client}</p>
+              </div>
+              
+              <div className="text-center">
+                <Calendar size={24} className="mx-auto mb-2 text-blue-400" />
+                <p className="text-sm text-white/70">Year</p>
+                <p className="font-semibold">{project.year}</p>
+              </div>
+              
+              <div className="text-center">
+                <Clock size={24} className="mx-auto mb-2 text-blue-400" />
+                <p className="text-sm text-white/70">Duration</p>
+                <p className="font-semibold">{project.duration}</p>
+              </div>
+              
+              <div className="text-center">
+                <Users size={24} className="mx-auto mb-2 text-blue-400" />
+                <p className="text-sm text-white/70">Team Size</p>
+                <p className="font-semibold">{project.teamSize}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Project Gallery */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.h2 variants={fadeIn} className="text-3xl font-bold text-gray-900 mb-8 text-center">
+              Project Gallery
+            </motion.h2>
+            
+            <motion.div variants={fadeIn} className="mb-6">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src={project.gallery[activeImage]} 
+                  alt={`${project.title} - View ${activeImage + 1}`} 
+                  className="w-full h-96 md:h-[500px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              </div>
+            </motion.div>
+            
+            <motion.div variants={fadeIn} className="flex gap-4 justify-center overflow-x-auto pb-4">
               {project.gallery.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveImage(index)}
-                  className={`flex-shrink-0 w-24 h-24 rounded-md overflow-hidden transition-all ${
-                    activeImage === index ? 'ring-4 ring-primary' : 'opacity-70 hover:opacity-100'
+                  className={`flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden transition-all ${
+                    activeImage === index 
+                      ? 'ring-4 ring-blue-500 scale-105' 
+                      : 'opacity-70 hover:opacity-100 hover:scale-105'
                   }`}
                 >
                   <img 
                     src={image} 
-                    alt={`${project.title} - Miniature ${index + 1}`} 
+                    alt={`${project.title} - Thumbnail ${index + 1}`} 
                     className="w-full h-full object-cover"
                   />
                 </button>
@@ -427,94 +444,184 @@ const ProjectDetail = () => {
         </div>
       </section>
 
-      {/* Project Details */}
-      <section className="py-20 bg-gray-50">
+      {/* Project Details Tabs */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={staggerContainer}
-              >
-                <motion.h2 
-                  variants={fadeIn}
-                  className="text-3xl font-bold text-midnight mb-8"
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            {/* Tab Navigation */}
+            <motion.div variants={fadeIn} className="flex flex-wrap justify-center mb-12">
+              {[
+                { id: 'overview', label: 'Overview', icon: <Eye size={16} /> },
+                { id: 'technologies', label: 'Technologies', icon: <Code size={16} /> },
+                { id: 'results', label: 'Results', icon: <BarChart3 size={16} /> },
+                { id: 'testimonial', label: 'Testimonial', icon: <MessageSquare size={16} /> }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center space-x-2 px-6 py-3 mx-2 mb-2 rounded-lg font-medium transition-all ${
+                    activeTab === tab.id
+                      ? 'bg-blue-600 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
                 >
-                  À propos du projet
-                </motion.h2>
-                
-                <motion.div 
-                  variants={fadeIn}
-                  className="prose prose-lg max-w-none"
-                  dangerouslySetInnerHTML={{ __html: project.fullDescription }}
-                />
-              </motion.div>
-            </div>
-            
-            <div>
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={staggerContainer}
-                className="bg-white rounded-lg shadow-lg p-6"
-              >
-                <motion.h3 
-                  variants={fadeIn}
-                  className="text-xl font-bold text-midnight mb-6"
-                >
-                  Détails du projet
-                </motion.h3>
-                
-                <motion.div variants={fadeIn} className="space-y-6">
-                  <div>
-                    <h4 className="font-bold text-gray-700 mb-2">Technologies utilisées</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, index) => (
-                        <span 
-                          key={index}
-                          className="inline-flex items-center text-sm bg-primary/10 text-primary px-3 py-1 rounded-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </motion.div>
+
+            {/* Tab Content */}
+            <motion.div variants={fadeIn} className="bg-white rounded-2xl shadow-xl p-8">
+              {activeTab === 'overview' && (
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Project Overview</h3>
+                  <div 
+                    className="prose prose-lg max-w-none text-gray-600"
+                    dangerouslySetInnerHTML={{ __html: project.fullDescription }}
+                  />
+                  
+                  <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Challenges</h4>
+                      <ul className="space-y-3">
+                        {project.challenges.map((challenge, index) => (
+                          <li key={index} className="flex items-start">
+                            <Target size={16} className="text-red-500 mt-1 mr-3 flex-shrink-0" />
+                            <span className="text-gray-600">{challenge}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Solutions</h4>
+                      <ul className="space-y-3">
+                        {project.solutions.map((solution, index) => (
+                          <li key={index} className="flex items-start">
+                            <CheckCircle size={16} className="text-green-500 mt-1 mr-3 flex-shrink-0" />
+                            <span className="text-gray-600">{solution}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
+                </div>
+              )}
+
+              {activeTab === 'technologies' && (
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Technologies & Services</h3>
                   
-                  <div>
-                    <h4 className="font-bold text-gray-700 mb-2">Services fournis</h4>
-                    <ul className="space-y-2">
-                      {project.services.map((service, index) => (
-                        <li key={index} className="flex items-start">
-                          <CheckCircle size={16} className="text-primary mt-1 mr-2 flex-shrink-0" />
-                          <span>{service}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Technologies Used</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {project.technologies.map((tech, index) => (
+                          <span 
+                            key={index}
+                            className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium"
+                          >
+                            <Zap size={14} className="mr-2" />
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Services Provided</h4>
+                      <ul className="space-y-3">
+                        {project.services.map((service, index) => (
+                          <li key={index} className="flex items-center">
+                            <CheckCircle size={16} className="text-green-500 mr-3" />
+                            <span className="text-gray-600">{service}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
+                </div>
+              )}
+
+              {activeTab === 'results' && (
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Project Results</h3>
                   
-                  <div>
-                    <h4 className="font-bold text-gray-700 mb-2">Résultats obtenus</h4>
-                    <ul className="space-y-2">
-                      {project.results.map((result, index) => (
-                        <li key={index} className="flex items-start">
-                          <CheckCircle size={16} className="text-primary mt-1 mr-2 flex-shrink-0" />
-                          <span>{result}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Key Achievements</h4>
+                      <ul className="space-y-4">
+                        {project.results.map((result, index) => (
+                          <li key={index} className="flex items-start">
+                            <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                              <TrendingUp size={16} className="text-green-600" />
+                            </div>
+                            <span className="text-gray-600 font-medium">{result}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Performance Metrics</h4>
+                      <div className="space-y-4">
+                        {Object.entries(project.metrics).map(([key, value], index) => (
+                          <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                            <span className="font-semibold text-gray-900">{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
+                </div>
+              )}
+
+              {activeTab === 'testimonial' && (
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Client Testimonial</h3>
+                  
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8">
+                    <div className="flex items-center mb-6">
+                      <div className="flex text-yellow-400">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={20} fill="currentColor" />
+                        ))}
+                      </div>
+                      <span className="ml-2 text-gray-600 font-medium">5.0 out of 5</span>
+                    </div>
+                    
+                    <blockquote className="text-xl text-gray-700 mb-6 italic leading-relaxed">
+                      "{project.testimonial.text}"
+                    </blockquote>
+                    
+                    <div className="flex items-center">
+                      <img 
+                        src={project.testimonial.avatar} 
+                        alt={project.testimonial.author}
+                        className="w-12 h-12 rounded-full object-cover mr-4"
+                      />
+                      <div>
+                        <p className="font-semibold text-gray-900">{project.testimonial.author}</p>
+                        <p className="text-gray-600">{project.testimonial.position}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-white">
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial="hidden"
@@ -522,26 +629,29 @@ const ProjectDetail = () => {
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            <motion.h2 
-              variants={fadeIn}
-              className="text-3xl md:text-4xl font-bold mb-4"
-            >
-              Vous avez un projet similaire ?
+            <motion.h2 variants={fadeIn} className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to Start Your Project?
             </motion.h2>
             
-            <motion.p 
-              variants={fadeIn}
-              className="text-xl mb-8 max-w-2xl mx-auto"
-            >
-              Contactez-nous pour discuter de votre projet et découvrir comment NEOBIZE peut vous aider à le réaliser.
+            <motion.p variants={fadeIn} className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+              Let's discuss how NEOBIZE can help bring your vision to life with our expertise in digital solutions and transportation services.
             </motion.p>
             
-            <motion.div variants={fadeIn}>
+            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 to="/contact" 
-                className="btn bg-white text-primary hover:bg-gray-100 text-lg px-8 py-3"
+                className="inline-flex items-center bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
-                {t('common.contactUs')}
+                <MessageSquare size={20} className="mr-2" />
+                Get In Touch
+              </Link>
+              
+              <Link 
+                to="/projects" 
+                className="inline-flex items-center border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+              >
+                <Eye size={20} className="mr-2" />
+                View More Projects
               </Link>
             </motion.div>
           </motion.div>

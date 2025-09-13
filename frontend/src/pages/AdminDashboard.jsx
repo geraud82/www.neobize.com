@@ -485,49 +485,54 @@ const AdminDashboard = () => {
       setPosts(postsData || [])
     } catch (error) {
       console.error('Error fetching data:', error)
-      setPosts([])
+      
+      // If backend is not available, provide mock data for development
+      if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
+        console.warn('Backend not available, using mock data for development')
+        const mockPosts = [
+          {
+            id: 1,
+            title: 'Sample Article 1',
+            excerpt: 'This is a sample article for testing purposes.',
+            content: '<p>This is the content of the first sample article.</p>',
+            category: 'web-dev',
+            author: 'Admin',
+            status: 'published',
+            createdAt: new Date().toISOString(),
+            featuredImage: null,
+            tags: ['sample', 'test']
+          },
+          {
+            id: 2,
+            title: 'Sample Article 2',
+            excerpt: 'Another sample article for testing.',
+            content: '<p>This is the content of the second sample article.</p>',
+            category: 'transport',
+            author: 'Admin',
+            status: 'draft',
+            createdAt: new Date().toISOString(),
+            featuredImage: null,
+            tags: ['sample', 'draft']
+          }
+        ]
+        setPosts(mockPosts)
+      } else {
+        setPosts([])
+      }
     } finally {
       setIsLoading(false)
       setIsRefreshing(false)
     }
   }
   
-  // Create new post form
+  // Navigate to create new post page
   const createNewPost = () => {
-    setCurrentPost(null)
-    setFormData({
-      title: '',
-      excerpt: '',
-      content: '',
-      category: 'web-dev',
-      author: '',
-      featuredImage: '',
-      tags: '',
-      status: 'draft'
-    })
-    setIsEditing(true)
-    setShowPreview(false)
-    setActiveSection('articles')
-    setSidebarOpen(false)
+    navigate('/admin/create')
   }
   
-  // Edit post
+  // Edit post - redirect to create page with edit mode
   const editPost = (post) => {
-    setCurrentPost(post)
-    setFormData({
-      title: post.title || '',
-      excerpt: post.excerpt || '',
-      content: post.content || '',
-      category: post.category || 'web-dev',
-      author: post.author || '',
-      featuredImage: post.featuredImage || '',
-      tags: Array.isArray(post.tags) ? post.tags.join(', ') : '',
-      status: post.status || 'draft'
-    })
-    setIsEditing(true)
-    setShowPreview(false)
-    setActiveSection('articles')
-    setSidebarOpen(false)
+    navigate(`/admin/create?edit=${post.id}`)
   }
   
   // Delete post with confirmation
@@ -613,11 +618,11 @@ const AdminDashboard = () => {
       return
     }
     
-    // Process tags
-    const tagsArray = formData.tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag !== '')
+  // Process tags - ensure formData.tags is a string
+  const tagsArray = (formData.tags || '')
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(tag => tag !== '')
     
     // Create post object
     const postData = {
@@ -713,7 +718,7 @@ const AdminDashboard = () => {
 
   // Prepare article data for preview
   const getArticleForPreview = () => {
-    const tagsArray = formData.tags
+    const tagsArray = (formData.tags || '')
       .split(',')
       .map(tag => tag.trim())
       .filter(tag => tag !== '')
@@ -1128,9 +1133,7 @@ const AdminDashboard = () => {
               animate="visible"
               className="space-y-6"
             >
-              {!isEditing ? (
-                <>
-                  {/* Articles header with actions */}
+              {/* Articles header with actions */}
                   <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Articles</h3>
@@ -1456,288 +1459,6 @@ const AdminDashboard = () => {
                       </div>
                     )}
                   </motion.div>
-                </>
-              ) : (
-                /* Article Editor */
-                <motion.div variants={itemVariants} className="space-y-6">
-                  {/* Editor header */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={cancelEditing}
-                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                      >
-                        <ArrowLeft className="w-5 h-5" />
-                      </motion.button>
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-900">
-                          {currentPost ? 'Edit Article' : 'Create New Article'}
-                        </h3>
-                        <p className="text-gray-600">
-                          {currentPost ? 'Update your existing article' : 'Write and publish a new article'}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={togglePreview}
-                        className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-200 ${
-                          showPreview 
-                            ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg' 
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        }`}
-                      >
-                        <Eye className="w-4 h-4" />
-                        <span>{showPreview ? 'Edit' : 'Preview'}</span>
-                      </motion.button>
-                    </div>
-                  </div>
-
-                  {/* Success/Error messages */}
-                  <AnimatePresence>
-                    {saveSuccess && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center"
-                      >
-                        <Check className="w-5 h-5 mr-3" />
-                        <span>Article saved successfully!</span>
-                      </motion.div>
-                    )}
-                    
-                    {saveError && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-center"
-                      >
-                        <X className="w-5 h-5 mr-3" />
-                        <span>{saveError}</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {!showPreview ? (
-                    /* Edit Form */
-                    <form onSubmit={savePost} className="space-y-6">
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Main form */}
-                        <div className="lg:col-span-2 space-y-6">
-                          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-6">
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Article Details</h4>
-                            
-                            <div className="space-y-4">
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Title *
-                                </label>
-                                <input
-                                  type="text"
-                                  name="title"
-                                  value={formData.title}
-                                  onChange={handleInputChange}
-                                  placeholder="Enter article title..."
-                                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg font-medium"
-                                  required
-                                />
-                              </div>
-                              
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Excerpt *
-                                </label>
-                                <textarea
-                                  name="excerpt"
-                                  value={formData.excerpt}
-                                  onChange={handleInputChange}
-                                  placeholder="Brief description of the article..."
-                                  rows={3}
-                                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-                                  required
-                                />
-                              </div>
-                              
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Author *
-                                </label>
-                                <input
-                                  type="text"
-                                  name="author"
-                                  value={formData.author}
-                                  onChange={handleInputChange}
-                                  placeholder="Author name"
-                                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-6">
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Content</h4>
-                            <RichTextEditor
-                              value={formData.content}
-                              onChange={handleContentChange}
-                              placeholder="Write your article content..."
-                              height="400px"
-                            />
-                          </div>
-                        </div>
-                        
-                        {/* Sidebar */}
-                        <div className="space-y-6">
-                          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-6">
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Settings</h4>
-                            
-                            <div className="space-y-4">
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Category
-                                </label>
-                                <select
-                                  name="category"
-                                  value={formData.category}
-                                  onChange={handleInputChange}
-                                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                >
-                                  {categories.map(category => (
-                                    <option key={category.value} value={category.value}>
-                                      {category.label}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                              
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Status
-                                </label>
-                                <select
-                                  name="status"
-                                  value={formData.status}
-                                  onChange={handleInputChange}
-                                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                >
-                                  <option value="draft">Draft</option>
-                                  <option value="published">Published</option>
-                                </select>
-                              </div>
-                              
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                  Tags
-                                </label>
-                                <input
-                                  type="text"
-                                  name="tags"
-                                  value={formData.tags}
-                                  onChange={handleInputChange}
-                                  placeholder="react, javascript, web..."
-                                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                />
-                                <p className="text-xs text-gray-500 mt-1">
-                                  Separate tags with commas
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-6">
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Featured Image</h4>
-                            
-                            {formData.featuredImage ? (
-                              <div className="relative">
-                                <img
-                                  src={formData.featuredImage}
-                                  alt="Featured"
-                                  className="w-full h-32 object-cover rounded-xl"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => setFormData({ ...formData, featuredImage: '' })}
-                                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                                >
-                                  <X className="w-4 h-4" />
-                                </button>
-                              </div>
-                            ) : (
-                              <label className="block">
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  onChange={handleImageUpload}
-                                  className="hidden"
-                                />
-                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-indigo-400 hover:bg-indigo-50/50 transition-all duration-200 cursor-pointer">
-                                  {isUploading ? (
-                                    <div className="flex flex-col items-center">
-                                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mb-2"></div>
-                                      <p className="text-sm text-gray-600">Uploading...</p>
-                                    </div>
-                                  ) : (
-                                    <div className="flex flex-col items-center">
-                                      <Upload className="w-8 h-8 text-gray-400 mb-2" />
-                                      <p className="text-sm text-gray-600">Click to upload image</p>
-                                      <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
-                                    </div>
-                                  )}
-                                </div>
-                              </label>
-                            )}
-                          </div>
-                          
-                          <div className="flex flex-col space-y-3">
-                            <motion.button
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              type="submit"
-                              className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg"
-                            >
-                              <Save className="w-4 h-4" />
-                              <span>Save Article</span>
-                            </motion.button>
-                            
-                            <motion.button
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              type="button"
-                              onClick={cancelEditing}
-                              className="w-full flex items-center justify-center space-x-2 bg-gray-100 text-gray-700 px-4 py-3 rounded-xl hover:bg-gray-200 transition-all duration-200"
-                            >
-                              <X className="w-4 h-4" />
-                              <span>Cancel</span>
-                            </motion.button>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  ) : (
-                    /* Preview Mode */
-                    <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-gray-200/50 p-8">
-                      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                        <div className="flex items-center">
-                          <Eye className="w-5 h-5 text-blue-600 mr-2" />
-                          <span className="text-blue-800 font-medium">Preview Mode</span>
-                        </div>
-                        <p className="text-blue-600 text-sm mt-1">
-                          This is how your article will appear to readers
-                        </p>
-                      </div>
-                      
-                      <ArticlePreview post={getArticleForPreview()} />
-                    </div>
-                  )}
-                </motion.div>
-              )}
             </motion.div>
           )}
 

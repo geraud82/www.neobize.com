@@ -27,79 +27,46 @@ const staggerContainer = {
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('all')
 
-  // NEOBIZE Projects - Transportation & Digital Solutions
+  // NEOBIZE Projects - Transportation & Digital Solutions (matching ProjectDetail.jsx)
   const projects = [
     {
       id: 1,
-      title: 'NEMT Fleet Management System',
-      category: 'transportation',
-      description: 'Comprehensive Non-Emergency Medical Transportation fleet management system serving patients across Africa and USA with real-time tracking, scheduling, and route optimization.',
-      image: '/images/web-trans.jpg',
-      client: 'HealthCare Plus',
-      year: '2023',
-      location: 'USA & Africa',
-      technologies: ['GPS Tracking', 'Real-time Scheduling', 'Medical Equipment Integration'],
-      results: '500+ successful trips, 98% patient satisfaction'
+      slug: 'saas-project-management-platform',
+      title: 'SaaS Project Management Platform',
+      category: 'digital-solutions',
+      description: 'A comprehensive SaaS platform for project management with real-time collaboration, task tracking, and advanced analytics.',
+      image: '/images/web-saas.jpg',
+      client: 'TechStart Inc.',
+      year: '2024',
+      location: 'USA',
+      technologies: ['React.js', 'Node.js', 'MongoDB', 'Docker'],
+      results: '10,000+ active users within 6 months'
     },
     {
       id: 2,
-      title: 'Airport Shuttle Mobile App',
-      category: 'webDev',
-      description: 'Custom mobile application for airport shuttle services with GPS tracking, booking system, payment integration, and real-time passenger notifications.',
+      slug: 'mobile-ecommerce-app',
+      title: 'Mobile E-commerce Application',
+      category: 'digital-solutions',
+      description: 'A feature-rich mobile e-commerce application with AI-powered recommendations, secure payments, and seamless user experience.',
       image: '/images/web-mobileapp.jpg',
-      client: 'AirPort Express',
-      year: '2023',
-      location: 'Africa',
-      technologies: ['React Native', 'GPS Integration', 'Payment Gateway', 'Push Notifications'],
-      results: '24/7 service availability, 40% increase in bookings'
+      client: 'RetailMax Solutions',
+      year: '2024',
+      location: 'USA',
+      technologies: ['React Native', 'TensorFlow', 'AWS', 'Stripe'],
+      results: '500,000+ app downloads, 4.8-star rating'
     },
     {
       id: 3,
-      title: 'Medical Carrier SaaS Platform',
-      category: 'saas',
-      description: 'Advanced SaaS platform for medical carrier operations with AI-powered route optimization, patient care management, and healthcare system integration.',
-      image: '/images/web-saas.jpg',
-      client: 'MedTrans Solutions',
+      slug: 'nemt-fleet-optimization-system',
+      title: 'NEMT Fleet Optimization System',
+      category: 'transportation',
+      description: 'Advanced fleet management system for Non-Emergency Medical Transportation with route optimization, real-time tracking, and compliance management.',
+      image: '/images/LogiTrans.jpeg',
+      client: 'MediTransport Services',
       year: '2024',
       location: 'USA',
-      technologies: ['AI Route Optimization', 'Healthcare APIs', 'Cloud Infrastructure', 'Analytics Dashboard'],
-      results: '30% reduction in transport time, improved patient care coordination'
-    },
-    {
-      id: 4,
-      title: 'Transportation Booking Web Platform',
-      category: 'webDev',
-      description: 'Comprehensive web platform for booking various transportation services including NEMT, airport shuttles, and medical carriers with integrated payment and scheduling.',
-      image: '/images/web-imag.jpg',
-      client: 'TransportHub',
-      year: '2023',
-      location: 'Africa & USA',
-      technologies: ['React.js', 'Node.js', 'Payment Integration', 'Booking System'],
-      results: 'Multi-service platform serving 1000+ users monthly'
-    },
-    {
-      id: 5,
-      title: 'AI-Powered Route Optimization System',
-      category: 'saas',
-      description: 'Intelligent route optimization system using machine learning to optimize transportation routes, reduce fuel costs, and improve service efficiency.',
-      image: '/images/web-saas.jpg',
-      client: 'LogiTrans',
-      year: '2024',
-      location: 'Africa',
-      technologies: ['Machine Learning', 'Route Algorithms', 'Real-time Data', 'Analytics'],
-      results: '25% fuel cost reduction, 35% improvement in delivery times'
-    },
-    {
-      id: 6,
-      title: 'Patient Care Management Mobile App',
-      category: 'webDev',
-      description: 'Mobile application for healthcare providers to manage patient transportation, track medical equipment, and coordinate with NEMT services.',
-      image: '/images/web-mobileapp.jpg',
-      client: 'MediCare Network',
-      year: '2023',
-      location: 'USA',
-      technologies: ['Flutter', 'Healthcare APIs', 'Real-time Tracking', 'Secure Messaging'],
-      results: 'Streamlined patient care coordination for 50+ healthcare facilities'
+      technologies: ['Java Spring Boot', 'React', 'PostgreSQL', 'Google Maps API'],
+      results: '30% reduction in operational costs, 99.5% on-time performance'
     }
   ]
 
@@ -179,26 +146,15 @@ const Projects = () => {
               Transportation Services
             </button>
             <button
-              onClick={() => setActiveCategory('webDev')}
+              onClick={() => setActiveCategory('digital-solutions')}
               className={`px-6 py-3 rounded-full transition-all duration-300 flex items-center font-medium ${
-                activeCategory === 'webDev'
+                activeCategory === 'digital-solutions'
                   ? 'bg-primary text-white shadow-lg'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
               {categoryIcons.webDev}
-              Web & Mobile Apps
-            </button>
-            <button
-              onClick={() => setActiveCategory('saas')}
-              className={`px-6 py-3 rounded-full transition-all duration-300 flex items-center font-medium ${
-                activeCategory === 'saas'
-                  ? 'bg-primary text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {categoryIcons.saas}
-              SaaS & AI Solutions
+              Digital Solutions
             </button>
           </motion.div>
 
@@ -233,9 +189,9 @@ const Projects = () => {
                       {categoryIcons[project.category]}
                     </div>
                     <span className="text-sm font-medium text-gray-500 ml-1">
-                      {project.category === 'webDev' ? 'Web & Mobile Apps' : 
+                      {project.category === 'digital-solutions' ? 'Digital Solutions' : 
                        project.category === 'transportation' ? 'Transportation Services' : 
-                       'SaaS & AI Solutions'}
+                       'Digital Solutions'}
                     </span>
                   </div>
                   
@@ -274,7 +230,7 @@ const Projects = () => {
                       <span className="font-medium">{project.client}</span>
                     </div>
                     <Link 
-                      to={`/projects/${project.id}`} 
+                      to={`/projects/${project.slug}`} 
                       className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors group-hover:translate-x-1 transition-transform duration-300"
                     >
                       View Details

@@ -19,8 +19,7 @@ const adminRoutes = require('./routes/adminRoutes');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001
-;
+const PORT = process.env.PORT || 5003;
 
 // CORS
 const whitelist = [
@@ -69,13 +68,26 @@ const authenticateToken = (req, res, next) => {
 // DB
 const initializeDatabase = async () => {
   try {
+    console.log('🔄 Initialisation de la base de données...');
     await testConnection();
+    console.log('✅ Connexion à la base de données établie');
+    
+    // Try to sync database with force option to handle schema issues
     await syncDatabase();
     console.log('✅ Base de données PostgreSQL initialisée');
   } catch (error) {
-    console.error('❌ Erreur de base de données:', error);
-    process.exit(1);
+    console.error('❌ Erreur de base de données:', error.message);
+    
+    // Don't exit immediately, try to continue without database for now
+    console.log('⚠️ Continuant sans base de données - certaines fonctionnalités peuvent être limitées');
+    
+    // Set a flag to indicate database is not available
+    global.databaseAvailable = false;
+    return false;
   }
+  
+  global.databaseAvailable = true;
+  return true;
 };
 
 // Accueil

@@ -117,6 +117,14 @@ const getArticleById = async (req, res) => {
 // Créer un nouvel article
 const createArticle = async (req, res) => {
   try {
+    // Check if database is available
+    if (!global.databaseAvailable) {
+      return res.status(503).json({
+        success: false,
+        message: 'Service temporairement indisponible - problème de base de données'
+      });
+    }
+
     const articleData = req.body;
 
     // Validation des données requises

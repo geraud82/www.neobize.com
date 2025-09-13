@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { isAuthenticated } from '../services/api'
+import { isAuthenticated, hasToken } from '../services/api'
 
 const ProtectedRoute = ({ children }) => {
   const [isAuth, setIsAuth] = useState(null) // null = loading, true = authenticated, false = not authenticated
@@ -9,11 +9,25 @@ const ProtectedRoute = ({ children }) => {
     // Vérifier l'authentification
     const checkAuth = async () => {
       try {
+        // First check if we have a token locally
+        if (!hasToken()) {
+          setIsAuth(false)
+          return
+        }
+        
+        // Then verify with the server
         const authenticated = await isAuthenticated()
         setIsAuth(authenticated)
       } catch (error) {
         console.error('Erreur lors de la vérification de l\'authentification:', error)
-        setIsAuth(false)
+        
+        // If there's a network error but we have a token, allow access for development
+        if (hasToken() && (error.message.includes('fetch') || error.message.includes('network'))) {
+          console.warn('Backend unavailable, allowing access with local token for development')
+          setIsAuth(true)
+        } else {
+          setIsAuth(false)
+        }
       }
     }
     

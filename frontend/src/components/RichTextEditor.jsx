@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useCallback } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Upload, Image, Link, Bold, Italic, List, AlignLeft, AlignCenter, AlignRight, Code, Quote } from 'lucide-react'
@@ -8,6 +8,24 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
   const [isUploading, setIsUploading] = useState(false)
   const quillRef = useRef(null)
   const fileInputRef = useRef(null)
+  
+  // Ensure value is always a string and handle null/undefined safely
+  const safeValue = useMemo(() => {
+    if (value === null || value === undefined) {
+      return ''
+    }
+    if (typeof value !== 'string') {
+      return String(value)
+    }
+    return value
+  }, [value])
+
+  // Gestionnaire d'upload d'image
+  const handleImageUpload = useCallback(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
+    }
+  }, [])
 
   // Configuration des modules Quill
   const modules = useMemo(() => ({
@@ -32,7 +50,7 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
     clipboard: {
       matchVisual: false
     }
-  }), [])
+  }), [handleImageUpload])
 
   // Formats supportés
   const formats = [
@@ -46,13 +64,8 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
     'blockquote', 'code-block'
   ]
 
-  // Gestionnaire d'upload d'image
-  async function handleImageUpload() {
-    fileInputRef.current?.click()
-  }
-
   // Gestionnaire de sélection de fichier
-  const handleFileSelect = async (e) => {
+  const handleFileSelect = useCallback(async (e) => {
     const file = e.target.files[0]
     if (!file) return
 
@@ -74,8 +87,10 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
       const quill = quillRef.current?.getEditor()
       if (quill) {
         const range = quill.getSelection(true)
-        quill.insertEmbed(range.index, 'image', imageUrl)
-        quill.setSelection(range.index + 1)
+        if (range && typeof range.index === 'number') {
+          quill.insertEmbed(range.index, 'image', imageUrl)
+          quill.setSelection(range.index + 1)
+        }
       }
     } catch (error) {
       console.error('Erreur lors du téléchargement de l\'image:', error)
@@ -87,12 +102,16 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
         fileInputRef.current.value = ''
       }
     }
-  }
+  }, [])
 
-  // Gestionnaire de changement de contenu
-  const handleChange = (content, delta, source, editor) => {
-    onChange(content)
-  }
+  // Gestionnaire de changement de contenu avec protection contre les valeurs null
+  const handleChange = useCallback((content, delta, source, editor) => {
+    // Ensure content is never null or undefined
+    const safeContent = content || ''
+    if (onChange) {
+      onChange(safeContent)
+    }
+  }, [onChange])
 
   // Styles personnalisés pour l'éditeur
   const editorStyle = {
@@ -124,12 +143,15 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
         <ReactQuill
           ref={quillRef}
           theme="snow"
-          value={value}
+          value={safeValue}
           onChange={handleChange}
           modules={modules}
           formats={formats}
           placeholder={placeholder}
           style={editorStyle}
+          preserveWhitespace={false}
+          readOnly={false}
+          bounds="self"
         />
       </div>
 
@@ -167,85 +189,6 @@ const RichTextEditor = ({ value, onChange, placeholder = "Écrivez votre contenu
         </div>
       </div>
 
-      {/* Styles CSS personnalisés */}
-      <style jsx>{`
-        .rich-text-editor .ql-editor {
-          min-height: ${height};
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-          font-size: 14px;
-          line-height: 1.6;
-        }
-        
-        .rich-text-editor .ql-toolbar {
-          border-top: 1px solid #e5e7eb;
-          border-left: 1px solid #e5e7eb;
-          border-right: 1px solid #e5e7eb;
-          border-bottom: none;
-          background: #f9fafb;
-        }
-        
-        .rich-text-editor .ql-container {
-          border-bottom: 1px solid #e5e7eb;
-          border-left: 1px solid #e5e7eb;
-          border-right: 1px solid #e5e7eb;
-          border-top: none;
-        }
-        
-        .rich-text-editor .ql-editor.ql-blank::before {
-          color: #9ca3af;
-          font-style: normal;
-        }
-        
-        .rich-text-editor .ql-editor h1 {
-          font-size: 2em;
-          font-weight: 700;
-          margin: 0.67em 0;
-        }
-        
-        .rich-text-editor .ql-editor h2 {
-          font-size: 1.5em;
-          font-weight: 600;
-          margin: 0.75em 0;
-        }
-        
-        .rich-text-editor .ql-editor h3 {
-          font-size: 1.25em;
-          font-weight: 600;
-          margin: 0.83em 0;
-        }
-        
-        .rich-text-editor .ql-editor blockquote {
-          border-left: 4px solid #e5e7eb;
-          padding-left: 1rem;
-          margin: 1rem 0;
-          font-style: italic;
-          color: #6b7280;
-        }
-        
-        .rich-text-editor .ql-editor pre {
-          background: #f3f4f6;
-          border: 1px solid #e5e7eb;
-          border-radius: 0.375rem;
-          padding: 1rem;
-          overflow-x: auto;
-        }
-        
-        .rich-text-editor .ql-editor img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 0.375rem;
-          margin: 1rem 0;
-        }
-        
-        .rich-text-editor .ql-editor a {
-          color: #3b82f6;
-          text-decoration: underline;
-        }
-        
-        .rich-text-editor .ql-editor a:hover {
-          color: #1d4ed8;
-        }
-      `}</style>
     </div>
   )
 }

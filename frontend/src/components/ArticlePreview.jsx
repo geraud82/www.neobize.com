@@ -1,6 +1,8 @@
 import { User, Calendar, Tag, Clock, Eye } from 'lucide-react'
 
-const ArticlePreview = ({ article, categories = [] }) => {
+const ArticlePreview = ({ post, article, categories = [] }) => {
+  // Use post if provided, otherwise use article for backward compatibility
+  const data = post || article || {}
   // Fonction pour nettoyer et afficher le contenu HTML
   const createMarkup = (htmlContent) => {
     return { __html: htmlContent }
@@ -25,11 +27,11 @@ const ArticlePreview = ({ article, categories = [] }) => {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Image à la une */}
-      {article.featuredImage && (
+      {data.featuredImage && (
         <div className="mb-8">
           <img
-            src={article.featuredImage}
-            alt={article.title}
+            src={data.featuredImage}
+            alt={data.title}
             className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg"
           />
         </div>
@@ -38,66 +40,66 @@ const ArticlePreview = ({ article, categories = [] }) => {
       {/* En-tête de l'article */}
       <header className="mb-8">
         {/* Catégorie */}
-        {article.category && (
+        {data.category && (
           <div className="mb-4">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">
               <Tag size={14} className="mr-1" />
-              {getCategoryLabel(article.category)}
+              {getCategoryLabel(data.category)}
             </span>
           </div>
         )}
 
         {/* Titre */}
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          {article.title || 'Titre de l\'article'}
+          {data.title || 'Titre de l\'article'}
         </h1>
 
         {/* Extrait */}
-        {article.excerpt && (
+        {data.excerpt && (
           <div className="text-xl text-gray-600 mb-6 leading-relaxed">
-            {article.excerpt}
+            {data.excerpt}
           </div>
         )}
 
         {/* Métadonnées */}
         <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 pb-6 border-b border-gray-200">
           {/* Auteur */}
-          {article.author && (
+          {data.author && (
             <div className="flex items-center">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2">
                 <User size={14} className="text-primary" />
               </div>
-              <span className="font-medium">{article.author}</span>
+              <span className="font-medium">{data.author}</span>
             </div>
           )}
 
           {/* Date */}
           <div className="flex items-center">
             <Calendar size={14} className="mr-2" />
-            <span>{formatDate(article.publishedAt || new Date())}</span>
+            <span>{formatDate(data.publishedAt || new Date())}</span>
           </div>
 
           {/* Temps de lecture */}
-          {article.readTime && (
+          {data.readTime && (
             <div className="flex items-center">
               <Clock size={14} className="mr-2" />
-              <span>{article.readTime} min de lecture</span>
+              <span>{data.readTime} min de lecture</span>
             </div>
           )}
 
           {/* Vues */}
-          {article.views !== undefined && (
+          {data.views !== undefined && (
             <div className="flex items-center">
               <Eye size={14} className="mr-2" />
-              <span>{article.views} vues</span>
+              <span>{data.views} vues</span>
             </div>
           )}
         </div>
 
         {/* Tags */}
-        {article.tags && article.tags.length > 0 && (
+        {data.tags && data.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
-            {article.tags.map((tag, index) => (
+            {data.tags.map((tag, index) => (
               <span
                 key={index}
                 className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
@@ -113,7 +115,7 @@ const ArticlePreview = ({ article, categories = [] }) => {
       <article className="prose prose-lg max-w-none">
         <div 
           className="article-content"
-          dangerouslySetInnerHTML={createMarkup(article.content || '<p>Contenu de l\'article...</p>')}
+          dangerouslySetInnerHTML={createMarkup(data.content || '<p>Contenu de l\'article...</p>')}
         />
       </article>
 
