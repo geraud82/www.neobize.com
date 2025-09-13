@@ -25,13 +25,11 @@ import {
   PenTool,
   Settings
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { createPost, uploadImage } from '../services/api'
 import RichTextEditor from '../components/RichTextEditor'
 import ArticlePreview from '../components/ArticlePreview'
 
 const CreateArticle = () => {
-  const { t } = useTranslation()
   const navigate = useNavigate()
   
   // État du formulaire
@@ -56,55 +54,55 @@ const CreateArticle = () => {
   const [readTime, setReadTime] = useState(0)
   const [currentStep, setCurrentStep] = useState(1)
   
-  // Catégories disponibles
+  // Available categories
   const categories = [
-    { value: 'web-dev', label: 'Développement Web', color: 'bg-blue-100 text-blue-800', icon: '💻', gradient: 'from-blue-500 to-cyan-500' },
-    { value: 'transport', label: 'Transport', color: 'bg-green-100 text-green-800', icon: '🚛', gradient: 'from-green-500 to-emerald-500' },
-    { value: 'construction', label: 'Construction', color: 'bg-orange-100 text-orange-800', icon: '🏗️', gradient: 'from-orange-500 to-amber-500' },
-    { value: 'general', label: 'Général', color: 'bg-gray-100 text-gray-800', icon: '📝', gradient: 'from-gray-500 to-slate-500' },
-    { value: 'tech', label: 'Technologie', color: 'bg-purple-100 text-purple-800', icon: '⚡', gradient: 'from-purple-500 to-violet-500' },
-    { value: 'design', label: 'Design', color: 'bg-pink-100 text-pink-800', icon: '🎨', gradient: 'from-pink-500 to-rose-500' }
+    { value: 'web-dev', label: 'Web Development', color: 'bg-blue-100 text-blue-800', icon: '💻', gradient: 'from-blue-500 to-cyan-500' },
+    { value: 'transport', label: 'Transportation', color: 'bg-green-100 text-green-800', icon: '🚛', gradient: 'from-green-500 to-emerald-500' },
+    { value: 'mobile-dev', label: 'Mobile Development', color: 'bg-orange-100 text-orange-800', icon: '📱', gradient: 'from-orange-500 to-amber-500' },
+    { value: 'saas', label: 'SaaS Solutions', color: 'bg-gray-100 text-gray-800', icon: '☁️', gradient: 'from-gray-500 to-slate-500' },
+    { value: 'ai-tech', label: 'AI & Technology', color: 'bg-purple-100 text-purple-800', icon: '🤖', gradient: 'from-purple-500 to-violet-500' },
+    { value: 'business', label: 'Business', color: 'bg-pink-100 text-pink-800', icon: '💼', gradient: 'from-pink-500 to-rose-500' }
   ]
   
-  // Étapes de création
+  // Creation steps
   const steps = [
-    { id: 1, title: 'Informations de base', icon: <FileText size={20} />, description: 'Titre, catégorie et résumé' },
-    { id: 2, title: 'Contenu principal', icon: <PenTool size={20} />, description: 'Rédaction de l\'article' },
-    { id: 3, title: 'Médias et finalisation', icon: <ImageIcon size={20} />, description: 'Image et publication' }
+    { id: 1, title: 'Basic Information', icon: <FileText size={20} />, description: 'Title, category and summary' },
+    { id: 2, title: 'Main Content', icon: <PenTool size={20} />, description: 'Article writing' },
+    { id: 3, title: 'Media and Finalization', icon: <ImageIcon size={20} />, description: 'Image and publication' }
   ]
   
-  // Calculer le nombre de mots et temps de lecture
+  // Calculate word count and reading time
   useEffect(() => {
-    const text = formData.content.replace(/<[^>]*>/g, '') // Supprimer les balises HTML
+    const text = formData.content.replace(/<[^>]*>/g, '') // Remove HTML tags
     const words = text.trim().split(/\s+/).filter(word => word.length > 0)
     const count = words.length
     setWordCount(count)
-    setReadTime(Math.ceil(count / 200)) // 200 mots par minute
+    setReadTime(Math.ceil(count / 200)) // 200 words per minute
   }, [formData.content])
   
-  // Gérer les changements de formulaire
+  // Handle form changes
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
   
-  // Gérer le changement de contenu
+  // Handle content change
   const handleContentChange = (content) => {
     setFormData(prev => ({ ...prev, content }))
   }
   
-  // Gérer l'upload d'image
+  // Handle image upload
   const handleImageUpload = async (e) => {
     const file = e.target.files[0]
     if (!file) return
     
     if (!file.type.startsWith('image/')) {
-      setSaveError('Veuillez sélectionner un fichier image valide')
+      setSaveError('Please select a valid image file')
       return
     }
     
     if (file.size > 5 * 1024 * 1024) {
-      setSaveError('La taille de l\'image ne doit pas dépasser 5MB')
+      setSaveError('Image size must not exceed 5MB')
       return
     }
     
@@ -115,43 +113,43 @@ const CreateArticle = () => {
       const imageUrl = await uploadImage(file)
       setFormData(prev => ({ ...prev, featuredImage: imageUrl }))
     } catch (error) {
-      console.error('Erreur lors du téléchargement de l\'image:', error)
-      setSaveError('Erreur lors du téléchargement de l\'image: ' + error.message)
+      console.error('Error uploading image:', error)
+      setSaveError('Error uploading image: ' + error.message)
     } finally {
       setIsUploading(false)
     }
   }
   
-  // Sauvegarder l'article
+  // Save article
   const handleSave = async (status = 'draft') => {
     setSaveSuccess(false)
     setSaveError('')
     
     // Validation
     if (!formData.title.trim()) {
-      setSaveError('Le titre est obligatoire')
+      setSaveError('Title is required')
       return
     }
     
     if (!formData.excerpt.trim()) {
-      setSaveError('Le résumé est obligatoire')
+      setSaveError('Summary is required')
       return
     }
     
     if (!formData.content.trim()) {
-      setSaveError('Le contenu est obligatoire')
+      setSaveError('Content is required')
       return
     }
     
     if (!formData.author.trim()) {
-      setSaveError('L\'auteur est obligatoire')
+      setSaveError('Author is required')
       return
     }
     
     setIsSaving(true)
     
     try {
-      // Traiter les tags
+      // Process tags
       const tagsArray = formData.tags
         .split(',')
         .map(tag => tag.trim())
@@ -171,19 +169,19 @@ const CreateArticle = () => {
       }, 2000)
       
     } catch (error) {
-      console.error('Erreur lors de la sauvegarde:', error)
-      setSaveError(error.message || 'Erreur lors de la sauvegarde de l\'article')
+      console.error('Error saving article:', error)
+      setSaveError(error.message || 'Error saving article')
     } finally {
       setIsSaving(false)
     }
   }
   
-  // Obtenir les informations de catégorie
+  // Get category information
   const getCategoryInfo = (categoryValue) => {
     return categories.find(cat => cat.value === categoryValue) || categories[0]
   }
   
-  // Préparer les données pour l'aperçu
+  // Prepare data for preview
   const getPreviewData = () => {
     const tagsArray = formData.tags
       .split(',')
@@ -198,7 +196,7 @@ const CreateArticle = () => {
     }
   }
   
-  // Calculer le pourcentage de progression
+  // Calculate progress percentage
   const getProgressPercentage = () => {
     let progress = 0
     if (formData.title) progress += 15
@@ -226,9 +224,9 @@ const CreateArticle = () => {
               </button>
               
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Créer un nouvel article</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Create New Article</h1>
                 <p className="text-sm text-gray-500 mt-1">
-                  {wordCount} mots • {readTime} min de lecture • {getProgressPercentage()}% complété
+                  {wordCount} words • {readTime} min read • {getProgressPercentage()}% completed
                 </p>
               </div>
             </div>
@@ -244,7 +242,7 @@ const CreateArticle = () => {
               >
                 <Eye size={18} />
                 <span className="hidden sm:inline">
-                  {showPreview ? 'Édition' : 'Aperçu'}
+                  {showPreview ? 'Edit' : 'Preview'}
                 </span>
               </button>
               
@@ -255,7 +253,7 @@ const CreateArticle = () => {
               >
                 <Save size={18} />
                 <span className="hidden sm:inline">
-                  {isSaving ? 'Sauvegarde...' : 'Brouillon'}
+                  {isSaving ? 'Saving...' : 'Draft'}
                 </span>
               </button>
               
@@ -266,13 +264,13 @@ const CreateArticle = () => {
               >
                 <Globe size={18} />
                 <span className="hidden sm:inline">
-                  {isSaving ? 'Publication...' : 'Publier'}
+                  {isSaving ? 'Publishing...' : 'Publish'}
                 </span>
               </button>
             </div>
           </div>
           
-          {/* Barre de progression */}
+          {/* Progress bar */}
           <div className="pb-4">
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div 
@@ -284,7 +282,7 @@ const CreateArticle = () => {
         </div>
       </header>
       
-      {/* Messages de succès/erreur */}
+      {/* Success/error messages */}
       {saveSuccess && (
         <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-6">
           <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-green-800 rounded-2xl flex items-center shadow-lg animate-in slide-in-from-top duration-300">
@@ -292,8 +290,8 @@ const CreateArticle = () => {
               <Check size={18} className="text-green-600" />
             </div>
             <div>
-              <p className="font-semibold">Article créé avec succès !</p>
-              <p className="text-sm text-green-600">Redirection vers le tableau de bord...</p>
+              <p className="font-semibold">Article created successfully!</p>
+              <p className="text-sm text-green-600">Redirecting to dashboard...</p>
             </div>
           </div>
         </div>
@@ -306,51 +304,51 @@ const CreateArticle = () => {
               <X size={18} className="text-red-600" />
             </div>
             <div>
-              <p className="font-semibold">Erreur lors de la création</p>
+              <p className="font-semibold">Error creating article</p>
               <p className="text-sm text-red-600">{saveError}</p>
             </div>
           </div>
         </div>
       )}
       
-      {/* Contenu principal */}
+      {/* Main content */}
       <main className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
         {!showPreview ? (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Formulaire principal */}
+            {/* Main form */}
             <div className="lg:col-span-3 space-y-8">
-              {/* Informations de base */}
+              {/* Basic information */}
               <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/50 shadow-lg">
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mr-4">
                     <FileText className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Informations de base</h2>
-                    <p className="text-sm text-gray-500">Définissez les éléments essentiels de votre article</p>
+                    <h2 className="text-xl font-bold text-gray-900">Basic Information</h2>
+                    <p className="text-sm text-gray-500">Define the essential elements of your article</p>
                   </div>
                 </div>
                 
                 <div className="space-y-6">
-                  {/* Titre */}
+                  {/* Title */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Titre de l'article *
+                      Article Title *
                     </label>
                     <input
                       type="text"
                       name="title"
                       value={formData.title}
                       onChange={handleInputChange}
-                      placeholder="Entrez un titre accrocheur..."
+                      placeholder="Enter a catchy title..."
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-lg font-medium"
                     />
                   </div>
                   
-                  {/* Catégorie */}
+                  {/* Category */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Catégorie *
+                      Category *
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {categories.map((category) => (
@@ -371,70 +369,70 @@ const CreateArticle = () => {
                     </div>
                   </div>
                   
-                  {/* Résumé */}
+                  {/* Summary */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Résumé de l'article *
+                      Article Summary *
                     </label>
                     <textarea
                       name="excerpt"
                       value={formData.excerpt}
                       onChange={handleInputChange}
-                      placeholder="Décrivez brièvement le contenu de votre article..."
+                      placeholder="Briefly describe the content of your article..."
                       rows={4}
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 resize-none"
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      {formData.excerpt.length}/300 caractères recommandés
+                      {formData.excerpt.length}/300 characters recommended
                     </p>
                   </div>
                   
-                  {/* Auteur */}
+                  {/* Author */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Auteur *
+                      Author *
                     </label>
                     <input
                       type="text"
                       name="author"
                       value={formData.author}
                       onChange={handleInputChange}
-                      placeholder="Nom de l'auteur"
+                      placeholder="Author name"
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
                 </div>
               </div>
               
-              {/* Contenu principal */}
+              {/* Main content */}
               <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/50 shadow-lg">
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center mr-4">
                     <PenTool className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Contenu de l'article</h2>
-                    <p className="text-sm text-gray-500">Rédigez le contenu principal de votre article</p>
+                    <h2 className="text-xl font-bold text-gray-900">Article Content</h2>
+                    <p className="text-sm text-gray-500">Write the main content of your article</p>
                   </div>
                 </div>
                 
                 <RichTextEditor
                   value={formData.content}
                   onChange={handleContentChange}
-                  placeholder="Commencez à écrire votre article..."
+                  placeholder="Start writing your article..."
                   height="500px"
                 />
                 
                 <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                   <div className="flex items-center space-x-4">
-                    <span>{wordCount} mots</span>
+                    <span>{wordCount} words</span>
                     <span>•</span>
-                    <span>{readTime} min de lecture</span>
+                    <span>{readTime} min read</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className={`w-2 h-2 rounded-full ${wordCount > 300 ? 'bg-green-500' : wordCount > 100 ? 'bg-yellow-500' : 'bg-red-500'}`}></div>
                     <span>
-                      {wordCount > 300 ? 'Longueur optimale' : wordCount > 100 ? 'Contenu court' : 'Contenu très court'}
+                      {wordCount > 300 ? 'Optimal length' : wordCount > 100 ? 'Short content' : 'Very short content'}
                     </span>
                   </div>
                 </div>
@@ -443,18 +441,18 @@ const CreateArticle = () => {
             
             {/* Sidebar */}
             <div className="lg:col-span-1 space-y-6">
-              {/* Image à la une */}
+              {/* Featured image */}
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
                 <div className="flex items-center mb-4">
                   <ImageIcon className="w-5 h-5 text-indigo-500 mr-2" />
-                  <h3 className="font-semibold text-gray-900">Image à la une</h3>
+                  <h3 className="font-semibold text-gray-900">Featured Image</h3>
                 </div>
                 
                 {formData.featuredImage ? (
                   <div className="relative">
                     <img
                       src={formData.featuredImage}
-                      alt="Image à la une"
+                      alt="Featured image"
                       className="w-full h-40 object-cover rounded-xl"
                     />
                     <button
@@ -476,13 +474,13 @@ const CreateArticle = () => {
                       {isUploading ? (
                         <div className="flex flex-col items-center">
                           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mb-2"></div>
-                          <p className="text-sm text-gray-600">Téléchargement...</p>
+                          <p className="text-sm text-gray-600">Uploading...</p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center">
                           <Camera className="w-8 h-8 text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-600">Cliquez pour ajouter une image</p>
-                          <p className="text-xs text-gray-400 mt-1">PNG, JPG jusqu'à 5MB</p>
+                          <p className="text-sm text-gray-600">Click to add an image</p>
+                          <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
                         </div>
                       )}
                     </div>
@@ -506,35 +504,35 @@ const CreateArticle = () => {
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                 />
                 <p className="text-xs text-gray-500 mt-2">
-                  Séparez les tags par des virgules
+                  Separate tags with commas
                 </p>
               </div>
               
-              {/* Statistiques */}
+              {/* Statistics */}
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
                 <div className="flex items-center mb-4">
                   <Target className="w-5 h-5 text-indigo-500 mr-2" />
-                  <h3 className="font-semibold text-gray-900">Statistiques</h3>
+                  <h3 className="font-semibold text-gray-900">Statistics</h3>
                 </div>
                 
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Progression</span>
+                    <span className="text-sm text-gray-600">Progress</span>
                     <span className="text-sm font-semibold text-indigo-600">{getProgressPercentage()}%</span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Mots</span>
+                    <span className="text-sm text-gray-600">Words</span>
                     <span className="text-sm font-semibold text-gray-900">{wordCount}</span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Lecture</span>
+                    <span className="text-sm text-gray-600">Reading</span>
                     <span className="text-sm font-semibold text-gray-900">{readTime} min</span>
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Catégorie</span>
+                    <span className="text-sm text-gray-600">Category</span>
                     <span className={`text-xs px-2 py-1 rounded-full ${getCategoryInfo(formData.category).color}`}>
                       {getCategoryInfo(formData.category).icon} {getCategoryInfo(formData.category).label}
                     </span>
@@ -542,45 +540,45 @@ const CreateArticle = () => {
                 </div>
               </div>
               
-              {/* Conseils */}
+              {/* Tips */}
               <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
                 <div className="flex items-center mb-4">
                   <Sparkles className="w-5 h-5 text-indigo-500 mr-2" />
-                  <h3 className="font-semibold text-indigo-900">Conseils</h3>
+                  <h3 className="font-semibold text-indigo-900">Tips</h3>
                 </div>
                 
                 <ul className="space-y-2 text-sm text-indigo-700">
                   <li className="flex items-start">
                     <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                    <span>Utilisez un titre accrocheur et descriptif</span>
+                    <span>Use a catchy and descriptive title</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                    <span>Ajoutez une image pour attirer l'attention</span>
+                    <span>Add an image to attract attention</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                    <span>Visez 300+ mots pour un bon référencement</span>
+                    <span>Aim for 300+ words for good SEO</span>
                   </li>
                   <li className="flex items-start">
                     <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                    <span>Utilisez des tags pertinents</span>
+                    <span>Use relevant tags</span>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
         ) : (
-          /* Mode aperçu */
+          /* Preview mode */
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/50 shadow-lg">
               <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
                 <div className="flex items-center">
                   <Eye className="w-5 h-5 text-blue-600 mr-2" />
-                  <span className="text-blue-800 font-medium">Mode aperçu</span>
+                  <span className="text-blue-800 font-medium">Preview mode</span>
                 </div>
                 <p className="text-blue-600 text-sm mt-1">
-                  Voici comment votre article apparaîtra aux lecteurs
+                  This is how your article will appear to readers
                 </p>
               </div>
               

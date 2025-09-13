@@ -15,7 +15,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { icon: <Facebook size={20} />, url: 'https://facebook.com', label: 'Facebook' },
+    { icon: <Facebook size={20} />, url: 'https://www.facebook.com/profile.php?id=61555895236537', label: 'Facebook' },
     { icon: <Twitter size={20} />, url: 'https://twitter.com', label: 'Twitter' },
     { icon: <Instagram size={20} />, url: 'https://instagram.com', label: 'Instagram' },
     { icon: <Linkedin size={20} />, url: 'https://linkedin.com', label: 'LinkedIn' }
@@ -36,7 +36,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="bg-midnight text-white pt-16 pb-8">
+    <footer className="text-white pt-16 pb-8" style={{ backgroundColor: '#1F1F3E' }}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}

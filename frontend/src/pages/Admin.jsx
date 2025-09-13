@@ -28,7 +28,6 @@ import {
   ArrowDownRight,
   Users
 } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { 
   login, 
   logout, 
@@ -42,7 +41,6 @@ import {
 } from '../services/api'
 
 const Admin = () => {
-  const { t } = useTranslation()
   const navigate = useNavigate()
   
   // Authentication state
@@ -87,28 +85,28 @@ const Admin = () => {
   // Dashboard stats (mock data)
   const stats = [
     { 
-      title: 'Articles publiés', 
+      title: 'Published Articles', 
       value: posts.filter(post => post.published).length,
       icon: <FileText className="text-blue-500" />,
       change: '+12%',
       trend: 'up'
     },
     { 
-      title: 'Brouillons', 
+      title: 'Drafts', 
       value: posts.filter(post => !post.published).length,
       icon: <Edit className="text-amber-500" />,
       change: '+5%',
       trend: 'up'
     },
     { 
-      title: 'Vues totales', 
+      title: 'Total Views', 
       value: '2,845',
       icon: <Eye className="text-green-500" />,
       change: '+18%',
       trend: 'up'
     },
     { 
-      title: 'Commentaires', 
+      title: 'Comments', 
       value: '48',
       icon: <MessageSquare className="text-purple-500" />,
       change: '-3%',
@@ -119,11 +117,11 @@ const Admin = () => {
   // Monthly views data for chart (mock data)
   const monthlyViews = [
     { month: 'Jan', views: 1200 },
-    { month: 'Fév', views: 1900 },
+    { month: 'Feb', views: 1900 },
     { month: 'Mar', views: 1500 },
-    { month: 'Avr', views: 2100 },
-    { month: 'Mai', views: 2400 },
-    { month: 'Juin', views: 1800 }
+    { month: 'Apr', views: 2100 },
+    { month: 'May', views: 2400 },
+    { month: 'Jun', views: 1800 }
   ]
   
   // Login function
@@ -136,7 +134,7 @@ const Admin = () => {
       setIsUserAuthenticated(true)
       fetchPosts()
     } catch (error) {
-      setLoginError(error.message || 'Nom d\'utilisateur ou mot de passe incorrect')
+      setLoginError(error.message || 'Invalid username or password')
     }
   }
   
@@ -160,7 +158,7 @@ const Admin = () => {
       setPosts(posts)
       setCategories(categoriesData)
     } catch (error) {
-      console.error('Erreur lors de la récupération des données:', error)
+      console.error('Error fetching data:', error)
     } finally {
       setIsLoading(false)
     }
@@ -204,7 +202,7 @@ const Admin = () => {
   
   // Delete post
   const handleDeletePost = async (postId) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
+    if (window.confirm('Are you sure you want to delete this article?')) {
       try {
         await deletePost(postId)
         setPosts(posts.filter(post => post.id !== postId))
@@ -214,8 +212,8 @@ const Admin = () => {
           setIsEditing(false)
         }
       } catch (error) {
-        console.error('Erreur lors de la suppression de l\'article:', error)
-        alert('Erreur lors de la suppression de l\'article: ' + error.message)
+        console.error('Error deleting article:', error)
+        alert('Error deleting article: ' + error.message)
       }
     }
   }
@@ -237,7 +235,7 @@ const Admin = () => {
     
     // Validate form
     if (!formData.title || !formData.excerpt || !formData.content || !formData.author) {
-      setSaveError('Veuillez remplir tous les champs obligatoires')
+      setSaveError('Please fill in all required fields')
       return
     }
     
@@ -271,8 +269,8 @@ const Admin = () => {
       setTimeout(() => setSaveSuccess(false), 3000)
       setIsEditing(false)
     } catch (error) {
-      console.error('Erreur lors de l\'enregistrement de l\'article:', error)
-      setSaveError(error.message || 'Erreur lors de l\'enregistrement de l\'article')
+      console.error('Error saving article:', error)
+      setSaveError(error.message || 'Error saving article')
     }
   }
   
@@ -345,7 +343,7 @@ const Admin = () => {
         <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-midnight mb-2">NEOBIZE</h1>
-            <p className="text-gray-600">Connectez-vous à votre espace d'administration</p>
+            <p className="text-gray-600">Sign in to your admin dashboard</p>
           </div>
           
           <form onSubmit={handleLogin}>
@@ -360,7 +358,7 @@ const Admin = () => {
             
             <div className="mb-6">
               <label htmlFor="username" className="block text-gray-700 font-medium mb-2">
-                Nom d'utilisateur
+                Username
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -379,7 +377,7 @@ const Admin = () => {
             
             <div className="mb-8">
               <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-                Mot de passe
+                Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -402,12 +400,12 @@ const Admin = () => {
               type="submit"
               className="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors font-medium flex items-center justify-center"
             >
-              Se connecter
+              Sign In
             </button>
           </form>
           
           <div className="mt-6 text-center text-sm text-gray-500">
-            <p>© {new Date().getFullYear()} NEOBIZE. Tous droits réservés.</p>
+            <p>© {new Date().getFullYear()} NEOBIZE. All rights reserved.</p>
           </div>
         </div>
       </div>
@@ -435,7 +433,7 @@ const Admin = () => {
             </div>
             <div>
               <p className="font-medium">Admin</p>
-              <p className="text-xs text-gray-400">Administrateur</p>
+              <p className="text-xs text-gray-400">Administrator</p>
             </div>
           </div>
           
@@ -449,7 +447,7 @@ const Admin = () => {
               }`}
             >
               <LayoutDashboard size={18} className="mr-3" />
-              Tableau de bord
+              Dashboard
             </button>
             
             <button 
@@ -469,7 +467,7 @@ const Admin = () => {
               className="flex items-center w-full px-3 py-2 rounded-lg transition-colors text-gray-300 hover:bg-gray-800"
             >
               <SettingsIcon size={18} className="mr-3" />
-              Paramètres
+              Settings
             </button>
           </nav>
         </div>
@@ -481,7 +479,7 @@ const Admin = () => {
               className="flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors"
             >
               <Eye size={18} className="mr-3" />
-              Voir le site
+              View Site
             </button>
             
             <button
@@ -489,7 +487,7 @@ const Admin = () => {
               className="flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors"
             >
               <LogOut size={18} className="mr-3" />
-              Déconnexion
+              Sign Out
             </button>
           </div>
         </div>
@@ -509,8 +507,8 @@ const Admin = () => {
               </button>
               
               <h2 className="text-xl font-bold text-gray-800">
-                {activeSection === 'dashboard' && 'Tableau de bord'}
-                {activeSection === 'articles' && 'Gestion des articles'}
+                {activeSection === 'dashboard' && 'Dashboard'}
+                {activeSection === 'articles' && 'Article Management'}
               </h2>
             </div>
             
@@ -520,7 +518,7 @@ const Admin = () => {
                 className="flex items-center justify-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
               >
                 <Plus size={18} />
-                Nouvel article
+                New Article
               </button>
             )}
             
@@ -571,7 +569,7 @@ const Admin = () => {
                           ) : (
                             <ArrowDownRight size={14} className="mr-1" />
                           )}
-                          <span>{stat.change} depuis le mois dernier</span>
+                          <span>{stat.change} from last month</span>
                         </div>
                       </div>
                       <div className="p-3 rounded-lg bg-gray-50">
@@ -587,12 +585,12 @@ const Admin = () => {
                 {/* Chart */}
                 <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
                   <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-lg font-bold">Vues mensuelles</h3>
+                    <h3 className="text-lg font-bold">Monthly Views</h3>
                     <div className="flex items-center space-x-2">
                       <select className="text-sm border border-gray-200 rounded-md px-2 py-1">
-                        <option>6 derniers mois</option>
-                        <option>12 derniers mois</option>
-                        <option>Cette année</option>
+                        <option>Last 6 months</option>
+                        <option>Last 12 months</option>
+                        <option>This year</option>
                       </select>
                     </div>
                   </div>
@@ -612,7 +610,7 @@ const Admin = () => {
                 
                 {/* Recent Activity */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h3 className="text-lg font-bold mb-4">Activité récente</h3>
+                  <h3 className="text-lg font-bold mb-4">Recent Activity</h3>
                   
                   <div className="space-y-4">
                     <div className="flex items-start">
@@ -620,8 +618,8 @@ const Admin = () => {
                         <FileText size={16} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Nouvel article publié</p>
-                        <p className="text-xs text-gray-500">Il y a 2 heures</p>
+                        <p className="text-sm font-medium">New article published</p>
+                        <p className="text-xs text-gray-500">2 hours ago</p>
                       </div>
                     </div>
                     
@@ -630,8 +628,8 @@ const Admin = () => {
                         <MessageSquare size={16} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Nouveau commentaire</p>
-                        <p className="text-xs text-gray-500">Il y a 4 heures</p>
+                        <p className="text-sm font-medium">New comment</p>
+                        <p className="text-xs text-gray-500">4 hours ago</p>
                       </div>
                     </div>
                     
@@ -640,8 +638,8 @@ const Admin = () => {
                         <Edit size={16} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Article mis à jour</p>
-                        <p className="text-xs text-gray-500">Il y a 1 jour</p>
+                        <p className="text-sm font-medium">Article updated</p>
+                        <p className="text-xs text-gray-500">1 day ago</p>
                       </div>
                     </div>
                     
@@ -650,14 +648,14 @@ const Admin = () => {
                         <Users size={16} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Nouveau visiteur</p>
-                        <p className="text-xs text-gray-500">Il y a 1 jour</p>
+                        <p className="text-sm font-medium">New visitor</p>
+                        <p className="text-xs text-gray-500">1 day ago</p>
                       </div>
                     </div>
                   </div>
                   
                   <button className="w-full mt-4 text-sm text-primary font-medium hover:underline">
-                    Voir toutes les activités
+                    View all activities
                   </button>
                 </div>
               </div>
@@ -665,12 +663,12 @@ const Admin = () => {
               {/* Recent Posts */}
               <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-                  <h3 className="text-lg font-bold text-gray-800">Articles récents</h3>
+                  <h3 className="text-lg font-bold text-gray-800">Recent Articles</h3>
                   <button 
                     onClick={() => setActiveSection('articles')}
                     className="text-sm text-primary font-medium hover:underline"
                   >
-                    Voir tous les articles
+                    View all articles
                   </button>
                 </div>
                 
@@ -690,11 +688,11 @@ const Admin = () => {
                                 ? 'bg-green-100 text-green-800' 
                                 : 'bg-amber-100 text-amber-800'
                             }`}>
-                              {post.published ? 'Publié' : 'Brouillon'}
+                              {post.published ? 'Published' : 'Draft'}
                             </span>
                             <span className="text-xs text-gray-500 flex items-center">
                               <CalendarIcon size={12} className="mr-1" />
-                              {post.date || '15 mai 2025'}
+                              {post.date || 'May 15, 2025'}
                             </span>
                             <span className="text-xs text-gray-500 flex items-center">
                               <User size={12} className="mr-1" />
@@ -721,14 +719,14 @@ const Admin = () => {
           {/* Articles Management - List View */}
           {activeSection === 'articles' && !isEditing && (
             <div className="space-y-6">
-              {/* Bouton "Nouvel article" en haut de la page */}
+              {/* New Article button at top */}
               <div className="flex justify-end mb-4">
                 <button
                   onClick={createNewPost}
                   className="flex items-center justify-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                 >
                   <Plus size={18} />
-                  Nouvel article
+                  New Article
                 </button>
               </div>
               
@@ -742,7 +740,7 @@ const Admin = () => {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Rechercher un article..."
+                      placeholder="Search articles..."
                       className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   </div>
@@ -753,9 +751,9 @@ const Admin = () => {
                       onChange={(e) => setFilterStatus(e.target.value)}
                       className="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
-                      <option value="all">Tous</option>
-                      <option value="published">Publiés</option>
-                      <option value="draft">Brouillons</option>
+                      <option value="all">All</option>
+                      <option value="published">Published</option>
+                      <option value="draft">Drafts</option>
                     </select>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <Filter size={16} className="text-gray-400" />
@@ -772,14 +770,14 @@ const Admin = () => {
                 {isLoading ? (
                   <div className="text-center py-12">
                     <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Chargement des articles...</p>
+                    <p className="mt-4 text-gray-600">Loading articles...</p>
                   </div>
                 ) : (
                   <div className="divide-y divide-gray-100">
                     {filteredPosts.length === 0 ? (
                       <div className="text-center py-12">
                         <FileText size={48} className="mx-auto text-gray-300 mb-4" />
-                        <p className="text-gray-600">Aucun article trouvé</p>
+                        <p className="text-gray-600">No articles found</p>
                       </div>
                     ) : (
                       filteredPosts.map(post => (
@@ -798,11 +796,11 @@ const Admin = () => {
                                     ? 'bg-green-100 text-green-800' 
                                     : 'bg-amber-100 text-amber-800'
                                 }`}>
-                                  {post.published ? 'Publié' : 'Brouillon'}
+                                  {post.published ? 'Published' : 'Draft'}
                                 </span>
                                 <span className="text-xs text-gray-500 flex items-center">
                                   <CalendarIcon size={12} className="mr-1" />
-                                  {post.date || '15 mai 2025'}
+                                  {post.date || 'May 15, 2025'}
                                 </span>
                                 <span className="text-xs text-gray-500 flex items-center">
                                   <User size={12} className="mr-1" />
@@ -845,7 +843,7 @@ const Admin = () => {
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-gray-800">
-                  {currentPost ? 'Modifier l\'article' : 'Nouvel article'}
+                  {currentPost ? 'Edit Article' : 'New Article'}
                 </h3>
                 <div className="flex items-center space-x-3">
                   <button
@@ -855,21 +853,21 @@ const Admin = () => {
                     } rounded-lg hover:bg-gray-50 transition-colors`}
                   >
                     <Eye size={18} />
-                    {showPreview ? 'Éditer' : 'Prévisualiser'}
+                    {showPreview ? 'Edit' : 'Preview'}
                   </button>
                   <button
                     onClick={cancelEditing}
                     className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                   >
                     <X size={18} />
-                    Annuler
+                    Cancel
                   </button>
                   <button
                     onClick={savePost}
                     className="flex items-center justify-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                   >
                     <Save size={18} />
-                    Enregistrer
+                    Save
                   </button>
                 </div>
               </div>
@@ -878,7 +876,7 @@ const Admin = () => {
                 <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
                   <div className="flex items-center">
                     <Check size={18} className="mr-2 flex-shrink-0" />
-                    <p>Article enregistré avec succès!</p>
+                    <p>Article saved successfully!</p>
                   </div>
                 </div>
               )}
@@ -900,7 +898,7 @@ const Admin = () => {
                       <div className="p-6 space-y-6">
                         <div>
                           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                            Titre *
+                            Title *
                           </label>
                           <input
                             type="text"
@@ -915,7 +913,7 @@ const Admin = () => {
                         
                         <div>
                           <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-1">
-                            Extrait *
+                            Excerpt *
                           </label>
                           <textarea
                             id="excerpt"
@@ -930,75 +928,17 @@ const Admin = () => {
                         
                         <div>
                           <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
-                            Contenu *
+                            Content *
                           </label>
-                          <div className="border border-gray-300 rounded-lg overflow-hidden">
-                            <div className="bg-gray-50 border-b border-gray-300 p-2 flex items-center space-x-2">
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Gras">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
-                                  <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
-                                </svg>
-                              </button>
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Italique">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <line x1="19" y1="4" x2="10" y2="4"></line>
-                                  <line x1="14" y1="20" x2="5" y2="20"></line>
-                                  <line x1="15" y1="4" x2="9" y2="20"></line>
-                                </svg>
-                              </button>
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Souligné">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
-                                  <line x1="4" y1="21" x2="20" y2="21"></line>
-                                </svg>
-                              </button>
-                              <div className="h-6 w-px bg-gray-300 mx-1"></div>
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Lien">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                                </svg>
-                              </button>
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Image">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                  <polyline points="21 15 16 10 5 21"></polyline>
-                                </svg>
-                              </button>
-                              <div className="h-6 w-px bg-gray-300 mx-1"></div>
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Liste à puces">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <line x1="8" y1="6" x2="21" y2="6"></line>
-                                  <line x1="8" y1="12" x2="21" y2="12"></line>
-                                  <line x1="8" y1="18" x2="21" y2="18"></line>
-                                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                                </svg>
-                              </button>
-                              <button type="button" className="p-1 rounded hover:bg-gray-200" title="Liste numérotée">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <line x1="10" y1="6" x2="21" y2="6"></line>
-                                  <line x1="10" y1="12" x2="21" y2="12"></line>
-                                  <line x1="10" y1="18" x2="21" y2="18"></line>
-                                  <path d="M4 6h1v4"></path>
-                                  <path d="M4 10h2"></path>
-                                  <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
-                                </svg>
-                              </button>
-                            </div>
-                            <textarea
-                              id="content"
-                              name="content"
-                              value={formData.content}
-                              onChange={handleInputChange}
-                              rows={15}
-                              className="w-full px-4 py-2 border-none focus:outline-none focus:ring-0"
-                              required
-                            ></textarea>
-                          </div>
+                          <textarea
+                            id="content"
+                            name="content"
+                            value={formData.content}
+                            onChange={handleInputChange}
+                            rows={15}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            required
+                          ></textarea>
                         </div>
                       </div>
                     </div>
@@ -1008,12 +948,12 @@ const Admin = () => {
                   <div className="space-y-6">
                     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                       <div className="px-6 py-4 border-b border-gray-100">
-                        <h3 className="font-medium text-gray-800">Paramètres de publication</h3>
+                        <h3 className="font-medium text-gray-800">Publication Settings</h3>
                       </div>
                       <div className="p-6 space-y-6">
                         <div>
                           <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
-                            Auteur *
+                            Author *
                           </label>
                           <input
                             type="text"
@@ -1028,7 +968,7 @@ const Admin = () => {
                         
                         <div>
                           <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-                            Catégorie
+                            Category
                           </label>
                           <select
                             id="category"
@@ -1037,8 +977,8 @@ const Admin = () => {
                             onChange={handleInputChange}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                           >
-                            <option value="web-dev">Développement Web</option>
-                            <option value="mobile-dev">Développement Mobile</option>
+                            <option value="web-dev">Web Development</option>
+                            <option value="mobile-dev">Mobile Development</option>
                             <option value="design">Design</option>
                             <option value="business">Business</option>
                             <option value="marketing">Marketing</option>
@@ -1047,7 +987,7 @@ const Admin = () => {
                         
                         <div>
                           <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
-                            Tags (séparés par des virgules)
+                            Tags (comma separated)
                           </label>
                           <input
                             type="text"
@@ -1061,62 +1001,17 @@ const Admin = () => {
                         
                         <div>
                           <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-                            Image principale
+                            Featured Image
                           </label>
-                          {formData.image && (
-                            <div className="mb-3">
-                              <img 
-                                src={formData.image} 
-                                alt="Aperçu de l'image" 
-                                className="h-40 w-auto object-cover rounded-lg border border-gray-300" 
-                              />
-                            </div>
-                          )}
-                          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
-                            <div className="space-y-1 text-center">
-                              <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                              <div className="flex text-sm text-gray-600">
-                                <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-primary/90 focus-within:outline-none">
-                                  <span>Télécharger un fichier</span>
-                                  <input 
-                                    id="file-upload" 
-                                    name="file-upload" 
-                                    type="file" 
-                                    className="sr-only" 
-                                    accept="image/png, image/jpeg, image/gif"
-                                    onChange={async (e) => {
-                                      if (e.target.files && e.target.files[0]) {
-                                        try {
-                                          const file = e.target.files[0];
-                                          // Vérifier la taille du fichier (max 10MB)
-                                          if (file.size > 10 * 1024 * 1024) {
-                                            alert('Le fichier est trop volumineux. La taille maximale est de 10MB.');
-                                            return;
-                                          }
-                                          
-                                          // Télécharger l'image
-                                          const imageUrl = await uploadImage(file);
-                                          
-                                          // Mettre à jour le formulaire avec l'URL de l'image
-                                          setFormData({
-                                            ...formData,
-                                            image: imageUrl
-                                          });
-                                        } catch (error) {
-                                          console.error('Erreur lors du téléchargement de l\'image:', error);
-                                          alert('Erreur lors du téléchargement de l\'image: ' + error.message);
-                                        }
-                                      }
-                                    }}
-                                  />
-                                </label>
-                                <p className="pl-1">ou glisser-déposer</p>
-                              </div>
-                              <p className="text-xs text-gray-500">PNG, JPG, GIF jusqu'à 10MB</p>
-                            </div>
-                          </div>
+                          <input
+                            type="url"
+                            id="image"
+                            name="image"
+                            value={formData.image}
+                            onChange={handleInputChange}
+                            placeholder="https://example.com/image.jpg"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          />
                         </div>
                         
                         <div className="flex items-center">
@@ -1129,7 +1024,7 @@ const Admin = () => {
                             className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                           />
                           <label htmlFor="published" className="ml-2 block text-sm text-gray-700">
-                            Publier l'article
+                            Publish article
                           </label>
                         </div>
                       </div>
@@ -1139,23 +1034,23 @@ const Admin = () => {
               ) : (
                 <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                   <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-                    <h3 className="font-medium text-gray-800">Prévisualisation</h3>
+                    <h3 className="font-medium text-gray-800">Preview</h3>
                     <span className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${
                       formData.published 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-amber-100 text-amber-800'
                     }`}>
-                      {formData.published ? 'Publié' : 'Brouillon'}
+                      {formData.published ? 'Published' : 'Draft'}
                     </span>
                   </div>
                   <div className="p-6">
                     <div className="max-w-3xl mx-auto">
-                      <h1 className="text-3xl font-bold text-gray-900 mb-4">{formData.title || 'Titre de l\'article'}</h1>
+                      <h1 className="text-3xl font-bold text-gray-900 mb-4">{formData.title || 'Article Title'}</h1>
                       
                       <div className="flex items-center text-sm text-gray-500 mb-6">
                         <span className="flex items-center">
                           <User size={14} className="mr-1" />
-                          {formData.author || 'Auteur'}
+                          {formData.author || 'Author'}
                         </span>
                         <span className="mx-2">•</span>
                         <span className="flex items-center">
@@ -1165,15 +1060,15 @@ const Admin = () => {
                         <span className="mx-2">•</span>
                         <span className="flex items-center">
                           <Clock size={14} className="mr-1" />
-                          {Math.max(1, Math.ceil(formData.content.length / 2000))} min de lecture
+                          {Math.max(1, Math.ceil(formData.content.length / 2000))} min read
                         </span>
                       </div>
                       
                       <div className="prose prose-lg max-w-none">
-                        <p className="text-lg text-gray-700 mb-6">{formData.excerpt || 'Extrait de l\'article...'}</p>
+                        <p className="text-lg text-gray-700 mb-6">{formData.excerpt || 'Article excerpt...'}</p>
                         
                         <div className="whitespace-pre-wrap">
-                          {formData.content || 'Contenu de l\'article...'}
+                          {formData.content || 'Article content...'}
                         </div>
                       </div>
                       

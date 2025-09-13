@@ -51,7 +51,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'neobize-secret-key';
 
 let authCredentials = {
   username: 'admin',
-  password: 'admin123'
+  password: 'Passerneobize1982@'
 };
 
 const authenticateToken = (req, res, next) => {
@@ -164,29 +164,11 @@ app.put('/api/admin/credentials', authenticateToken, (req, res) => {
   res.status(200).json({ success: true, message: 'Identifiants mis à jour avec succès' });
 });
 
-// Upload images
+// Serve static files from uploads directory
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname))
-});
-const fileFilter = (req, file, cb) => file.mimetype.startsWith('image/') ? cb(null, true) : cb(new Error('Seules les images sont autorisées'), false);
-const upload = multer({ storage, fileFilter, limits: { fileSize: 10 * 1024 * 1024 } });
-
 app.use('/uploads', express.static(uploadDir));
-
-app.post('/api/admin/upload', authenticateToken, upload.single('image'), (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ success: false, message: 'Aucun fichier téléchargé' });
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    res.status(200).json({ success: true, message: 'Image téléchargée avec succès', data: imageUrl });
-  } catch (error) {
-    console.error('Erreur upload image:', error);
-    res.status(500).json({ success: false, message: error.message || 'Erreur serveur' });
-  }
-});
 
 // Erreurs globales
 app.use((error, req, res, next) => {

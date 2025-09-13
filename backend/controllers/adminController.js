@@ -418,26 +418,100 @@ const getArticleStats = async (req, res) => {
   }
 };
 
-// Upload d'image (placeholder - à implémenter selon vos besoins)
-const uploadImage = async (req, res) => {
-  try {
-    // Cette fonction devrait gérer l'upload d'images
-    // Pour l'instant, on retourne une URL fictive
-    const imageUrl = 'https://placehold.co/800x500/1E40AF/FFFFFF?text=Article+Image';
-    
-    res.json({
-      success: true,
-      message: 'Image téléchargée avec succès',
-      data: imageUrl
-    });
-  } catch (error) {
-    console.error('Erreur lors du téléchargement de l\'image:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Erreur lors du téléchargement de l\'image',
-      error: error.message
-    });
+// Upload d'image avec multer
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Configuration de multer pour l'upload d'images
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(__dirname, '../uploads');
+    // Créer le dossier uploads s'il n'existe pas
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Générer un nom de fichier unique avec timestamp
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   }
+});
+
+// Filtrer les types de fichiers acceptés
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|gif|webp/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed (jpeg, jpg, png, gif, webp)'));
+  }
+};
+
+// Configuration multer
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB max
+  },
+  fileFilter: fileFilter
+});
+
+// Middleware pour l'upload d'une seule image
+const uploadSingle = upload.single('image');
+
+// Upload d'image
+const uploadImage = async (req, res) => {
+  uploadSingle(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({
+          success: false,
+          message: 'File too large. Maximum size is 5MB.'
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        message: 'Upload error: ' + err.message
+      });
+    } else if (err) {
+      return res.status(400).json({
+        success: false,
+        message: err.message
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file uploaded'
+      });
+    }
+
+    try {
+      // Construire l'URL de l'image
+      const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 5003}`;
+      const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
+      
+      res.json({
+        success: true,
+        message: 'Image uploaded successfully',
+        data: imageUrl
+      });
+    } catch (error) {
+      console.error('Error processing uploaded image:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error processing uploaded image',
+        error: error.message
+      });
+    }
+  });
 };
 
 module.exports = {
