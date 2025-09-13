@@ -75,18 +75,24 @@ const Home = () => {
       id: 1,
       title: 'Application SaaS de gestion',
       category: 'web-dev',
+      domain: 'Développement Web & Mobile',
+      description: 'Solutions digitales innovantes pour la gestion d\'entreprise',
       image: '/images/web-saas.jpg',
     },
     {
       id: 2,
       title: 'Flotte de livraison express',
       category: 'transport',
+      domain: 'Transport & Logistique',
+      description: 'Services de transport rapide et fiable pour vos besoins',
       image: '/images/web-cons.jpg'
     },
     {
       id: 3,
       title: 'Rénovation d\'immeuble commercial',
       category: 'construction',
+      domain: 'Construction & Rénovation',
+      description: 'Projets de construction et rénovation de qualité supérieure',
       image: '/images/web-trans.jpg'
     }
   ]
@@ -164,11 +170,11 @@ const Home = () => {
         backgroundImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069"
         fullHeight={true}
       >
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+        <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center w-full">
           {/* Premier bouton - Découvrir nos services */}
           <Link 
             to="/services" 
-            className="w-full sm:w-auto btn btn-primary text-lg px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group text-center"
+            className="flex-1 sm:w-auto btn btn-primary text-sm sm:text-lg px-4 sm:px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group text-center"
           >
             <span className="relative z-10">{t('home.hero.cta')}</span>
             <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
@@ -177,7 +183,7 @@ const Home = () => {
           {/* Deuxième bouton - Contactez-nous */}
           <Link 
             to="/contact" 
-            className="w-full sm:w-auto btn bg-transparent border-2 border-white text-white hover:text-white hover:border-red-600 text-lg px-8 py-3 transition-all duration-300 relative overflow-hidden group text-center"
+            className="flex-1 sm:w-auto btn bg-transparent border-2 border-white text-white hover:text-white hover:border-red-600 text-sm sm:text-lg px-4 sm:px-8 py-3 transition-all duration-300 relative overflow-hidden group text-center"
           >
             <span className="relative z-10">{t('common.contactUs')}</span>
             <span className="absolute inset-0 bg-transparent group-hover:bg-red-600 transition-all duration-300"></span>
@@ -186,7 +192,7 @@ const Home = () => {
       </HeroSection>
       
       {/* Stats Section */}
-      <section className="py-16 bg-white text-gray-800">
+      <section className="py-16 text-white" style={{ backgroundColor: '#29292A' }}>
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -196,23 +202,23 @@ const Home = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">59</h3>
-              <p className="text-gray-600 text-sm md:text-base">Projets réalisés</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">59</h3>
+              <p className="text-white/90 text-sm md:text-base">Completed Projects</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">98%</h3>
-              <p className="text-gray-600 text-sm md:text-base">Clients satisfaits</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">98%</h3>
+              <p className="text-white/90 text-sm md:text-base">Satisfied Clients</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">15+</h3>
-              <p className="text-gray-600 text-sm md:text-base">Experts</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">15+</h3>
+              <p className="text-white/90 text-sm md:text-base">Experts</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-primary">3</h3>
-              <p className="text-gray-600 text-sm md:text-base">Domaines d'expertise</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">3</h3>
+              <p className="text-white/90 text-sm md:text-base">Areas of Expertise</p>
             </motion.div>
           </motion.div>
         </div>
@@ -239,12 +245,6 @@ const Home = () => {
               {t('home.services.sectionTitle')}
             </motion.div>
             
-            <motion.h2 
-              variants={fadeIn}
-              className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
-            >
-              {t('home.services.title')}
-            </motion.h2>
             
             <motion.p 
               variants={fadeIn}
@@ -421,12 +421,6 @@ const Home = () => {
               {t('home.projects.sectionTitle')}
             </motion.div>
             
-            <motion.h2 
-              variants={fadeIn}
-              className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
-            >
-              {t('home.projects.title')}
-            </motion.h2>
             
             <motion.p 
               variants={fadeIn}
@@ -451,8 +445,7 @@ const Home = () => {
                 className="group relative overflow-hidden rounded-xl shadow-lg"
               >
                 <div className="absolute top-4 left-4 z-20 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {project.category === 'web-dev' ? 'Web & Mobile' : 
-                   project.category === 'transport' ? 'Transport' : 'Construction'}
+                  {project.domain}
                 </div>
                 <img 
                   src={project.image} 
@@ -461,6 +454,7 @@ const Home = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight/90 to-transparent flex flex-col justify-end p-6">
                   <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+                  <p className="text-white/80 text-sm mb-3 line-clamp-2">{project.description}</p>
                   <Link 
                     to={`/projects/${project.id}`} 
                     className="text-white/80 hover:text-white transition-colors inline-flex items-center group-hover:translate-x-2 transition-transform duration-300"
@@ -513,12 +507,6 @@ const Home = () => {
               {t('home.testimonials.sectionTitle')}
             </motion.div>
             
-            <motion.h2 
-              variants={fadeIn}
-              className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
-            >
-              {t('home.testimonials.title')}
-            </motion.h2>
             
             <motion.p 
               variants={fadeIn}

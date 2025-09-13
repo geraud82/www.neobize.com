@@ -57,7 +57,7 @@ const HeroSection = ({
       
       {/* Content */}
       <div className="container relative z-20 h-full flex flex-col justify-center">
-        <div className={`grid grid-cols-1 ${fullHeight ? 'lg:grid-cols-2' : ''} gap-16 lg:gap-20 items-center ${!fullHeight ? 'justify-center text-center' : ''}`}>
+        <div className={`grid grid-cols-1 ${fullHeight ? 'lg:grid-cols-2' : ''} gap-8 lg:gap-20 items-center ${!fullHeight ? 'justify-center text-center' : ''}`}>
           <div className={`max-w-3xl ${!fullHeight ? 'mx-auto' : ''}`}>
             {badge && (
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-blue-500/20 text-white px-6 py-3 rounded-full text-sm font-semibold mb-8 backdrop-blur-sm border border-blue-400/30 shadow-lg">
@@ -77,20 +77,55 @@ const HeroSection = ({
             </p>
             
             {children && (
-              <div className="flex flex-wrap gap-6">
-                {Array.isArray(children) 
-                  ? children.map((child, index) => (
-                      <div key={index} className="transform hover:scale-105 transition-transform duration-300">
-                        {child}
-                      </div>
-                    ))
-                  : <div className="transform hover:scale-105 transition-transform duration-300">{children}</div>
-                }
+              <div className="mb-8">
+                {children}
+              </div>
+            )}
+            
+            {/* Mobile Image - Show below buttons on mobile */}
+            {fullHeight && (
+              <div className="block lg:hidden mt-8">
+                <div className="relative w-full max-w-md mx-auto px-4">
+                  {/* Enhanced decorative border frame for mobile */}
+                  <div className="absolute -inset-2 bg-gradient-to-r from-blue-600/30 via-purple-600/30 to-blue-600/30 rounded-2xl blur-md"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/40 to-purple-500/40 rounded-2xl"></div>
+                  
+                  {/* Main image container with carousel for mobile - responsive height */}
+                  <div className="relative overflow-hidden rounded-2xl border-2 border-white/20 shadow-xl h-[200px] xs:h-[220px] sm:h-[280px] md:h-[320px]">
+                    {companyImages.map((image, index) => (
+                      <img 
+                        key={index}
+                        src={image.src} 
+                        alt={image.alt} 
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                          index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        style={{ transitionDuration: '1000ms' }}
+                      />
+                    ))}
+                    {/* Sophisticated overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-transparent to-black/60 z-10"></div>
+                    
+                    {/* Image indicators for mobile */}
+                    <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-20">
+                      {companyImages.map((_, index) => (
+                        <div
+                          key={index}
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                            index === currentImageIndex 
+                              ? 'bg-white scale-125' 
+                              : 'bg-white/50'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
           
-          {/* Right side - Hero Image (only show on fullHeight/Home page) */}
+          {/* Right side - Hero Image (only show on desktop) */}
           {fullHeight && (
             <div className="hidden lg:block relative">
               <div className="relative">
