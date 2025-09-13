@@ -1,6 +1,5 @@
-import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { History, Target, Eye, Users } from 'lucide-react'
+import { History, Target, Eye, Users, Truck, Code, Building, MapPin, Award, Clock } from 'lucide-react'
 import HeroSection from '../components/HeroSection'
 
 // Animation variants
@@ -24,36 +23,34 @@ const staggerContainer = {
 }
 
 const About = () => {
-  const { t } = useTranslation()
-
-  // Team members (sample)
+  // Team members - NEOBIZE Transportation & Tech Experts
   const teamMembers = [
     {
       id: 1,
-      name: t('about.team.members.mawule.name'),
-      role: t('about.team.members.mawule.role'),
-      bio: t('about.team.members.mawule.bio'),
+      name: 'Mawule Geraud',
+      role: 'CEO & Transportation Operations Director',
+      bio: 'Leading NEOBIZE with expertise in NEMT services, airport shuttle operations, and medical carrier solutions across Africa and USA.',
       image: '/images/mawule.jpeg'
     },
     {
       id: 2,
-      name: t('about.team.members.ursula.name'),
-      role: t('about.team.members.ursula.role'),
-      bio: t('about.team.members.ursula.bio'),
+      name: 'Ursula Martinez',
+      role: 'CTO & Web Development Lead',
+      bio: 'Driving digital innovation with advanced web development, mobile apps, and SaaS solutions for transportation and healthcare industries.',
       image: '/images/matin.jpeg'
     },
     {
       id: 3,
-      name: t('about.team.members.jeosbe.name'),
-      role: t('about.team.members.jeosbe.role'),
-      bio: t('about.team.members.jeosbe.bio'),
+      name: 'Jeosbe Avadra',
+      role: 'Medical Transportation Specialist',
+      bio: 'Ensuring safe and reliable NEMT services with specialized medical equipment and certified professional drivers.',
       image: '/images/avadra.jpeg'
     },
     {
       id: 4,
-      name: t('about.team.members.martiviok.name'),
-      role: t('about.team.members.martiviok.role'),
-      bio: t('about.team.members.martiviok.bio'),
+      name: 'Martin Leroy',
+      role: 'AI & SaaS Solutions Architect',
+      bio: 'Developing intelligent automation systems and SaaS platforms that optimize transportation operations and patient care management.',
       image: '/images/leroy.jpeg'
     }
   ]
@@ -61,10 +58,10 @@ const About = () => {
   return (
     <div>
       <HeroSection
-        title={t('about.title')}
-        subtitle={t('about.subtitle')}
+        title="About NEOBIZE: Transportation Services & Digital Solutions Leader"
+        subtitle="Discover how NEOBIZE combines reliable NEMT, Airport Shuttle, Medical Carrier services with innovative Web Development, SaaS, and AI Solutions across Africa and USA."
         backgroundImage="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071"
-        badge={t('about.sectionTitle')}
+        badge="ABOUT NEOBIZE"
       />
 
       {/* History Section */}
@@ -94,7 +91,7 @@ const About = () => {
                 variants={fadeIn}
                 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-midnight via-gray-800 to-primary bg-clip-text text-transparent leading-tight"
               >
-                {t('about.history.title')}
+                NEOBIZE Journey: From Vision to Transportation & Tech Excellence
               </motion.h2>
               
               <motion.div 
@@ -103,7 +100,10 @@ const About = () => {
               >
                 <div className="w-20 h-1 bg-gradient-to-r from-primary to-blue-600 rounded-full"></div>
                 <p className="text-lg text-gray-700 leading-relaxed font-light">
-                  {t('about.history.description')}
+                  Founded with a vision to revolutionize transportation services and digital solutions, NEOBIZE has grown from a startup to a leading provider of NEMT, Airport Shuttle, Medical Carrier services, and cutting-edge Web Development, SaaS, and AI Solutions across Africa and USA.
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed font-light">
+                  Our commitment to excellence in both transportation services and digital innovation has made us the trusted partner for healthcare facilities, airports, and businesses seeking reliable transportation solutions and advanced technology platforms.
                 </p>
               </motion.div>
 
@@ -112,16 +112,20 @@ const About = () => {
                 className="flex items-center space-x-8 pt-6"
               >
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">2012</div>
-                  <div className="text-sm text-gray-600 font-medium">Fondée</div>
+                  <div className="text-3xl font-bold text-primary">2018</div>
+                  <div className="text-sm text-gray-600 font-medium">Founded</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">10+</div>
-                  <div className="text-sm text-gray-600 font-medium">Années</div>
+                  <div className="text-3xl font-bold text-primary">500+</div>
+                  <div className="text-sm text-gray-600 font-medium">NEMT Trips</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">59+</div>
-                  <div className="text-sm text-gray-600 font-medium">Projets</div>
+                  <div className="text-3xl font-bold text-primary">50+</div>
+                  <div className="text-sm text-gray-600 font-medium">Apps Built</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-primary">2</div>
+                  <div className="text-sm text-gray-600 font-medium">Continents</div>
                 </div>
               </motion.div>
             </motion.div>
@@ -142,7 +146,7 @@ const About = () => {
                   <div className="rounded-2xl overflow-hidden">
                     <img 
                       src="/images/team.jpeg" 
-                      alt="NEOBIZE History" 
+                      alt="NEOBIZE Transportation & Tech Team" 
                       className="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
@@ -150,7 +154,7 @@ const About = () => {
                   {/* Floating badge */}
                   <div className="absolute -top-4 -right-4 bg-gradient-to-r from-primary to-blue-600 text-white px-6 py-3 rounded-2xl shadow-lg">
                     <div className="text-sm font-semibold">Excellence</div>
-                    <div className="text-xs opacity-90">Depuis 2012</div>
+                    <div className="text-xs opacity-90">Since 2018</div>
                   </div>
                 </div>
 
@@ -183,14 +187,14 @@ const About = () => {
                 variants={fadeIn}
                 className="text-2xl md:text-3xl font-bold mb-4 text-midnight"
               >
-                {t('about.mission.title')}
+                Our Mission
               </motion.h2>
               
               <motion.p 
                 variants={fadeIn}
                 className="text-gray-600"
               >
-                {t('about.mission.description')}
+                To provide exceptional NEMT, Airport Shuttle, and Medical Carrier services while delivering innovative Web Development, Mobile Apps, SaaS, and AI Solutions that transform transportation and healthcare operations across Africa and USA.
               </motion.p>
             </motion.div>
 
@@ -210,22 +214,99 @@ const About = () => {
                 variants={fadeIn}
                 className="text-2xl md:text-3xl font-bold mb-4 text-midnight"
               >
-                {t('about.vision.title')}
+                Our Vision
               </motion.h2>
               
               <motion.p 
                 variants={fadeIn}
                 className="text-gray-600"
               >
-                {t('about.vision.description')}
+                To be the leading provider of integrated transportation services and digital solutions, setting new standards for safety, reliability, and innovation in medical transportation and technology platforms worldwide.
               </motion.p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Core Services Overview */}
       <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.h2 
+              variants={fadeIn}
+              className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
+            >
+              NEOBIZE Core Service Areas
+            </motion.h2>
+            
+            <motion.p 
+              variants={fadeIn}
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+            >
+              Combining reliable transportation services with cutting-edge digital solutions
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Truck size={32} className="text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-midnight mb-4">Transportation Services</h3>
+              <p className="text-gray-600">
+                NEMT, Airport Shuttle, and Medical Carrier solutions with professional drivers and specialized equipment across Africa and USA.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-gradient-to-br from-green-50 to-white p-8 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Code size={32} className="text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-midnight mb-4">Web & Mobile Development</h3>
+              <p className="text-gray-600">
+                Custom web applications and mobile apps designed to streamline operations and enhance user experiences in transportation and healthcare.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Building size={32} className="text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-midnight mb-4">SaaS & AI Solutions</h3>
+              <p className="text-gray-600">
+                Advanced SaaS platforms and AI-powered solutions for fleet management, route optimization, and patient care coordination.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -242,14 +323,14 @@ const About = () => {
               variants={fadeIn}
               className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
             >
-              {t('about.team.title')}
+              Meet Our Expert Team
             </motion.h2>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              {t('about.team.description')}
+              Dedicated professionals combining transportation expertise with cutting-edge technology skills
             </motion.p>
           </motion.div>
 
@@ -264,19 +345,19 @@ const About = () => {
               <motion.div
                 key={member.id}
                 variants={fadeIn}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow group"
               >
-                <div className="h-64 flex items-center justify-center bg-gray-50">
+                <div className="h-64 flex items-center justify-center bg-gray-50 overflow-hidden">
                   <img 
                     src={member.image} 
                     alt={member.name} 
-                    className="max-h-64 w-auto object-contain"
+                    className="max-h-64 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-midnight mb-1">{member.name}</h3>
                   <p className="text-primary font-medium mb-4">{member.role}</p>
-                  <p className="text-gray-600">{member.bio}</p>
+                  <p className="text-gray-600 text-sm">{member.bio}</p>
                 </div>
               </motion.div>
             ))}
@@ -285,7 +366,7 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-gray-100">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -298,14 +379,14 @@ const About = () => {
               variants={fadeIn}
               className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
             >
-              {t('about.values.title')}
+              Our Core Values
             </motion.h2>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              {t('about.values.subtitle')}
+              The principles that guide our transportation services and digital solutions
             </motion.p>
           </motion.div>
 
@@ -315,14 +396,14 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="bg-white p-8 rounded-lg shadow-lg text-center"
+              className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-lg shadow-lg text-center group hover:shadow-xl transition-all"
             >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-primary text-2xl font-bold">1</span>
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                <Award size={32} className="text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-midnight mb-4">{t('about.values.excellence.title')}</h3>
+              <h3 className="text-xl font-bold text-midnight mb-4">Safety & Excellence</h3>
               <p className="text-gray-600">
-                {t('about.values.excellence.description')}
+                Maintaining the highest safety standards in medical transportation while delivering excellent digital solutions that exceed client expectations.
               </p>
             </motion.div>
 
@@ -331,14 +412,14 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white p-8 rounded-lg shadow-lg text-center"
+              className="bg-gradient-to-br from-green-50 to-white p-8 rounded-lg shadow-lg text-center group hover:shadow-xl transition-all"
             >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-primary text-2xl font-bold">2</span>
+              <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-green-500/20 transition-colors">
+                <Code size={32} className="text-green-600" />
               </div>
-              <h3 className="text-xl font-bold text-midnight mb-4">{t('about.values.innovation.title')}</h3>
+              <h3 className="text-xl font-bold text-midnight mb-4">Innovation & Technology</h3>
               <p className="text-gray-600">
-                {t('about.values.innovation.description')}
+                Continuously advancing our transportation services and digital platforms with cutting-edge technology and innovative solutions.
               </p>
             </motion.div>
 
@@ -347,49 +428,63 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white p-8 rounded-lg shadow-lg text-center"
+              className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-lg shadow-lg text-center group hover:shadow-xl transition-all"
             >
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-primary text-2xl font-bold">3</span>
+              <div className="w-16 h-16 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-500/20 transition-colors">
+                <Clock size={32} className="text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold text-midnight mb-4">{t('about.values.integrity.title')}</h3>
+              <h3 className="text-xl font-bold text-midnight mb-4">Reliability & Trust</h3>
               <p className="text-gray-600">
-                {t('about.values.integrity.description')}
+                Building lasting relationships through reliable transportation services and dependable digital solutions that clients can trust.
               </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-primary text-white">
-        <div className="container mx-auto px-4 text-center">
+      {/* Geographic Presence */}
+      <section className="py-20 bg-gradient-to-br from-primary to-blue-800 text-white">
+        <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
+            className="text-center"
           >
+            <motion.div variants={fadeIn} className="mb-6">
+              <MapPin size={48} className="text-white mx-auto" />
+            </motion.div>
+            
             <motion.h2 
               variants={fadeIn}
               className="text-3xl md:text-4xl font-bold mb-4"
             >
-              {t('about.join.title')}
+              Serving Africa & USA
             </motion.h2>
             
             <motion.p 
               variants={fadeIn}
-              className="text-xl mb-8 max-w-2xl mx-auto"
+              className="text-xl mb-8 max-w-3xl mx-auto"
             >
-              {t('about.join.description')}
+              NEOBIZE provides transportation services and digital solutions across two continents, ensuring reliable NEMT, airport shuttle, and medical carrier services while delivering innovative web development, mobile apps, and SaaS platforms.
             </motion.p>
             
-            <motion.div variants={fadeIn}>
+            <motion.div 
+              variants={fadeIn}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
               <a 
                 href="/contact" 
                 className="btn bg-white text-primary hover:bg-gray-100 text-lg px-8 py-3"
               >
-                {t('common.contactUs')}
+                Contact Us Today
+              </a>
+              <a 
+                href="/services" 
+                className="btn bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 py-3"
+              >
+                Explore Our Services
               </a>
             </motion.div>
           </motion.div>

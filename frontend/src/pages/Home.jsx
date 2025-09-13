@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Code, Truck, Building, Users, Star } from 'lucide-react'
@@ -26,8 +25,6 @@ const staggerContainer = {
 }
 
 const Home = () => {
-  const { t } = useTranslation()
-
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -40,8 +37,8 @@ const Home = () => {
             throw new Error('API response is not JSON');
           }
         })
-        .then(data => console.log('Réponse API:', data))
-        .catch(err => console.error('Erreur API:', err));
+        .then(data => console.log('API Response:', data))
+        .catch(err => console.error('API Error:', err));
     } else {
       console.log('VITE_API_URL not defined');
     }
@@ -50,100 +47,82 @@ const Home = () => {
   // Services data
   const services = [
     {
-      icon: <Code size={40} />,
-      title: t('home.services.webDev.title'),
-      description: t('home.services.webDev.description'),
-      link: '/services#web-dev'
+      icon: <Truck size={40} />,
+      title: 'Transportation Services',
+      description: 'NEOBIZE provides NEMT (Non-Emergency Medical Transportation), Airport Shuttle services, and Medical Carrier solutions across Africa and USA.',
+      link: '/services#transportation'
     },
     {
-      icon: <Truck size={40} />,
-      title: t('home.services.transport.title'),
-      description: t('home.services.transport.description'),
-      link: '/services#transport'
+      icon: <Code size={40} />,
+      title: 'Web & Mobile Apps',
+      description: 'Custom web development and mobile app solutions designed to transform your business with cutting-edge technology and user-friendly interfaces.',
+      link: '/services#web-mobile'
     },
     {
       icon: <Building size={40} />,
-      title: t('home.services.construction.title'),
-      description: t('home.services.construction.description'),
-      link: '/services#construction'
+      title: 'SaaS & AI Solutions',
+      description: 'Advanced SaaS platforms and AI-powered solutions that streamline operations and drive business growth through intelligent automation.',
+      link: '/services#saas-ai'
     }
   ]
 
-  // Projects data (sample)
+  // Projects data - NEOBIZE Transportation & Tech Solutions
   const projects = [
     {
       id: 1,
-      title: 'Application SaaS de gestion',
-      category: 'web-dev',
-      domain: 'Développement Web & Mobile',
-      description: 'Solutions digitales innovantes pour la gestion d\'entreprise',
-      image: '/images/web-saas.jpg',
+      title: 'NEMT Fleet Management System',
+      category: 'transportation',
+      domain: 'Transportation Services',
+      description: 'Advanced Non-Emergency Medical Transportation fleet management system serving patients across Africa and USA with real-time tracking and scheduling.',
+      image: '/images/web-trans.jpg',
     },
     {
       id: 2,
-      title: 'Flotte de livraison express',
-      category: 'transport',
-      domain: 'Transport & Logistique',
-      description: 'Services de transport rapide et fiable pour vos besoins',
-      image: '/images/web-cons.jpg'
+      title: 'Airport Shuttle Mobile App',
+      category: 'mobile-app',
+      domain: 'Mobile App Development',
+      description: 'Custom mobile application for airport shuttle services with GPS tracking, booking system, and payment integration for seamless passenger experience.',
+      image: '/images/web-mobileapp.jpg'
     },
     {
       id: 3,
-      title: 'Rénovation d\'immeuble commercial',
-      category: 'construction',
-      domain: 'Construction & Rénovation',
-      description: 'Projets de construction et rénovation de qualité supérieure',
-      image: '/images/web-trans.jpg'
+      title: 'Medical Carrier SaaS Platform',
+      category: 'saas',
+      domain: 'SaaS & AI Solutions',
+      description: 'Comprehensive SaaS platform for medical carrier operations with AI-powered route optimization and patient care management across multiple locations.',
+      image: '/images/web-saas.jpg'
     }
   ]
 
-  // Testimonials data (sample)
+  // Testimonials data - NEOBIZE Transportation & Tech Clients
   const testimonials = [
     {
       id: 1,
-      name: 'Sophie Martin',
-      role: 'CEO, TechStart',
-      content: 'NEOBIZE a développé notre plateforme SaaS avec une expertise remarquable. Leur équipe a su comprendre nos besoins et livrer un produit qui dépasse nos attentes.',
-      avatar: 'https://placehold.co/100/1E40AF/FFFFFF?text=SM'
+      name: 'Dr. Sarah Johnson',
+      role: 'Medical Director, HealthCare Plus',
+      content: 'NEOBIZE NEMT services have been exceptional for our patients across Africa and USA. Their medical carrier solutions ensure safe, reliable transportation with professional drivers and medical equipment.',
+      avatar: 'https://placehold.co/100/1E40AF/FFFFFF?text=SJ'
     },
     {
       id: 2,
-      name: 'Thomas Dubois',
-      role: 'Directeur Logistique, LogiTrans',
-      content: 'Le service de transport de NEOBIZE est fiable et efficace. Nous utilisons leurs services depuis plus d\'un an et sommes très satisfaits de la qualité et de la ponctualité.',
-      avatar: 'https://placehold.co/100/1E40AF/FFFFFF?text=TD'
+      name: 'Michael Rodriguez',
+      role: 'Operations Manager, AirPort Express',
+      content: 'NEOBIZE developed our airport shuttle mobile app with GPS tracking and booking system. The SaaS platform streamlined our operations and improved customer satisfaction significantly.',
+      avatar: 'https://placehold.co/100/1E40AF/FFFFFF?text=MR'
     },
     {
       id: 3,
-      name: 'Marie Leroy',
-      role: 'Architecte, UrbanDesign',
-      content: 'Nous avons collaboré avec NEOBIZE sur plusieurs projets de construction. Leur professionnalisme et leur attention aux détails font d\'eux un partenaire de choix.',
-      avatar: 'https://placehold.co/100/1E40AF/FFFFFF?text=ML'
+      name: 'Amara Okafor',
+      role: 'CEO, MedTrans Solutions',
+      content: 'Working with NEOBIZE on our AI-powered transportation management system was outstanding. Their web development and SaaS expertise delivered a solution that transformed our medical carrier business.',
+      avatar: 'https://placehold.co/100/1E40AF/FFFFFF?text=AO'
     }
   ]
 
-  // Partners data
+  // Partners data - NEOBIZE Transportation & Tech Industry Partners
   const partners = [
     {
-      id: 2,
-      name: 'LogiTrans',
-      logo: '/images/LogiTrans.jpeg',
-      industry: 'Logistics',
-      website: 'https://example.com/logitrans',
-      bgColor: 'from-orange-500 to-orange-600',
-      shadowColor: 'shadow-orange-500/25'
-    },
-    {
-      id: 3,
-      name: 'UrbanDesign',
-      logo: '/images/UrbanDesign.jpeg',
-      industry: 'Architecture',
-      website: 'https://example.com/urbandesign',
-      bgColor: 'from-purple-500 to-purple-600',
-      shadowColor: 'shadow-purple-500/25'
-    },
-    {
-      id: 4,
+      id: 1,
       name: 'MediCare',
       logo: '/images/MediCare.jpeg',
       industry: 'Healthcare',
@@ -152,40 +131,58 @@ const Home = () => {
       shadowColor: 'shadow-emerald-500/25'
     },
     {
-      id: 5,
-      name: 'EduTech',
-      logo: '/images/EduTech.jpeg',
-      industry: 'Education',
-      website: 'https://example.com/edutech',
-      bgColor: 'from-teal-500 to-teal-600',
-      shadowColor: 'shadow-teal-500/25'
+      id: 2,
+      name: 'LogiTrans',
+      logo: '/images/LogiTrans.jpeg',
+      industry: 'Transportation',
+      website: 'https://example.com/logitrans',
+      bgColor: 'from-orange-500 to-orange-600',
+      shadowColor: 'shadow-orange-500/25'
+    },
+    {
+      id: 3,
+      name: 'TechNova',
+      logo: '/images/tecknova.jpeg',
+      industry: 'Technology',
+      website: 'https://example.com/technova',
+      bgColor: 'from-blue-500 to-blue-600',
+      shadowColor: 'shadow-blue-500/25'
+    },
+    {
+      id: 4,
+      name: 'AirPort Express',
+      logo: '/images/entrepro.jpeg',
+      industry: 'Airport Services',
+      website: 'https://example.com/airportexpress',
+      bgColor: 'from-purple-500 to-purple-600',
+      shadowColor: 'shadow-purple-500/25'
     }
   ]
 
   return (
     <div>
       <HeroSection
-        title={t('home.hero.title')}
-        subtitle={t('home.hero.subtitle')}
+        title="NEOBIZE | Transportation Services & Digital Solutions"
+        subtitle="Leading provider of NEMT, Airport Shuttle, Medical Carrier services, plus cutting-edge Web & Mobile Apps, SaaS, and AI Solutions across Africa and USA."
         backgroundImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069"
         fullHeight={true}
       >
         <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center w-full">
-          {/* Premier bouton - Découvrir nos services */}
+          {/* First button - Discover our services */}
           <Link 
             to="/services" 
             className="flex-1 sm:w-auto btn btn-primary text-sm sm:text-lg px-4 sm:px-8 py-3 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 relative overflow-hidden group text-center"
           >
-            <span className="relative z-10">{t('home.hero.cta')}</span>
+            <span className="relative z-10">Discover Our Services</span>
             <span className="absolute inset-0 bg-gradient-to-r from-primary via-blue-600 to-primary bg-size-200 bg-pos-0 group-hover:bg-pos-100 transition-all duration-500"></span>
           </Link>
           
-          {/* Deuxième bouton - Contactez-nous */}
+          {/* Second button - Contact us */}
           <Link 
             to="/contact" 
             className="flex-1 sm:w-auto btn bg-transparent border-2 border-white text-white hover:text-white hover:border-red-600 text-sm sm:text-lg px-4 sm:px-8 py-3 transition-all duration-300 relative overflow-hidden group text-center"
           >
-            <span className="relative z-10">{t('common.contactUs')}</span>
+            <span className="relative z-10">Contact Us</span>
             <span className="absolute inset-0 bg-transparent group-hover:bg-red-600 transition-all duration-300"></span>
           </Link>
         </div>
@@ -202,23 +199,23 @@ const Home = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center max-w-4xl mx-auto"
           >
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">59</h3>
-              <p className="text-white/90 text-sm md:text-base">Completed Projects</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">500+</h3>
+              <p className="text-white/90 text-sm md:text-base">NEMT Trips Completed</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">98%</h3>
-              <p className="text-white/90 text-sm md:text-base">Satisfied Clients</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">24/7</h3>
+              <p className="text-white/90 text-sm md:text-base">Airport Shuttle Service</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">15+</h3>
-              <p className="text-white/90 text-sm md:text-base">Experts</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">50+</h3>
+              <p className="text-white/90 text-sm md:text-base">Mobile Apps Developed</p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="p-3 md:p-4">
-              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">3</h3>
-              <p className="text-white/90 text-sm md:text-base">Areas of Expertise</p>
+              <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">2</h3>
+              <p className="text-white/90 text-sm md:text-base">Continents Served</p>
             </motion.div>
           </motion.div>
         </div>
@@ -242,15 +239,22 @@ const Home = () => {
               variants={fadeIn}
               className="inline-block bg-blue-100 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4"
             >
-              {t('home.services.sectionTitle')}
+              OUR SERVICES
             </motion.div>
             
+            
+            <motion.h2 
+              variants={fadeIn}
+              className="text-3xl md:text-4xl font-bold mb-6 text-midnight"
+            >
+              NEOBIZE Transportation Services, Web Development & SaaS Solutions
+            </motion.h2>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              {t('home.services.subtitle')}
+              NEOBIZE delivers comprehensive NEMT, Airport Shuttle, Medical Carrier services, plus innovative Web & Mobile Apps, SaaS, and AI Solutions across Africa and USA
             </motion.p>
           </motion.div>
 
@@ -281,7 +285,7 @@ const Home = () => {
                   to={service.link} 
                   className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors group-hover:translate-x-2 transition-transform duration-300"
                 >
-                  {t('common.readMore')}
+                  Read More
                   <ArrowRight size={16} className="ml-2" />
                 </Link>
               </motion.div>
@@ -310,28 +314,28 @@ const Home = () => {
                 variants={fadeIn}
                 className="inline-block bg-blue-100 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4"
               >
-                {t('home.about.sectionTitle')}
+                ABOUT US
               </motion.div>
               
               <motion.h2 
                 variants={fadeIn}
                 className="text-3xl md:text-4xl font-bold mb-4 text-midnight"
               >
-                {t('home.about.title')}
+                NEOBIZE: Transportation Services & Digital Solutions Leader
               </motion.h2>
               
               <motion.p 
                 variants={fadeIn}
                 className="text-lg text-gray-600 mb-4"
               >
-                {t('home.about.subtitle')}
+                NEOBIZE specializes in NEMT (Non-Emergency Medical Transportation), Airport Shuttle services, Medical Carrier solutions, plus cutting-edge Web & Mobile Apps, SaaS, and AI Solutions across Africa and USA.
               </motion.p>
               
               <motion.p 
                 variants={fadeIn}
                 className="text-gray-600 mb-8"
               >
-                {t('home.about.description')}
+                With extensive experience in transportation services and web development, NEOBIZE understands the unique challenges of medical transportation, airport shuttle operations, and digital transformation. Our comprehensive approach combines reliable transportation solutions with innovative mobile apps and SaaS platforms.
               </motion.p>
               
               <motion.div 
@@ -345,8 +349,8 @@ const Home = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-bold text-midnight">Qualité</h4>
-                    <p className="text-sm text-gray-600">Excellence dans tous nos services</p>
+                    <h4 className="font-bold text-midnight">Quality</h4>
+                    <p className="text-sm text-gray-600">Excellence in all our services</p>
                   </div>
                 </div>
                 
@@ -358,7 +362,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-midnight">Innovation</h4>
-                    <p className="text-sm text-gray-600">Solutions modernes et efficaces</p>
+                    <p className="text-sm text-gray-600">Modern and efficient solutions</p>
                   </div>
                 </div>
               </motion.div>
@@ -368,7 +372,7 @@ const Home = () => {
                   to="/about" 
                   className="btn btn-primary"
                 >
-                  {t('common.readMore')}
+                  Read More
                 </Link>
               </motion.div>
             </motion.div>
@@ -385,13 +389,13 @@ const Home = () => {
                 <div className="relative z-10 bg-white p-3 rounded-lg shadow-xl">
                     <img 
                       src="/images/team.jpeg" 
-                      alt="Notre équipe" 
+                      alt="Our Team" 
                       className="w-full h-64 sm:h-80 object-cover rounded-lg transition-all duration-500"
                     />
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-lg shadow-lg">
                   <Users size={32} className="mb-2" />
-                  <h3 className="text-xl font-bold">{t('about.team.title')}</h3>
+                  <h3 className="text-xl font-bold">Expert Team</h3>
                 </div>
               </div>
             </motion.div>
@@ -418,15 +422,22 @@ const Home = () => {
               variants={fadeIn}
               className="inline-block bg-blue-100 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4"
             >
-              {t('home.projects.sectionTitle')}
+              OUR PROJECTS
             </motion.div>
             
+            
+            <motion.h2 
+              variants={fadeIn}
+              className="text-3xl md:text-4xl font-bold mb-6 text-midnight"
+            >
+              NEOBIZE Transportation & Technology Projects Portfolio
+            </motion.h2>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              {t('home.projects.subtitle')}
+              Explore our successful NEMT, Airport Shuttle, Medical Carrier projects and innovative Web & Mobile Apps, SaaS, AI Solutions across Africa and USA
             </motion.p>
           </motion.div>
 
@@ -459,7 +470,7 @@ const Home = () => {
                     to={`/projects/${project.id}`} 
                     className="text-white/80 hover:text-white transition-colors inline-flex items-center group-hover:translate-x-2 transition-transform duration-300"
                   >
-                    {t('projects.viewProject')}
+                    View Project
                     <ArrowRight size={16} className="ml-2" />
                   </Link>
                 </div>
@@ -478,7 +489,7 @@ const Home = () => {
               to="/projects" 
               className="btn btn-outline"
             >
-              {t('home.projects.viewAll')}
+              View All Projects
             </Link>
           </motion.div>
         </div>
@@ -504,15 +515,22 @@ const Home = () => {
               variants={fadeIn}
               className="inline-block bg-blue-100 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4"
             >
-              {t('home.testimonials.sectionTitle')}
+              CLIENT TESTIMONIALS
             </motion.div>
             
+            
+            <motion.h2 
+              variants={fadeIn}
+              className="text-3xl md:text-4xl font-bold mb-6 text-midnight"
+            >
+              NEOBIZE Client Success Stories: Transportation & Tech Solutions
+            </motion.h2>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              {t('home.testimonials.subtitle')}
+              Discover how NEOBIZE NEMT, Airport Shuttle, Medical Carrier services and Web Development, SaaS, AI Solutions have transformed businesses across Africa and USA
             </motion.p>
           </motion.div>
 
@@ -584,21 +602,21 @@ const Home = () => {
               <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              ILS NOUS FONT CONFIANCE
+              TRUSTED BY LEADERS
             </motion.div>
             
             <motion.h2 
               variants={fadeIn}
               className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-800 bg-clip-text text-transparent"
             >
-              Ils nous font confiance
+              They Trust Us
             </motion.h2>
             
             <motion.p 
               variants={fadeIn}
               className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
             >
-              Des entreprises leaders qui nous font confiance pour leurs projets les plus ambitieux
+              Leading companies trust us with their most ambitious projects
             </motion.p>
           </motion.div>
           
@@ -658,7 +676,7 @@ const Home = () => {
               <svg className="w-5 h-5 mr-2 text-slate-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
               </svg>
-              <span className="text-slate-600 font-medium">Découvrir nos services</span>
+              <span className="text-slate-600 font-medium">Discover Our Services</span>
               <ArrowRight className="w-4 h-4 ml-2 text-slate-600" />
             </div>
           </motion.div>
@@ -688,14 +706,14 @@ const Home = () => {
                 variants={fadeIn}
                 className="text-3xl md:text-5xl font-bold mb-6"
               >
-                {t('home.cta.title')}
+                Ready to Start Your Project?
               </motion.h2>
               
               <motion.p 
                 variants={fadeIn}
                 className="text-xl mb-10 max-w-2xl mx-auto"
               >
-                {t('home.cta.description')}
+                Let's discuss how we can help bring your vision to life with our comprehensive services
               </motion.p>
               
               <motion.div 
@@ -706,13 +724,13 @@ const Home = () => {
                   to="/contact" 
                   className="btn bg-white text-primary hover:bg-gray-100 text-lg px-8 py-3"
                 >
-                  {t('home.cta.button')}
+                  Get Started Today
                 </Link>
                 <Link 
                   to="/services" 
                   className="btn bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 py-3"
                 >
-                  {t('common.services')}
+                  Our Services
                 </Link>
               </motion.div>
             </motion.div>
